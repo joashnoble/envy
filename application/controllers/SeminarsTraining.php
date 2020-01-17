@@ -48,7 +48,10 @@ class SeminarsTraining extends CORE_Controller
                 $active_year = $m_yearsetup->getactiveyear();
                 $response['data']=$this->SeminarsTraining_model->get_list(
                    array('emp_seminar_training.employee_id'=>$employee_id,'emp_seminar_training.is_deleted'=>FALSE),
-                    'emp_seminar_training.*,ref_certificate.certificate',
+                    'emp_seminar_training.*,ref_certificate.certificate,
+                    DATE_FORMAT(date, "%m/%d/%Y") as date,
+                    DATE_FORMAT(date_from, "%m/%d/%Y") as date_from,
+                    DATE_FORMAT(date_to, "%m/%d/%Y") as date_to',
                     array(
                            array('ref_certificate','ref_certificate.ref_certificate_id=emp_seminar_training.ref_certificate_id','left'),
                         )
@@ -92,7 +95,10 @@ class SeminarsTraining extends CORE_Controller
 
                 $response['row_added'] = $this->SeminarsTraining_model->get_list(
                    $emp_seminar_training_id,
-                    'emp_seminar_training.*,ref_certificate.certificate',
+                    'emp_seminar_training.*,ref_certificate.certificate,
+                    DATE_FORMAT(date, "%m/%d/%Y") as date,
+                    DATE_FORMAT(date_from, "%m/%d/%Y") as date_from,
+                    DATE_FORMAT(date_to, "%m/%d/%Y") as date_to',
                     array(
                            array('ref_certificate','ref_certificate.ref_certificate_id=emp_seminar_training.ref_certificate_id','left'),
                         )
@@ -153,7 +159,10 @@ class SeminarsTraining extends CORE_Controller
                 
                 $response['row_updated']=$this->SeminarsTraining_model->get_list(
                     array('emp_seminar_training.emp_seminar_training_id'=>$emp_seminar_training_id,'emp_seminar_training.is_deleted'=>FALSE),
-                    'emp_seminar_training.*,ref_certificate.certificate',
+                    'emp_seminar_training.*,ref_certificate.certificate,
+                    DATE_FORMAT(date, "%m/%d/%Y") as date,
+                    DATE_FORMAT(date_from, "%m/%d/%Y") as date_from,
+                    DATE_FORMAT(date_to, "%m/%d/%Y") as date_to',
                     array(
                            array('ref_certificate','ref_certificate.ref_certificate_id=emp_seminar_training.ref_certificate_id','left'),
                         )

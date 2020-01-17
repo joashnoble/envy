@@ -7,5 +7,11 @@ class Employee_account_model extends CORE_Model {
     function __construct() {
         parent::__construct();
     }
+
+    function get_employee_account($employee_id){
+		$query = $this->db->query("SELECT * FROM employee_account WHERE employee_id = $employee_id");
+	    return $query->result();
+	}
+
 }
 ?>

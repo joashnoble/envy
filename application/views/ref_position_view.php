@@ -108,6 +108,9 @@
             width: 60%;
         }
 
+        .red{
+            color: red;
+        }
     </style>
 <?php echo $loaderscript; ?>
 </head>
@@ -199,7 +202,9 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">*Position Name :</label>
+                                    <label class="boldlabel"> 
+                                        <span class="red"><b>*</b></span> Position Name :
+                                    </label>
                                     <input type="text" class="form-control" id="position" name="position" placeholder="Position Name" data-error-msg="Position name is Required!" required>
                                 </div>
                               </div>

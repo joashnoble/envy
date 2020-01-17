@@ -1,4 +1,5 @@
-<link rel="icon" href="assets/img/favicon.png" type="image/gif" sizes="16x16">
+
+<link rel="shortcut icon" href="<?php echo $this->config->item("base_urlmain"); ?>/assets/img/favicon.png">
 <link type="text/css" href="assets/css/bootstrap.css" rel="stylesheet">
 <link type="text/css" href="assets/css/animate.css" rel="stylesheet">
 <link type="text/css" href="assets/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -16,6 +17,10 @@
 
 <link href="assets/plugins/sweet-alert/sweetalert.css" rel="stylesheet"> <!-- sweetalert -->
 <style>
+	.red{
+		color: red;
+		font-weight: bold;
+	}
 	.select2-dropdown{ z-index:1060 !important; }
 	.demo-options{
 		top:50px !important;
@@ -151,6 +156,11 @@
       margin-top:4px;width:150px;height:150px;
       background: transparent url('assets/img/imgpreloader2.gif') center no-repeat;
     }
+    .btnupdatepass{
+        background-color:#f0ad4e !important;
+        color:white;
+    }
+
     .btnedit{
         background-color:#3498db !important;
         color:white;
@@ -213,7 +223,6 @@
     	width: 100% !important;
     }
 	.select2-dropdown--above {
-	    border: 1px solid blue !important;;
 	    border-bottom: none !important;	 
 	}
 
@@ -412,6 +421,16 @@
 		font-size: 15px!important;
 		margin-right: 5px;
 	}
+	
+	button[name^="generate_pass_info"]{
+		padding-left: 8px!important;
+		padding-right: 8px!important;
+		padding-top: 5px!important;
+		padding-bottom: 5px!important;
+		font-size: 15px!important;
+		margin-right: 5px;
+	}
+
 	.temp_header{
 		padding: 10px;
 	}

@@ -1,61 +1,66 @@
 <div style="margin: 20px;">
 	<div style="font-size: 11pt;">
 	<?php include 'template_header.php';?>
+
+		<strong>
+			Employee Ledger <br />
+			<?php echo $get_type; ?>
+		</strong>
+		<hr><br />
 	</div>
-	<div style="margin-bottom: 20px!important;">
-		<div style="float: left;">
-			<strong>Employee Ledger</strong><br />
-			Employee Name : <?php 
-				if (count($initial_loan) > 0){
-					foreach ($initial_loan as $row) {
-						echo $row->fullname;
-					}
-				}
-			?><br />
-			Loan Type : <?php echo $get_type; ?>
-		</div>
-		<div style="float: right;">
-			<?php 
-			if (count($loan_amount) > 0){
-				foreach ($loan_amount as $row) {
-					echo 'Loan Amount : '.number_format($row->loan_total_amount,2).'<br>';
-					echo 'Deduct Per Pay : '.number_format($row->deduction_per_pay_amount,2).'<br>';
-					echo 'Loan Balance : '.number_format($row->balance,2).'<br>';
-				}
-			}
-			?>
-		</div>
-			
-	</div><br /><br /><br />
-	<table class="table" style="width:100%;margin-top: 20px;" cellpadding="5" cellspacing="5">
+	<table class="table" style="width:100%;">
 		<thead class="thead-inverse">
 			<tr>
-				<th style="width:20%;text-align:left;border-bottom: 1px solid lightgray;">Due Date</th>
-				<th style="width:15%;text-align:right;border-bottom: 1px solid lightgray;">Debit</th>
-				<th style="width:15%;text-align:right;border-bottom: 1px solid lightgray;">Credit</th>
-				<th style="width:20%;text-align:right;border-bottom: 1px solid lightgray;">Balance</th>
+				<!-- <th style="width:20%;">Payslip #</th> -->
+				<th style="width:30%;text-align:left;">Fullname</th>
+				<th style="width:20%;text-align:left">Due Date</th>
+				<th style="width:15%;text-align:left">Debit</th>
+				<th style="width:15%;text-align:left">Credit</th>
+				<th style="width:20%;text-align:left">Balance</th>
 			</tr>
 		</thead>
 		<tbody>
-	<?php
-		if (count($loans) > 0){
-		foreach($loans as $row){
-	?>
-			<tr>
-				<td style='border-bottom: 1px solid lightgray!important;'><?php echo $row->due_date; ?></td>
-				<td align='right' style='border-bottom: 1px solid lightgray!important;'><?php echo number_format($row->debit,2); ?></td>
-				<td align='right' style='border-bottom: 1px solid lightgray!important;'><?php echo number_format($row->credit,2); ?></td>
-				<td align='right' style='border-bottom: 1px solid lightgray!important;'><?php echo number_format($row->balance,2); ?></td>
-			</tr>
-	<?php }}else{ ?>
+<?php
+//total amount of loan
+$loan_amount_total = $total_loan_amount[0]->loan_total_amount;
 
-		<tr>
-			<td colspan="4">
-				<center>No Result Found</center>
-			</td>
-		</tr>
 
-	<?php } ?>
+
+	 foreach($loans as $result){
+	 	/*echo "<tr><td>".$result->pay_slip_code."</td>";*/
+	 	echo "<tr>";
+	 	echo "<td>".$result->fullname."</td>";
+	 	echo "<td>".$result->pay_period_end."</td>";
+	 	echo "<td>".number_format($result->deduction_amount,2)."</td>";
+	 	echo "<td></td>";
+	 	echo "<td>".number_format($loan_amount_total=$loan_amount_total-$result->deduction_amount,2)."</td></tr>";
+	 }
+	 if(isset($loanadjustments)){
+	 	foreach($loanadjustments as $adj){
+	 		$deduction_regular_id=$adj->deduction_regular_id;
+			echo "<td>".$adj->fullname."</td>";
+			echo "<td>".$adj->date_created."</td>";
+			echo "<td>".$adj->debit_amount."</td>";
+			echo "<td>".$adj->credit_amount."</td>";
+			echo "<td>".$loan_amount_total=($loan_amount_total + $adj->credit_amount) - $adj->debit_amount ."</td>";
+			echo "</tr>";
+		}
+	 }
+
+	 	if(isset($deduction_regular_id)){
+
+	 	//uses loan total amount because it is used as a var in computing
+	 	$recompute = array(
+	            'deduction_total_amount' => $loan_amount_total
+	    );
+
+	    $this->db->where('deduction_regular_id', $deduction_regular_id);
+	    $this->db->update('new_deductions_regular', $recompute);
+	 	}
+	 	else{
+	 		//do nothing
+	 	}
+?>
 </tbody>
 </table>
 </div>

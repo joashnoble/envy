@@ -287,7 +287,7 @@
                             </div>
                             <div class="row">
                               <div class="col-md-6">
-                                <div class="form-group" style="margin-bottom:2px; !important">
+                                <div class="form-group" style="margin-bottom:2px!important;">
                                           <label class="boldlabel" style="margin-bottom:0px;">Department:</label>
                                           <select class="form-control" id="ref_department_id" name="ref_department_id" id="sel1">
                                             <option value="all">All Departments</option>
@@ -301,8 +301,8 @@
                                 </div>
                               </div>
                               <div class="col-md-6">
-                                <div class="form-group" style="margin-bottom:2px; !important">
-                                          <label class="boldlabel" style="margin-bottom:0px;">Department:</label>
+                                <div class="form-group" style="margin-bottom:2px!important;">
+                                          <label class="boldlabel" style="margin-bottom:0px;">Group:</label>
                                           <select class="form-control" id="group_id" name="group_id" id="sel1">
                                             <option value="all">All Groups</option>
                                            <?php
@@ -338,10 +338,13 @@
                             <form id="frm_new_tempotherearnings">
                                 <div class="container" style="width:100% !important;">
                                     <div class="form-group">
-                                        <label class="col-sm-3 inlinecustomlabel-sm" for="inputEmail1">Employee :</label>
+                                        <label class="col-sm-3 inlinecustomlabel-sm" for="inputEmail1">
+                                            <i class="red">*</i> Employee :
+                                        </label>
                                         <div class="col-sm-8">
                                             <select class="form-control" name="employee_id" id="employee_id" data-error-msg="Please Select Employee" required>
-                                            <option value="">[ Select Employee ]</option>
+                                            <option value="">Select Employee</option>
+                                            <option value="all">All Employees</option>
                                            <?php
                                                                 foreach($employee_list as $row)
                                                                 {
@@ -352,10 +355,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 inlinecustomlabel-sm" for="inputEmail1">Earnings Desc :</label>
+                                        <label class="col-sm-3 inlinecustomlabel-sm" for="inputEmail1">
+                                            <i class="red">*</i> Earnings Type :
+                                        </label>
                                         <div class="col-sm-8">
                                             <select class="form-control" name="earnings_id" id="earnings_id" data-error-msg="Please Select Employee" required>
-                                            <option value="">[ Select Earnings Description ]</option>
+                                            <option value="">Select Earnings Type</option>
                                            <?php
                                                                 foreach($refotherearnings as $row)
                                                                 {
@@ -366,7 +371,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 inlinecustomlabel-sm" for="inputEmail1">Amount :</label>
+                                        <label class="col-sm-3 inlinecustomlabel-sm" for="inputEmail1">
+                                            <i class="red">*</i> Amount :
+                                        </label>
                                         <div class="col-sm-6">
                                             <div class="input-group">
                                               <span class="input-group-addon" id=""><i class="fa fa-money" aria-hidden="true"></i></span>
@@ -377,7 +384,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 inlinecustomlabel-sm" for="inputEmail1">Remarks :</label>
                                         <div class="col-sm-6">
-                                            <textarea type="text" class="form-control" name="oe_regular_remarks" placeholder="Remarks" aria-describedby="sizing-addon2" data-error-msg="Remarks is Required" required></textarea>
+                                            <textarea type="text" class="form-control" name="oe_regular_remarks" placeholder="Remarks" aria-describedby="sizing-addon2" data-error-msg="Remarks is Required"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -418,6 +425,9 @@ $(document).ready(function(){
     var dt; var _txnMode; var _txnModeRate; var _selectedID;
     var _selectedDateCovered; var _selectedYear; var _periodstart; var _periodend; var _selectedIDDepartment="all"; var _selectedIDGroup="all";
     var _selectedemprate; var _selectedEmpget; var _pusheddata; var _selectRowObjtempotherearnings; var _selectedIDtempotherearnings;
+    var _year; var _pay_period; var _refdepartment_id; var _refgroup_id; var _deduction;
+    var d = new Date();
+    var n = d.getFullYear();
 
     var getDtr=function(){
                     dt_temporary_otherearnings=$('#tbl_temporary_otherearnings').DataTable({
@@ -474,6 +484,37 @@ $(document).ready(function(){
         });
 
     }
+
+    var initializeControls=function(){
+
+        _year=$("#year").select2({
+            dropdownParent: $("#modal_filter"),
+            placeholder: "Select Year",
+            allowClear: false
+        });
+
+        _year.val(n).trigger("change");
+
+        _pay_period=$("#pay_period").select2({
+            dropdownParent: $("#modal_filter"),
+            placeholder: "Select Pay Period",
+            allowClear: false
+        });
+
+        _refdepartment_id=$("#ref_department_id").select2({
+            dropdownParent: $("#modal_filter"),
+            placeholder: "Select Department",
+            allowClear: false
+        });
+
+        _refgroup_id=$("#group_id").select2({
+            dropdownParent: $("#modal_filter"),
+            placeholder: "Select Group",
+            allowClear: false
+        });
+
+
+    }();    
 
     var bindEventHandlers=(function(){
         var detailRows = [];
@@ -660,10 +701,9 @@ $(document).ready(function(){
 
         $('#btn_new_temp_otherearnings').click(function(){
             _txnMode="createtempotherearnings"
-            $('#employee_id').select2('val','');
             $('#transactionlabel').text("New");
-            $('#employee_id').val("");
-            $('#earnings_id').val("");
+            _employees.val(null).trigger("change");
+            _earnings.val(null).trigger("change");
             clearFields($('#frm_new_tempotherearnings'));
             $('#modal_temp_otherearnings').modal('toggle');
         });
@@ -671,15 +711,13 @@ $(document).ready(function(){
         $('#btn_save_temp_otherearnings').click(function(){
             if(validateRequiredFields($('#frm_new_tempotherearnings'))){
                 if(_txnMode=="createtempotherearnings"){
-                    createTemporaryOtherEarnings().done(function(response){
-                    showNotification(response);
-                    if(response.stat=="error"){
-                        $.unblockUI();
-                    }
-                    else{
-                    dt_temporary_otherearnings.row.add(response.row_added[0]).draw();
-                    }
+                        createTemporaryOtherEarnings().done(function(response){
+                        showNotification(response);
+                        dt_temporary_otherearnings.ajax.reload();
                     }).always(function(){
+                        $('#btn_save_temp_otherearnings').prop('disabled',false);
+                        $('#btn_close_temp_otherearnings').prop('disabled',false);
+                        
                         $.unblockUI();
                         $('#modal_temp_otherearnings').modal('toggle');
                     });
@@ -707,13 +745,8 @@ $(document).ready(function(){
             var data=dt_temporary_otherearnings.row(_selectRowObjtempotherearnings).data();
             _selectedIDtempotherearnings=data.oe_regular_id;
 
-            /*$('#employee_id').val(data.employee_id);*/
-            $('#employee_id').val(data.employee_id).trigger("change");
-            $('#earnings_id').val(data.earnings_id);
-            //alert(_selectedIDtempotherearnings);
-           // alert($('input[name="tax_exempt"]').length);
-            //$('input[name="tax_exempt"]').val(0);
-            //$('input[name="inventory"]').val(data.is_inventory);
+            _employees.val(data.employee_id).trigger("change");
+            _earnings.val(data.earnings_id).trigger("change");
 
             $('input,textarea').each(function(){
                 var _elem=$(this);
@@ -723,10 +756,7 @@ $(document).ready(function(){
                     }
                 });
             });
-
-
         });
-
 
         $('#tbl_temporary_otherearnings tbody').on('click','button[name="temp_otherearnings_remove"]',function(){
             _selectRowObjtempotherearnings=$(this).closest('tr');
@@ -806,10 +836,19 @@ $(document).ready(function(){
     _employees=$("#employee_id").select2({
         dropdownParent: $("#modal_temp_otherearnings"),
             placeholder: "Select Employee",
-            allowClear: true
+            allowClear: false
         });
 
     _employees.select2('val', null);
+
+    _earnings=$("#earnings_id").select2({
+        dropdownParent: $("#modal_temp_otherearnings"),
+            placeholder: "Select Earnings Type",
+            allowClear: false
+        });
+
+    _earnings.select2('val', null);
+
 
     var validateRequiredFields=function(f){
         var stat=true;

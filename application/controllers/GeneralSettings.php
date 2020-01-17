@@ -96,8 +96,9 @@ class GeneralSettings extends CORE_Controller
                 $m_general_settings->contact_no = $this->input->post('contact_no', TRUE);
                 $m_general_settings->email_address = $this->input->post('email_address', TRUE);
                 $m_general_settings->email_password = $this->input->post('email_password', TRUE);
+                $m_general_settings->checked_by = $this->input->post('checked_by', TRUE);
+                $m_general_settings->approved_by = $this->input->post('approved_by', TRUE);
                 $m_general_settings->image_name = $this->input->post('image_name', TRUE);
-
                 $m_general_settings->modified_by = $this->session->user_id;
 
 

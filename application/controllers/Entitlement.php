@@ -31,44 +31,29 @@ class Entitlement extends CORE_Controller
     function transaction($txn = null) {
         switch ($txn) {
             case 'list':
-                $response['data']=$this->Entitlement_model->get_list(
-                    array('emp_leaves_entitlement.is_deleted'=>FALSE),
-                    'emp_leaves_entitlement.*,ref_leave_type.leave_type,ref_leave_type.leave_type_short_name',
-                        array(
-                            array('ref_leave_type','ref_leave_type.ref_leave_type_id=emp_leaves_entitlement.ref_leave_type_id','left'),
-                            array('emp_leave_year','emp_leave_year.emp_leave_year_id=emp_leaves_entitlement.emp_leave_year_id','left'),
-                            )
-                    );
+                $response['data']=$this->Entitlement_model->getEntitlement();
                 echo json_encode($response);
                 break;
 
             case 'getresult':
                 $employee_id = $this->input->post('employee_id', TRUE);
-
-                $response['data']=$this->Entitlement_model->get_list(
-                    array('emp_leaves_entitlement.employee_id'=>$employee_id,'emp_leaves_entitlement.is_deleted'=>FALSE),
-                    'emp_leaves_entitlement.*,ref_leave_type.leave_type,ref_leave_type.leave_type_short_name',
-                        array(
-                            array('ref_leave_type','ref_leave_type.ref_leave_type_id=emp_leaves_entitlement.ref_leave_type_id','left'),
-                            array('emp_leave_year','emp_leave_year.emp_leave_year_id=emp_leaves_entitlement.emp_leave_year_id','left'),
-                            )
-                    );
-
+                $response['data']=$this->Entitlement_model->getEntitlement($employee_id);
                 echo json_encode($response);
             break;
+
+            case 'leave_details':
+                $m_leaves_entitlement = $this->Entitlement_model;
+                $emp_leaves_entitlement_id = $this->input->post('emp_leaves_entitlement_id', TRUE);
+                $response['data']=$m_leaves_entitlement->getEntitlement(null,$emp_leaves_entitlement_id);
+                echo json_encode($response);
+                break;
 
             case 'getavailableleave':
                 $m_yearsetup = $this->RefYearSetup_model;
                 $active_year = $m_yearsetup->getactiveyear();
                 $employee_id = $this->input->post('employee_id', TRUE);
-                $response['available_leave']=$this->Entitlement_model->get_list(
-                    array('emp_leaves_entitlement.employee_id'=>$employee_id,'emp_leaves_entitlement.emp_leave_year_id'=>$active_year,'emp_leaves_entitlement.is_deleted'=>FALSE),
-                    'emp_leaves_entitlement.*,ref_leave_type.leave_type,ref_leave_type.leave_type',
-                        array(
-                            array('ref_leave_type','ref_leave_type.ref_leave_type_id=emp_leaves_entitlement.ref_leave_type_id','left'),
-                            )
-                    );
 
+                $response['available_leave']=$this->Entitlement_model->get_available_leave($employee_id,$active_year);
                 echo json_encode($response);
                 break;
 
@@ -87,6 +72,7 @@ class Entitlement extends CORE_Controller
                 $m_leaves_entitlement->received_balance = $this->input->post('received_balance', TRUE);
                 $m_leaves_entitlement->current_balance = $this->input->post('current_balance', TRUE);
                 $m_leaves_entitlement->remark = $this->input->post('remark', TRUE);
+                $m_leaves_entitlement->ref_leave_type_short_name = $this->input->post('leave_type_short_name', TRUE);
                 $m_leaves_entitlement->is_payable = $this->input->post('is_payable', TRUE);
                 $m_leaves_entitlement->is_forwardable = $this->input->post('is_forwardable', TRUE);
                 $m_leaves_entitlement->is_forwarded = 0;
@@ -94,22 +80,13 @@ class Entitlement extends CORE_Controller
                 $m_leaves_entitlement->created_by = $this->session->user_id;
 
                 $m_leaves_entitlement->save();
-
                 $m_leaves_entitlement_id = $m_leaves_entitlement->last_insert_id();
-
 
                 $response['title'] = 'Success!';
                 $response['stat'] = 'success';
                 $response['msg'] = 'Entitlement successfully created.';
 
-                $response['row_added'] = $this->Entitlement_model->get_list(
-                   $m_leaves_entitlement_id,
-                    'emp_leaves_entitlement.*,ref_leave_type.leave_type,ref_leave_type.leave_type_short_name',
-                        array(
-                            array('ref_leave_type','ref_leave_type.ref_leave_type_id=emp_leaves_entitlement.ref_leave_type_id','left'),
-                            array('emp_leave_year','emp_leave_year.emp_leave_year_id=emp_leaves_entitlement.emp_leave_year_id','left'),
-                            )
-                    );
+                $response['row_added'] = $this->Entitlement_model->getEntitlement(null,$m_leaves_entitlement_id);
                 echo json_encode($response);
 
                 break;
@@ -120,17 +97,27 @@ class Entitlement extends CORE_Controller
 
                 $emp_leaves_entitlement_id=$this->input->post('emp_leaves_entitlement_id',TRUE);
 
-                $m_entitlement->is_deleted=1;
-                $m_entitlement->deleted_by = $this->session->user_id;
-                $m_entitlement->date_deleted = date("Y-m-d H:i:s");
-                if($m_entitlement->modify($emp_leaves_entitlement_id)){
-                    $response['title']='Success!';
-                    $response['stat']='success';
-                    $response['msg']='Entitlement successfully deleted.';
+                $entitlement = $this->Entitlement_model->getEntitlement(null,$emp_leaves_entitlement_id);   
+                $received_balance = $entitlement[0]->received_balance;
 
-                    echo json_encode($response);
+                if ($received_balance > 0){
+                    $response['title']='Cannot Delete Leave Entitlement!';
+                    $response['stat']='error';
+                    $response['msg']='This Leave Entitlement was used in other transaction.';
+                }else{
+                    $m_entitlement->is_deleted=1;
+                    $m_entitlement->deleted_by = $this->session->user_id;
+                    $m_entitlement->date_deleted = date("Y-m-d H:i:s");
+
+                    if($m_entitlement->modify($emp_leaves_entitlement_id)){
+                        $response['title']='Success!';
+                        $response['stat']='success';
+                        $response['msg']='Entitlement successfully deleted.';
+
+                    }
                 }
 
+                echo json_encode($response);
                 break;
 
             case 'update':
@@ -149,38 +136,32 @@ class Entitlement extends CORE_Controller
                 $m_leaves_entitlement->emp_leave_year_id = $active_year; // current active year
                 $m_leaves_entitlement->employee_id = $this->input->post('employee_id', TRUE);
 
-                $m_leaves_entitlement->ref_leave_type_id = $this->input->post('ref_leave_type_id', TRUE);
+                // $m_leaves_entitlement->ref_leave_type_id = $this->input->post('ref_leave_type_id', TRUE);
                 $m_leaves_entitlement->total_grant = $this->input->post('total_grant', TRUE);
-                $m_leaves_entitlement->received_balance = $this->input->post('received_balance', TRUE);
+                // $m_leaves_entitlement->received_balance = $this->input->post('received_balance', TRUE);
                 /*$m_leaves_entitlement->current_balance = $this->input->post('current_balance', TRUE);*/
                 $m_leaves_entitlement->remark = $this->input->post('remark', TRUE);
+                $m_leaves_entitlement->ref_leave_type_short_name = $this->input->post('leave_type_short_name', TRUE);
                 $m_leaves_entitlement->is_payable = $this->input->post('is_payable', TRUE);
                 $m_leaves_entitlement->is_forwardable = $this->input->post('is_forwardable', TRUE);
                 $m_leaves_entitlement->is_forwarded = 0;
-                    if($total_grant>=$total_leaves_filed_this_year){
-                            $m_leaves_entitlement->current_balance = $total_grant-$total_leaves_filed_this_year;
-                            $m_leaves_entitlement->date_modified = date("Y-m-d H:i:s");
-                            $m_leaves_entitlement->modified_by = $user_id;
-                            $m_leaves_entitlement->modify($emp_leaves_entitlement_id);
 
-                            $response['title'] = 'Success!';
-                            $response['stat'] = 'success';
-                            $response['msg'] = 'Entitlement successfully Updated.';
-                            
-                            $response['row_updated']=$this->Entitlement_model->get_list(
-                                array('emp_leaves_entitlement.emp_leaves_entitlement_id'=>$emp_leaves_entitlement_id,'emp_leaves_entitlement.is_deleted'=>FALSE),
-                                'emp_leaves_entitlement.*,ref_leave_type.leave_type,ref_leave_type.leave_type_short_name',
-                                    array(
-                                        array('ref_leave_type','ref_leave_type.ref_leave_type_id=emp_leaves_entitlement.ref_leave_type_id','left'),
-                                        array('emp_leave_year','emp_leave_year.emp_leave_year_id=emp_leaves_entitlement.emp_leave_year_id','left'),
-                                        )                
-                                    );
-                        }
-                        else{
-                            $response['title'] = 'Error!';
-                            $response['stat'] = 'error';
-                            $response['msg'] = 'Not Enough Leave Grant';
-                        }
+                if($total_grant>=$total_leaves_filed_this_year){
+                    $m_leaves_entitlement->current_balance = $total_grant-$total_leaves_filed_this_year;
+                    $m_leaves_entitlement->date_modified = date("Y-m-d H:i:s");
+                    $m_leaves_entitlement->modified_by = $user_id;
+                    $m_leaves_entitlement->modify($emp_leaves_entitlement_id);
+
+                    $response['title'] = 'Success!';
+                    $response['stat'] = 'success';
+                    $response['msg'] = 'Entitlement successfully Updated.';
+                    $response['row_updated']=$this->Entitlement_model->getEntitlement(null,$emp_leaves_entitlement_id);
+                }
+                else{
+                    $response['title'] = 'Error!';
+                    $response['stat'] = 'error';
+                    $response['msg'] = 'Not Enough Leave Grant';
+                }
                 echo json_encode($response);
                 
 

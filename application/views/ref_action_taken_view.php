@@ -201,7 +201,7 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">Action Name :</label>
+                                    <label class="boldlabel"><i class="red">*</i> Action Name :</label>
                                     <input type="text" class="form-control" id="action" name="action_taken" placeholder="Action Name" data-error-msg="Action name is Required!" required>
                                 </div>
                               </div>

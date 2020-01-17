@@ -104,12 +104,15 @@ class EmployeeQuickSetup extends CORE_Controller
                 
                 $ecode = mt_rand(10000,99999);
                 $randomdigits = mt_rand(1000, 9999);
-                $password = 'pass'.$employee_id.date("Y").$randomdigits;
+                $password = 'prime_'.$ecode;
 
                 $m_employee->ecode = $ecode;
                 $m_employee->modify($employee_id);
 
                 $m_ratesandduties->employee_id = $employee_id;
+
+                $tax_pay_type = $this->input->post('emp_pay_type', TRUE);
+                $monthly_based_salary = $this->input->post('monthly_based_salary', TRUE);
 
                 $m_ratesandduties->ref_employment_type_id = $this->input->post('emp_type', TRUE);
                 $m_ratesandduties->ref_payment_type_id = $this->input->post('emp_pay_type', TRUE);
@@ -119,10 +122,22 @@ class EmployeeQuickSetup extends CORE_Controller
                 $m_ratesandduties->active_rates_duties = 1;
                 $m_ratesandduties->date_start = date("Y-m-d");
                 $emp_hrs_per_day = $this->input->post('emp_hrs_per_day', TRUE);
-                $emp_reg_rates = $this->input->post('emp_reg_rates', TRUE);
+                $emp_reg_rates = $this->get_numeric_value($this->input->post('emp_reg_rates', TRUE));
                 $emp_cola_per_hour_temp = 0;
                 $emp_per_day_pay_temp = $this->input->post('emp_per_day_pay', TRUE);
                 $emp_per_hour_pay_temp = $this->input->post('emp_per_hour_pay', TRUE);
+
+                if ($tax_pay_type == 1){  // Semi Monthly
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($emp_reg_rates * 2);
+                }else if ($tax_pay_type == 2){ // Monthly
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($emp_reg_rates);
+                }else if ($tax_pay_type == 3){ // Daily
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($monthly_based_salary);
+                }else if ($tax_pay_type == 4){ // Weekly
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($monthly_based_salary);
+                }else{ // Semi Monthly (No Sat.)
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($monthly_based_salary);
+                }
 
                 $m_ratesandduties->hour_per_day=$this->get_numeric_value($emp_hrs_per_day);
                 $m_ratesandduties->salary_reg_rates=$this->get_numeric_value($emp_reg_rates);
@@ -146,7 +161,7 @@ class EmployeeQuickSetup extends CORE_Controller
                 $m_eaccount->employee_pwd = sha1($password);
                 $m_eaccount->save();
 
-                 ## Send Password Generated 
+                ## Send Password Generated 
                 $email = $this->input->post('emp_email', TRUE);
                 $subject = 'Employee Information';
 
@@ -162,42 +177,46 @@ class EmployeeQuickSetup extends CORE_Controller
                 $year = date('Y');
                 $date = date('m-d-Y');
 
-                // $message = '<div style="width:85%;background:#F5F5F5;padding: 50px;font-family: arial;">
-                //                 <div style="border: 1px solid #CFD8DC;">
-                //                     <div style="padding: 20px;background: #fff; font-weight: bold;font-size: 13pt;border-top: 5px solid #263238;">
-                //                         '.$company_name.'
-                //                     </div>
-                //                     <div style="background: #263238; color: #fff;padding: 10px;">
-                //                         '.$subject.'
-                //                     </div>
-                //                     <div style="background: #fff; padding: 15px;">
-                //                         <p>Greetings '.$fullname.', <span style="text-align: right;float:right;">'.$date.'</span> </p>
-                //                         <p style="text-align: justify;">This email contains your generated Employee Code and Pin Number. Use these codes for the attendance system. You are required to scan your Employee ID and enter your pin number. 
+                if ($email != ""){
+                    $message = '<div style="width:85%;background:#F5F5F5;padding: 50px;font-family: arial;">
+                                    <div style="border: 1px solid #CFD8DC;">
+                                        <div style="padding: 20px;background: #fff; font-weight: bold;font-size: 13pt;border-top: 5px solid #263238;">
+                                            '.$company_name.'
+                                        </div>
+                                        <div style="background: #263238; color: #fff;padding: 10px;">
+                                            '.$subject.'
+                                        </div>
+                                        <div style="background: #fff; padding: 15px;">
+                                            <p>Greetings '.$fullname.', <span style="text-align: right;float:right;">'.$date.'</span> </p>
+                                            <p style="text-align: justify;">This email contains your generated Employee Code and Pin Number. Use these codes for the attendance system and Employee Portal. You are required to scan your Employee ID and enter your pin number. 
+                                            <p>
+                                            <strong>Account Details</strong>
+                                                <table style="border: 1px solid gray;font-size: 10pt;">
+                                                <tr>
+                                                    <td>Ecode:</td>
+                                                    <td><strong>'.$ecode.'</strong></td>
+                                                    <td>| Pin #:</td>
+                                                    <td><strong>'.$pin_number.'</strong></td>
+                                                </tr>
+                                            </table>
+                                            <br/>
+                                            In your first Login, you are required to change your password for security purposes, please contact your Human Resource Admin when you encounter an error. Thank you. <br>
 
-                //                         <br><br>
-                //                             <b>Note:</b>
-                //                             <br/>
-                //                             If your account has been blocked due to three (3) consecutive attempts to time in / time out using your account, coordinate with your Human Resources Manager.   
-                //                         <p>
-                //                         <strong>Account Details</strong>
-                //                             <table style="border: 1px solid gray;font-size: 10pt;">
-                //                             <tr>
-                //                                 <td>Ecode:</td>
-                //                                 <td><strong>'.$ecode.'</strong></td>
-                //                                 <td>| Pin #:</td>
-                //                                 <td><strong>'.$pin_number.'</strong></td>
-                //                             </tr>
-                //                         </table>
-                //                     </div>
-                //                     <div style="background: #F5F5F5;">
-                //                         <center>
-                //                             <p style="font-size: 8pt;">Copyright &copy; '.$year.' '.$company_name.'</p>
-                //                         </center>
-                //                     </div>
-                //                 </div>
-                //             </div>';
-                
-                // $m_employee->send_mail($email,$message,$subject,$company_email,$email_password,$company_name);
+                                            Use the password below. <br />
+                                            Password : '.$password.'<br />
+                                            '.$this->config->item("base_urlemployee").'
+
+                                        </div>
+                                        <div style="background: #F5F5F5;">
+                                            <center>
+                                                <p style="font-size: 8pt;">Copyright &copy; '.$year.' '.$company_name.'</p>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>';
+                    
+                                $m_employee->send_mail($email,$message,$subject,$company_email,$email_password,$company_name);
+                }
 
                 $response['title'] = 'Success!';
                 $response['stat'] = 'success';

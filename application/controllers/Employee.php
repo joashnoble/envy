@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Employee extends CORE_Controller
@@ -49,6 +49,7 @@ class Employee extends CORE_Controller
         $data['_rights'] = $this->load->view('template/elements/rights', '', TRUE);
         $data['loader'] = $this->load->view('template/elements/loader', '', TRUE);
         $data['loaderscript'] = $this->load->view('template/elements/loaderscript', '', TRUE);
+        
         $data['title'] = 'Employee';
         $data['ref_emptype']=$this->Ref_Emptype_model->get_list(array('ref_employment_type.is_deleted'=>FALSE));
         $data['ref_department']=$this->RefDepartment_model->get_list(array('ref_department.is_deleted'=>FALSE));
@@ -234,6 +235,30 @@ class Employee extends CORE_Controller
                 echo json_encode($response);
 
             break;
+
+            case 'generatepassEmployee':
+                $m_employee = $this->Employee_model;
+                $m_account = $this->Employee_account_model;
+                $employee_id = $this->input->post('employee_id', TRUE);
+
+                    
+                $employee = $this->Employee_model->get_list($employee_id);
+                $ecode = $employee[0]->ecode;
+
+                $account = $this->Employee_account_model->get_employee_account($employee_id);
+                $employee_account_id = $account[0]->employee_account_id;
+
+                $default_password = 'prime_'.$ecode;
+                $m_account->employee_pwd = sha1($default_password);
+                $m_account->is_new = 1;
+                $m_account->modify($employee_account_id);
+
+                $response['stat']='success';
+                $response['msg']='Successfully Updated.';
+                $response['title']='Default Password Generated!';
+                echo json_encode($response);
+
+            break; 
 
             case 'emailEmployee':
 
@@ -459,6 +484,7 @@ class Employee extends CORE_Controller
                 }
 
                 $m_employee = $this->Employee_model;
+                $m_employee_admin = $this->Employee_model;
                 $m_general = $this->GeneralSettings_model;
                 $m_eaccount = $this->Employee_account_model;
                 //BACKEND FORM VALIDATION AND SECURITY HELPER
@@ -482,6 +508,7 @@ class Employee extends CORE_Controller
                     /*$emp_regularizationdatetemp = $this->input->post('date_regularization', TRUE);*/
                     $emp_loandatetemp = $this->input->post('loan_date', TRUE);
                     $emp_dateretired = $this->input->post('date_retired', TRUE);
+                    $is_admin_active = $this->input->post('is_admin_active', TRUE);
 
                     $employmentdate = date("Y-m-d", strtotime($employmentdatetemp));
                     $emp_birthdate = date("Y-m-d", strtotime($emp_birthdatetemp));
@@ -489,15 +516,21 @@ class Employee extends CORE_Controller
                     $emp_loandate = date("Y-m-d", strtotime($emp_loandatetemp));
                     $date_retired = date("Y-m-d", strtotime($emp_dateretired));
 
+                    if ($is_admin_active == 1){
+                        $m_employee_admin->modify_admin_employee();
+                    }
+
                     $m_employee->id_number = $this->input->post('id_number', TRUE);
                     $m_employee->first_name = $this->input->post('first_name', TRUE);
                     $m_employee->middle_name = $this->input->post('middle_name', TRUE);
                     $m_employee->last_name = $this->input->post('last_name', TRUE);
+                    $m_employee->nick_name = $this->input->post('nick_name', TRUE);
                     $m_employee->address_one = $this->input->post('address_one', TRUE);
                     $m_employee->address_two = $this->input->post('address_two', TRUE);
                     $m_employee->email_address = $this->input->post('email_address', TRUE);
                     $m_employee->gender = $this->input->post('gender', TRUE);
                     $m_employee->cell_number = $this->input->post('cell_number', TRUE);
+                    $m_employee->is_admin_active = $is_admin_active;
 
                     if ($emp_birthdatetemp == null || ""){
                         $m_employee->birthdate = "";
@@ -536,6 +569,7 @@ class Employee extends CORE_Controller
                 $m_employee->exmpt_pagibig = $this->input->post('exmpt_pagibig', TRUE);
                 $m_employee->exmpt_philhealth = $this->input->post('exmpt_philhealth', TRUE);
                 $m_employee->image_name = $this->input->post('image_name', TRUE);
+                $m_employee->image_sig = $this->input->post('image_sig', TRUE);
                 $m_employee->is_retired = $this->input->post('is_retired', TRUE);
 
                 if ($emp_dateretired == null || ""){
@@ -565,7 +599,7 @@ class Employee extends CORE_Controller
 
                 $randomdigits = mt_rand(1000, 9999);
 
-                $password = 'pass'.$employee_id.date("Y").$randomdigits;
+                $password = 'prime_'.$ecode;
 
                 $m_employee->ecode = $ecode;
                 $m_employee->modify($employee_id);
@@ -584,50 +618,56 @@ class Employee extends CORE_Controller
                 $email_password = $email_settings[0]->email_password;
                 $company_name = $email_settings[0]->company_name;
 
-                $fname = $this->input->post('first_name', TRUE);
-                $mname = $this->input->post('middle_name', TRUE);
-                $lname = $this->input->post('last_name', TRUE);
-                $fullname = $fname.' '.$mname.' '.$lname;
-                
-                $year = date('Y');
-                $date = date('m-d-Y');
+                if ($email != ""){
 
-                // $message = '<div style="width:85%;background:#F5F5F5;padding: 50px;font-family: arial;">
-                //                 <div style="border: 1px solid #CFD8DC;">
-                //                     <div style="padding: 20px;background: #fff; font-weight: bold;font-size: 13pt;border-top: 5px solid #263238;">
-                //                         '.$company_name.'
-                //                     </div>
-                //                     <div style="background: #263238; color: #fff;padding: 10px;">
-                //                         '.$subject.'
-                //                     </div>
-                //                     <div style="background: #fff; padding: 15px;">
-                //                         <p>Greetings '.$fullname.', <span style="text-align: right;float:right;">'.$date.'</span> </p>
-                //                         <p style="text-align: justify;">This email contains your generated Employee Code and Pin Number. Use these codes for the attendance system. You are required to scan your Employee ID and enter your pin number. 
+                        $fname = $this->input->post('first_name', TRUE);
+                        $mname = $this->input->post('middle_name', TRUE);
+                        $lname = $this->input->post('last_name', TRUE);
+                        $fullname = $fname.' '.$mname.' '.$lname;
+                        
+                        $year = date('Y');
+                        $date = date('m-d-Y');
 
-                //                         <br><br>
-                //                             <b>Note:</b>
-                //                             <br/>
-                //                             If your account has been blocked due to three (3) consecutive attempts to time in / time out using your account, coordinate with your Human Resources Manager.   
-                //                         <p>
-                //                         <strong>Account Details</strong>
-                //                             <table style="border: 1px solid gray;font-size: 10pt;">
-                //                             <tr>
-                //                                 <td>Ecode:</td>
-                //                                 <td><strong>'.$ecode.'</strong></td>
-                //                                 <td>| Pin #:</td>
-                //                                 <td><strong>'.$pin_number.'</strong></td>
-                //                             </tr>
-                //                         </table>
-                //                     </div>
-                //                     <div style="background: #F5F5F5;">
-                //                         <center>
-                //                             <p style="font-size: 8pt;">Copyright &copy; '.$year.' '.$company_name.'</p>
-                //                         </center>
-                //                     </div>
-                //                 </div>
-                //             </div>';
-                
-                // $m_employee->send_mail($email,$message,$subject,$company_email,$email_password,$company_name);
+                        $message = '<div style="width:85%;background:#F5F5F5;padding: 50px;font-family: arial;">
+                                        <div style="border: 1px solid #CFD8DC;">
+                                            <div style="padding: 20px;background: #fff; font-weight: bold;font-size: 13pt;border-top: 5px solid #263238;">
+                                                '.$company_name.'
+                                            </div>
+                                            <div style="background: #263238; color: #fff;padding: 10px;">
+                                                '.$subject.'
+                                            </div>
+                                            <div style="background: #fff; padding: 15px;">
+                                                <p>Greetings '.$fullname.', <span style="text-align: right;float:right;">'.$date.'</span> </p>
+                                                <p style="text-align: justify;">This email contains your generated Employee Code and Pin Number. Use these codes for the attendance system and Employee Portal. You are required to scan your Employee ID and enter your pin number. 
+                                                <p>
+                                                <strong>Account Details</strong>
+                                                    <table style="border: 1px solid gray;font-size: 10pt;">
+                                                    <tr>
+                                                        <td>Ecode:</td>
+                                                        <td><strong>'.$ecode.'</strong></td>
+                                                        <td>| Pin #:</td>
+                                                        <td><strong>'.$pin_number.'</strong></td>
+                                                    </tr>
+                                                </table>
+                                                <br/>
+                                                In your first Login, you are required to change your password for security purposes, please contact your Human Resource Admin when you encounter an error. Thank you. <br>
+
+                                                Use the password below. <br />
+                                                Password : '.$password.'<br />
+                                                '.$this->config->item("base_urlemployee").'
+
+                                            </div>
+                                            <div style="background: #F5F5F5;">
+                                                <center>
+                                                    <p style="font-size: 8pt;">Copyright &copy; '.$year.' '.$company_name.'</p>
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>';
+                        
+                        $m_employee->send_mail($email,$message,$subject,$company_email,$email_password,$company_name);
+
+                }
 
                 $response['title'] = 'Success!';
                 $response['stat'] = 'success';
@@ -689,6 +729,7 @@ class Employee extends CORE_Controller
 
             case 'update':
                 $m_employee=$this->Employee_model;
+                $m_employee_admin=$this->Employee_model;
                 //BACKEND FORM VALIDATION AND SECURITY HELPER
                 $this->load->library('form_validation');
                 $this->load->helper('security');
@@ -710,7 +751,7 @@ class Employee extends CORE_Controller
                 /*$emp_regularizationdatetemp = $this->input->post('date_regularization', TRUE);*/
                 $emp_loandatetemp = $this->input->post('loan_date', TRUE);
                 $emp_dateretired = $this->input->post('date_retired', TRUE);
-                $pin_number = $this->input->post('pin_number', TRUE);
+                $is_admin_active = $this->input->post('is_admin_active', TRUE);
 
                 $employmentdate = date("Y-m-d", strtotime($employmentdatetemp));
                 $emp_birthdate = date("Y-m-d", strtotime($emp_birthdatetemp));
@@ -718,15 +759,23 @@ class Employee extends CORE_Controller
                 $emp_loandate = date("Y-m-d", strtotime($emp_loandatetemp));
                 $date_retired = date("Y-m-d", strtotime($emp_dateretired));
 
+                $is_admin_active = $this->input->post('is_admin_active', TRUE);
+                    if ($is_admin_active == 1){
+                        $m_employee_admin->modify_admin_employee();
+                    }
+
                 $m_employee->id_number = $this->input->post('id_number', TRUE);
+                $m_employee->pin_number = $this->input->post('pin_number', TRUE);
                 $m_employee->first_name = $this->input->post('first_name', TRUE);
                 $m_employee->middle_name = $this->input->post('middle_name', TRUE);
                 $m_employee->last_name = $this->input->post('last_name', TRUE);
+                $m_employee->nick_name = $this->input->post('nick_name', TRUE);
                 $m_employee->address_one = $this->input->post('address_one', TRUE);
                 $m_employee->address_two = $this->input->post('address_two', TRUE);
                 $m_employee->email_address = $this->input->post('email_address', TRUE);
                 $m_employee->gender = $this->input->post('gender', TRUE);
                 $m_employee->cell_number = $this->input->post('cell_number', TRUE);
+                $m_employee->is_admin_active = $is_admin_active;
 
                 if ($emp_birthdatetemp == null || ""){
                     $m_employee->birthdate = "";
@@ -765,6 +814,7 @@ class Employee extends CORE_Controller
                 $m_employee->exmpt_pagibig = $this->input->post('exmpt_pagibig', TRUE);
                 $m_employee->exmpt_philhealth = $this->input->post('exmpt_philhealth', TRUE);
                 $m_employee->image_name = $this->input->post('image_name', TRUE);
+                $m_employee->image_sig = $this->input->post('image_sig', TRUE);
                 $m_employee->is_retired = $this->input->post('is_retired', TRUE);
 
                 if ($emp_dateretired == null || ""){
@@ -777,18 +827,6 @@ class Employee extends CORE_Controller
                 $m_employee->modified_by = $this->session->user_id;
                 /*$m_employee->loan_date = $emp_loandate;
                 $m_employee->loan_amount = $this->input->post('loan_amount', TRUE);*/
-
- 				// ## Generate Pin Number
-                if ($pin_number == null){
-
-	                $pin_number = mt_rand(1000,9999);
-	                $check_pin=$this->Employee_model->check_pin_number($pin_number);
-
-	                if (count($check_pin) == 0){
-	                    $m_employee->pin_number = $pin_number;
-	                }
-                }
-
                 $m_employee->modify($employee_id);
 
                 $response['title']='Success';
@@ -861,6 +899,37 @@ class Employee extends CORE_Controller
                     }
                 }
                 break;
+            
+            case 'upload_sig':
+                $allowed = array('png', 'jpg', 'jpeg','bmp');
+
+                $data=array();
+                $files=array();
+                $directory='assets/img/signature/';
+
+                foreach($_FILES as $file){
+
+                    $server_file_name=uniqid('');
+                    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+                    $file_path=$directory.$server_file_name.'.'.$extension;
+                    $orig_file_name=$file['name'];
+
+                    if(!in_array(strtolower($extension), $allowed)){
+                        $response['title']='Invalid!';
+                        $response['stat']='error';
+                        $response['msg']='Image is invalid. Please select a valid photo!';
+                        die(json_encode($response));
+                    }
+
+                    if(move_uploaded_file($file['tmp_name'],$file_path)){
+                        $response['title']='Success!';
+                        $response['stat']='success';
+                        $response['msg']='Image successfully uploaded.';
+                        $response['path']=$file_path;
+                        echo json_encode($response);
+                    }
+                }
+            break;                
 
                 case 'export-employee-masterlist':
                 $excel=$this->excel;
@@ -884,50 +953,52 @@ class Employee extends CORE_Controller
 
 
                 //create headers
-                $excel->getActiveSheet()->getStyle('A4:AK4')->getFont()->setBold(TRUE);
+                $excel->getActiveSheet()->getStyle('A4:AL4')->getFont()->setBold(TRUE);
                 $excel->getActiveSheet()->setCellValue('A4', 'Fullname')
-                                        ->setCellValue('B4', 'Ecode')
-                                        ->setCellValue('C4', 'Pin Number')
-                                        ->setCellValue('D4', 'ID Number')
-                                        ->setCellValue('E4', 'Birthdate')
-                                        ->setCellValue('F4', 'Civil Status')
-                                        ->setCellValue('G4', 'Gender')
-                                        ->setCellValue('H4', 'Height')
-                                        ->setCellValue('I4', 'Weight')
-                                        ->setCellValue('J4', 'Blood Type')
-                                        ->setCellValue('K4', 'Religion')
-                                        ->setCellValue('L4', 'SSS')
-                                        ->setCellValue('M4', 'Philhealth')
-                                        ->setCellValue('N4', 'Pag-Ibig')
-                                        ->setCellValue('O4', 'TIN')
-                                        ->setCellValue('P4', 'Health ID')
-                                        ->setCellValue('Q4', 'Barangay ID')
-                                        ->setCellValue('R4', '1 Month Contract')
-                                        ->setCellValue('S4', '5 Months Contract')
-                                        ->setCellValue('T4', 'Regularization Contract')
-                                        ->setCellValue('U4', 'Performance Evaluation 1')
-                                        ->setCellValue('V4', 'Performance Evaluation 2')
-                                        ->setCellValue('W4', 'Bank Account #')
-                                        ->setCellValue('X4', 'Employee Type')
-                                        ->setCellValue('Y4', 'Department')
-                                        ->setCellValue('Z4', 'Position')
-                                        ->setCellValue('AA4', 'Branch')
-                                        ->setCellValue('AB4', 'Section')
-                                        ->setCellValue('AC4', 'Pay Type')
-                                        ->setCellValue('AD4', 'Group')
-                                        ->setCellValue('AE4', 'Employment Date')
-                                        ->setCellValue('AF4', 'Address1')
-                                        ->setCellValue('AG4', 'Address2')
-                                        ->setCellValue('AH4', 'Email Address')
-                                        ->setCellValue('AI4', 'Mobile No')
-                                        ->setCellValue('AJ4', 'Phone No')
-                                        ->setCellValue('AK4', 'Retired');
+                                        ->setCellValue('B4', 'Nickname')
+                                        ->setCellValue('C4', 'Ecode')
+                                        ->setCellValue('D4', 'Pin Number')
+                                        ->setCellValue('E4', 'ID Number')
+                                        ->setCellValue('F4', 'Birthdate')
+                                        ->setCellValue('G4', 'Civil Status')
+                                        ->setCellValue('H4', 'Gender')
+                                        ->setCellValue('I4', 'Height')
+                                        ->setCellValue('J4', 'Weight')
+                                        ->setCellValue('K4', 'Blood Type')
+                                        ->setCellValue('L4', 'Religion')
+                                        ->setCellValue('M4', 'SSS')
+                                        ->setCellValue('N4', 'Philhealth')
+                                        ->setCellValue('O4', 'Pag-Ibig')
+                                        ->setCellValue('P4', 'TIN')
+                                        ->setCellValue('Q4', 'Health ID')
+                                        ->setCellValue('R4', 'Barangay ID')
+                                        ->setCellValue('S4', '1 Month Contract')
+                                        ->setCellValue('T4', '5 Months Contract')
+                                        ->setCellValue('U4', 'Regularization Contract')
+                                        ->setCellValue('V4', 'Performance Evaluation 1')
+                                        ->setCellValue('W4', 'Performance Evaluation 2')
+                                        ->setCellValue('X4', 'Bank Account #')
+                                        ->setCellValue('Y4', 'Employee Type')
+                                        ->setCellValue('Z4', 'Department')
+                                        ->setCellValue('AA4', 'Position')
+                                        ->setCellValue('AB4', 'Branch')
+                                        ->setCellValue('AC4', 'Section')
+                                        ->setCellValue('AD4', 'Pay Type')
+                                        ->setCellValue('AE4', 'Group')
+                                        ->setCellValue('AF4', 'Employment Date')
+                                        ->setCellValue('AG4', 'Address1')
+                                        ->setCellValue('AH4', 'Address2')
+                                        ->setCellValue('AI4', 'Email Address')
+                                        ->setCellValue('AJ4', 'Mobile No')
+                                        ->setCellValue('AK4', 'Phone No')
+                                        ->setCellValue('AL4', 'Retired');
 
                 $transaction=$employee_info=$m_employee->get_masterlist();
                 $rows=array();
                 foreach($transaction as $x){
                     $rows[]=array(
                         $x->full_name,
+                        $x->nick_name,
                         $x->ecode,
                         $x->pin_number,
                         $x->id_number,
@@ -970,7 +1041,7 @@ class Employee extends CORE_Controller
                 }
 
 
-                $excel->getActiveSheet()->getStyle('A4:AK4')->getFill()
+                $excel->getActiveSheet()->getStyle('A4:AL4')->getFill()
                     ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
                     ->getStartColor()->setARGB('27ae60');
 
@@ -982,7 +1053,7 @@ class Employee extends CORE_Controller
                         'name'  => 'Tahoma'
                     ));
 
-                $excel->getActiveSheet()->getStyle('A4:AK4')->applyFromArray($styleArray);
+                $excel->getActiveSheet()->getStyle('A4:AL4')->applyFromArray($styleArray);
 
                 $excel->getActiveSheet()->fromArray($rows,NULL,'A5');
                 //autofit column
@@ -1003,125 +1074,6 @@ class Employee extends CORE_Controller
                 ob_end_clean();
                 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
                 header('Content-Disposition: attachment;filename='."Employee Masterlist.xlsx".'');
-                header('Cache-Control: max-age=0');
-                // If you're serving to IE 9, then the following may be needed
-                header('Cache-Control: max-age=1');
-
-                // If you're serving to IE over SSL, then the following may be needed
-                header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-                header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-                header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-                header ('Pragma: public'); // HTTP/1.0
-
-                $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-                $objWriter->save('php://output');
-
-                break;
-
-            case 'export-employee-rates-masterlist':
-                $excel=$this->excel;
-                $m_employee=$this->Employee_model;
-
-                $excel->setActiveSheetIndex(0);
-
-                //name the worksheet
-                $excel->getActiveSheet()->setTitle("Rates and Duties Masterlist");
-
-                $excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(TRUE);
-                $excel->getActiveSheet()->setCellValue('A1',"Employee Rates & Duties Masterlist (".date("Y").")")
-                    ->setCellValue('A2',"Exported By : ".$this->session->user_fullname)
-                    ->setCellValue('A3',"Date Exported : ".date("Y-m-d h:i a"));
-
-               $excel->getActiveSheet()
-                                    ->getStyle('N4:T4')
-                                    ->getAlignment()
-                                    ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-                //create headers
-                $excel->getActiveSheet()->getStyle('A4:T4')->getFont()->setBold(TRUE);
-                $excel->getActiveSheet()->setCellValue('A4', 'Ecode')
-                                        ->setCellValue('B4', 'Fullname')
-                                        ->setCellValue('C4', 'Employee Type')
-                                        ->setCellValue('D4', 'Department')
-                                        ->setCellValue('E4', 'Position')
-                                        ->setCellValue('F4', 'Branch')
-                                        ->setCellValue('G4', 'Section')
-                                        ->setCellValue('H4', 'Group')
-                                        ->setCellValue('I4', 'Date Start')
-                                        ->setCellValue('J4', 'Date End')
-                                        ->setCellValue('K4', 'Duration')
-                                        ->setCellValue('L4', 'Pay Type')
-                                        ->setCellValue('M4', 'Hours per day')
-                                        ->setCellValue('N4', 'Salary Regular Rates')
-                                        ->setCellValue('O4', 'Monthly Based Salary')
-                                        ->setCellValue('P4', 'Per Day Pay')
-                                        ->setCellValue('Q4', 'Per Hour Pay')
-                                        ->setCellValue('R4', 'SSS Salary Credit')
-                                        ->setCellValue('S4', 'PhilHealth Salary Credit')
-                                        ->setCellValue('T4', 'Tax Shield');
-
-                $transaction=$employee_info=$m_employee->get_masterlist();
-                $rows=array();
-                $i = 5;
-                foreach($transaction as $x){
-
-                    $excel->getActiveSheet()->getStyle('N'.$i.':'.'T'.$i)->getNumberFormat()->setFormatCode('###,##0.00;(###,##0.00)'); 
-
-                    $rows[]=array(
-                        $x->ecode,
-                        $x->full_name,
-                        $x->employment_type,
-                        $x->department,
-                        $x->position,
-                        $x->branch,
-                        $x->section,
-                        $x->group_desc,
-                        $x->date_start,
-                        $x->date_end,
-                        $x->duration_desc,
-                        $x->payment_type,
-                        $x->hour_per_day,
-                        $x->salary_reg_rates,
-                        $x->monthly_based_salary,
-                        $x->per_day_pay,
-                        $x->per_hour_pay,
-                        $x->sss_phic_salary_credit,
-                        $x->philhealth_salary_credit,
-                        $x->tax_shield
-                    );
-
-                    $i++;
-                }
-
-
-                $excel->getActiveSheet()->getStyle('A4:T4')->getFill()
-                    ->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
-                    ->getStartColor()->setARGB('27ae60');
-
-                $styleArray = array(
-                    'font'  => array(
-                        'bold'  => true,
-                        'color' => array('rgb' => 'FFFFF'),
-                        'size'  => 10,
-                        'name'  => 'Tahoma'
-                    ));
-
-                $excel->getActiveSheet()->getStyle('A4:T4')->applyFromArray($styleArray);
-
-                $excel->getActiveSheet()->fromArray($rows,NULL,'A5');
-                //autofit column
-                foreach(range('A','T') as $columnID)
-                {
-                    if ($columnID != "A"){
-                        $excel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(TRUE);
-                    }
-                }
-
-                // $excel->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
-
-                // Redirect output to a client’s web browser (Excel2007)
-                ob_end_clean();
-                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                header('Content-Disposition: attachment;filename='."Employee Rates and Duties Masterlist (".date("Y").").xlsx".'');
                 header('Cache-Control: max-age=0');
                 // If you're serving to IE 9, then the following may be needed
                 header('Cache-Control: max-age=1');

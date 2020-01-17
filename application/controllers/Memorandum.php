@@ -47,7 +47,9 @@ class Memorandum extends CORE_Controller
                 $active_year = $m_yearsetup->getactiveyear();
                 $response['data']=$this->Memorandum_model->get_list(
                    array('emp_memo.employee_id'=>$employee_id,'emp_memo.is_deleted'=>FALSE),
-                    'emp_memo.*,ref_disciplinary_action_policy.disciplinary_action_policy,ref_action_taken.action_taken',
+                    'emp_memo.*,ref_disciplinary_action_policy.disciplinary_action_policy,ref_action_taken.action_taken,
+                    date_format(date_memo, "%m/%d/%Y") as date_memo,
+                    date_format(date_granted, "%m/%d/%Y") as date_granted',
                         array(
                                 array('ref_disciplinary_action_policy','ref_disciplinary_action_policy.ref_disciplinary_action_policy_id=emp_memo.ref_disciplinary_action_policy_id','left'),
                                 array('ref_action_taken','ref_action_taken.ref_action_taken_id=emp_memo.ref_action_taken_id','left'),
@@ -87,7 +89,9 @@ class Memorandum extends CORE_Controller
 
                 $response['row_added'] = $this->Memorandum_model->get_list(
                    $emp_memo_id,
-                    'emp_memo.*,ref_disciplinary_action_policy.disciplinary_action_policy,ref_action_taken.action_taken',
+                    'emp_memo.*,ref_disciplinary_action_policy.disciplinary_action_policy,ref_action_taken.action_taken,
+                    date_format(date_memo, "%m/%d/%Y") as date_memo,
+                    date_format(date_granted, "%m/%d/%Y") as date_granted',
                         array(
                                 array('ref_disciplinary_action_policy','ref_disciplinary_action_policy.ref_disciplinary_action_policy_id=emp_memo.ref_disciplinary_action_policy_id','left'),
                                 array('ref_action_taken','ref_action_taken.ref_action_taken_id=emp_memo.ref_action_taken_id','left'),
@@ -142,7 +146,9 @@ class Memorandum extends CORE_Controller
                 
                 $response['row_updated']=$this->Memorandum_model->get_list(
                     array('emp_memo.emp_memo_id'=>$emp_memo_id,'emp_memo.is_deleted'=>FALSE),
-                    'emp_memo.*,ref_disciplinary_action_policy.disciplinary_action_policy,ref_action_taken.action_taken',
+                    'emp_memo.*,ref_disciplinary_action_policy.disciplinary_action_policy,ref_action_taken.action_taken,
+                    date_format(date_memo, "%m/%d/%Y") as date_memo,
+                    date_format(date_granted, "%m/%d/%Y") as date_granted',
                         array(
                                 array('ref_disciplinary_action_policy','ref_disciplinary_action_policy.ref_disciplinary_action_policy_id=emp_memo.ref_disciplinary_action_policy_id','left'),
                                 array('ref_action_taken','ref_action_taken.ref_action_taken_id=emp_memo.ref_action_taken_id','left'),

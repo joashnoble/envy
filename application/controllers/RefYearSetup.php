@@ -57,12 +57,17 @@ class RefYearSetup extends CORE_Controller
     function transaction($txn = null) {
         switch ($txn) {
             case 'list':
-	            $response['data']=$this->RefYearSetup_model->get_list(array('emp_leave_year.is_deleted'=>FALSE,));
+                $response['data']=$this->RefYearSetup_model->get_list(array('emp_leave_year.is_deleted'=>FALSE),
+                    'emp_leave_year.*, DATE_FORMAT(date_start, "%m/%d/%Y") as date_start,
+                     DATE_FORMAT(date_end, "%m/%d/%Y") as date_end,
+                     DATE_FORMAT(start_13thmonth_date, "%m/%d/%Y") as start_13thmonth_date,
+                     DATE_FORMAT(end_13thmonth_date, "%m/%d/%Y") as end_13thmonth_date'
+                );
                 echo json_encode($response);
                 break;
 
             case 'create':
-            	function replaceCharsInNumber($num, $chars) {
+                function replaceCharsInNumber($num, $chars) {
                      return substr((string) $num, 0, -strlen($chars)) . $chars;
                 }
 
@@ -101,7 +106,10 @@ class RefYearSetup extends CORE_Controller
                 $response['stat'] = 'success';
                 $response['msg'] = 'Year Setup information successfully created.';
 
-                $response['row_added'] = $this->RefYearSetup_model->get_list($emp_leave_year_id);
+                $response['row_added'] = $this->RefYearSetup_model->get_list($emp_leave_year_id,'emp_leave_year.*, DATE_FORMAT(date_start, "%m/%d/%Y") as date_start,
+                     DATE_FORMAT(date_end, "%m/%d/%Y") as date_end,
+                     DATE_FORMAT(start_13thmonth_date, "%m/%d/%Y") as start_13thmonth_date,
+                     DATE_FORMAT(end_13thmonth_date, "%m/%d/%Y") as end_13thmonth_date');
                 echo json_encode($response);
 
                 break;
@@ -140,15 +148,20 @@ class RefYearSetup extends CORE_Controller
                 $start_13thmonth_date = date("Y-m-d", strtotime($date_start13thmonthtemp));
                 $end_13thmonth_date = date("Y-m-d", strtotime($date_end13thmonthtemp));
 
-                
+                $active_year = $this->input->post('active_year', TRUE);
+
+                if ($active_year == 1){
+                    $m_yearsetup->active_year = $this->input->post('active_year', TRUE);
+                }
+
                 $m_yearsetup->year_type = $this->input->post('year_type', TRUE);
                 $m_yearsetup->date_start = $date_start;
                 $m_yearsetup->date_end = $date_end;
                 $m_yearsetup->note = $this->input->post('note', TRUE);
                 $m_yearsetup->date_modified = date("Y-m-d H:i:s");
                 $m_yearsetup->modified_by = $this->session->user_id;
-                // 13th Month Pay Setup per Year
 
+                // 13th Month Pay Setup per Year
                 $m_yearsetup->year = $this->input->post('year', TRUE);
                 $m_yearsetup->start_13thmonth_date = $start_13thmonth_date;
                 $m_yearsetup->end_13thmonth_date = $end_13thmonth_date;
@@ -158,7 +171,10 @@ class RefYearSetup extends CORE_Controller
                 $response['title']='Success';
                 $response['stat']='success';
                 $response['msg']='Year Setup information successfully updated.';
-                $response['row_updated']=$this->RefYearSetup_model->get_list($emp_leave_year_id);
+                $response['row_updated']=$this->RefYearSetup_model->get_list($emp_leave_year_id,'emp_leave_year.*, DATE_FORMAT(date_start, "%m/%d/%Y") as date_start,
+                     DATE_FORMAT(date_end, "%m/%d/%Y") as date_end,
+                     DATE_FORMAT(start_13thmonth_date, "%m/%d/%Y") as start_13thmonth_date,
+                     DATE_FORMAT(end_13thmonth_date, "%m/%d/%Y") as end_13thmonth_date');
                 echo json_encode($response);
 
                 break;

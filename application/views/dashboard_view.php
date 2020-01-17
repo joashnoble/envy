@@ -627,6 +627,7 @@ td.dataTables_empty{
                             </div>
                             <hr style="padding:0;margin:0;border:1px solid #ECEFF1;">
                             <div class="row">
+                              <input type="hidden" id="main_directory" value="<?php echo $this->session->main_directory; ?>">
                                 <div class="col-md-3">
                                     <div class="info-tile tile-orange item" style="background-color:#ECEFF1;border-top: 5px solid #CFD8DC;">
                                         <div class="tile-heading" style="color:#263238;display:block;"><span>Active Employees</span><i class="fa fa-area-chart" style="float:right;" aria-hidden="true"></i></div>
@@ -685,7 +686,9 @@ td.dataTables_empty{
                                   <div class="col-md-6">
                                       <div class="panel panel-default" data-widget='{"draggable": "false"}' style="">
                                           <div class="panel-heading" style="background-color:#EEEEEE !important;border-top: 1px solid #CFD8DC;border-bottom: 1px solid #CFD8DC;">
-                                              <h3 style="font-weight: 400; color: #263238;">Monthly Company Gross For Year <year class="year"></year></h3>
+                                              <h3 style="font-weight: 500; color: #263238;">
+                                                <i class="fa fa-line-chart"></i> Monthly Company Gross For Year <year class="year"></year>
+                                              </h3>
                                               <div class="panel-ctrls button-icon-bg refresh"
                                                   data-actions-container=""
                                                   data-action-refresh-demo='{"type": "circular"}'
@@ -698,7 +701,9 @@ td.dataTables_empty{
                                       </div>
                                    <div class="panel panel-default" data-widget='{"draggable": "false"}' style="">
                                         <div class="panel-heading" style="background-color:#EEEEEE !important;border: 1px solid #CFD8DC;border-bottom: 1px solid #CFD8DC;">
-                                            <h3 style="font-weight: 400; color: #263238;">Compensation Distribution Per Department For Year <year class="year"></year></h3>
+                                            <h3 style="font-weight: 500; color: #263238;">
+                                              <i class="fa fa-bar-chart"></i> Compensation Distribution Per Department For Year <year class="year"></year>
+                                            </h3>
                                             <div class="panel-ctrls button-icon-bg refresh"
                                                 data-actions-container=""
                                                 data-action-refresh-demo='{"type": "circular"}'
@@ -1035,11 +1040,13 @@ $(document).ready(function(){
               var showonline="";
               var showoffline="";
               var showchats='';
+              var main_directory = $('#main_directory').val();
+
                       for(var i=0;parseInt(jsoncount)>=i;i++){
-                              showonline+='<li class="tooltips" data-status="online" data-toggle="tooltip" title="'+response.online_users_box[i].full_name+'"><img src='+response.online_users_box[i].photo_path+'>" alt=""/></li>';
+                              showonline+='<li class="tooltips" data-status="online" data-toggle="tooltip" title="'+response.online_users_box[i].full_name+'"><img src="../'+main_directory+'/'+response.online_users_box[i].photo_path+'" alt=""/></li>';
                       }
                       for(var j=0;parseInt(jsoncountoff)>=j;j++){
-                              showonline+='<li class="tooltips" data-status="busy" data-toggle="tooltip" title="'+response.offline_users_box[j].full_name+'"><img src='+response.offline_users_box[j].photo_path+'>" alt=""/></li>';
+                              showonline+='<li class="tooltips" data-status="busy" data-toggle="tooltip" title="'+response.offline_users_box[j].full_name+'"><img src="../'+main_directory+'/'+response.offline_users_box[j].photo_path+'" alt=""/></li>';
                       }
 
                       showchats+='<center><li class="left clearfix">'+
@@ -1049,7 +1056,7 @@ $(document).ready(function(){
                       for(var w=0;parseInt(jsoncountwallpost)>=w;w++){
                           if(user_id==response.wall_post[w].user_id){
                             showchats+='<li class="right clearfix"><span class="chat-img pull-right">'+
-                                            '<img src="'+response.wall_post[w].photo_path+'" style="width:30px;height:30px;" alt="User Avatar" class="img-circle">'+
+                                            '<img src="../'+main_directory+'/'+response.wall_post[w].photo_path+'" style="width:30px;height:30px;" alt="User Avatar" class="img-circle">'+
                                         '</span>'+
                                             '<div class="chat-body clearfix">'+
                                                 '<div class="header">'+
@@ -1062,7 +1069,7 @@ $(document).ready(function(){
                           }
                           else{
                             showchats+='<li class="left clearfix"><span class="chat-img pull-left">'+
-                                            '<img src="'+response.wall_post[w].photo_path+'" style="width:30px;height:30px;" alt="User Avatar" class="img-circle">'+
+                                            '<img src="../'+main_directory+'/'+response.wall_post[w].photo_path+'" style="width:30px;height:30px;" alt="User Avatar" class="img-circle">'+
                                         '</span>'+
                                             '<div class="chat-body clearfix">'+
                                                 '<div class="header">'+

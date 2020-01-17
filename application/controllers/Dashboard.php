@@ -26,7 +26,7 @@ class Dashboard extends CORE_Controller {
         $data['loader'] = $this->load->view('template/elements/loader', '', TRUE);
         $data['loaderscript'] = $this->load->view('template/elements/loaderscript', '', TRUE);
         /*getting retired employees*/
-        $getretired=$this->Employee_model->get_list('employee_list.is_deleted=0 AND employee_list.is_retired=1',
+        $getretired=$this->Employee_model->get_list('employee_list.is_deleted=0 AND (employee_list.is_retired=1 OR employee_list.status="Inactive")',
             'COUNT(employee_list.employee_id) as retired_employees');
         /*getting ALL employees*/
         $gettotalemployee=$this->Employee_model->getcountemployee();
@@ -88,7 +88,7 @@ class Dashboard extends CORE_Controller {
 
             case 'getstats':
                 $this->validate_session();
-                $getretired=$this->Employee_model->get_list('employee_list.is_deleted=0 AND employee_list.is_retired=1',
+                $getretired=$this->Employee_model->get_list('employee_list.is_deleted=0 AND (employee_list.is_retired=1 OR employee_list.status="Inactive")',
                     'COUNT(employee_list.employee_id) as retired_employees');
                 /*getting ALL employees*/
                 $gettotalemployee=$this->Employee_model->getcountemployee();

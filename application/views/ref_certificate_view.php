@@ -139,7 +139,7 @@
                         <div id="div_product_list">
                             <div class="panel panel-default">
                                         <button class="btn right_certificate_create"  id="btn_new" style="width:185px;background-color:#2ecc71;color:white;" title="Create New Certificate" >
-                                        <i class="fa fa-file"></i>*New Certificate</button>
+                                        <i class="fa fa-file"></i> New Certificate</button>
                                         <div class="panel-heading" style="background-color:#2c3e50 !important;margin-top:2px;">
                                              <center><h2 style="color:white;font-weight:300;">Certificate List</h2></center>
                                         </div>
@@ -203,7 +203,7 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">Certificate Name :</label>
+                                    <label class="boldlabel"><i class="red">*</i> Certificate Name :</label>
                                     <input type="text" class="form-control" id="certificate" name="certificate" placeholder="Certificate Name" data-error-msg="Certificate name is Required!" required>
                                 </div>
                               </div>

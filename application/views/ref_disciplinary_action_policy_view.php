@@ -200,7 +200,7 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">Disciplinary Action Policy Name :</label>
+                                    <label class="boldlabel"><i class="red">*</i> Disciplinary Action Policy Name :</label>
                                     <input type="text" class="form-control" id="disciplinary_action_policy" name="disciplinary_action_policy" placeholder="Disciplinary Action Policy Name" data-error-msg="Disciplinary Action Policy name is Required!" required>
                                 </div>
                               </div>

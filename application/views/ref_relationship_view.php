@@ -200,7 +200,9 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">*Relationship Name :</label>
+                                    <label class="boldlabel">
+                                        <i class="red">*</i> Relationship Name :
+                                    </label>
                                     <input type="text" class="form-control" id="relationship" name="relationship" placeholder="Relationship Name" data-error-msg="Relationship name is Required!" required>
                                 </div>
                               </div>

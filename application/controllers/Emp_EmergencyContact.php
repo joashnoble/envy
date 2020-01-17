@@ -58,6 +58,8 @@ class Emp_EmergencyContact extends CORE_Controller
                 $m_emergencycontact = $this->EmergencyContact_model;
 
 
+                $is_active = $this->input->post('is_active', TRUE);
+
                 $user_id=$this->session->user_id;  // get id of current login user
                 $m_emergencycontact->employee_id = $this->input->post('employee_id', TRUE);
                 $m_emergencycontact->name = $this->input->post('name', TRUE);
@@ -65,6 +67,14 @@ class Emp_EmergencyContact extends CORE_Controller
                 $m_emergencycontact->contact_number_one = $this->input->post('contact_number_one', TRUE);
                 $m_emergencycontact->contact_number_two = $this->input->post('contact_number_two', TRUE);
                 $m_emergencycontact->address = $this->input->post('address', TRUE);
+
+                if ($is_active == 1){
+                    $this->EmergencyContact_model->update_emergency_contact($this->input->post('employee_id', TRUE));
+                    $m_emergencycontact->is_active = $is_active;
+                }else{
+                    $m_emergencycontact->is_active = 0;
+                }
+
                 $m_emergencycontact->date_created=date("Y-m-d");
                 $m_emergencycontact->created_by = $user_id;
 
@@ -111,6 +121,8 @@ class Emp_EmergencyContact extends CORE_Controller
                 $m_emergencycontact = $this->EmergencyContact_model;
 
                 $emp_emergency_contact_details_id = $this->input->post('emp_emergency_contact_details_id', TRUE);
+                $is_active = $this->input->post('is_active', TRUE);
+
 
                 $user_id=$this->session->user_id;  // get id of current login user
                 //$m_childrendependent->employee_id = $this->input->post('employee_id', TRUE);
@@ -119,6 +131,14 @@ class Emp_EmergencyContact extends CORE_Controller
                 $m_emergencycontact->contact_number_one = $this->input->post('contact_number_one', TRUE);
                 $m_emergencycontact->contact_number_two = $this->input->post('contact_number_two', TRUE);
                 $m_emergencycontact->address = $this->input->post('address', TRUE);
+
+                if ($is_active == 1){
+                    $this->EmergencyContact_model->update_emergency_contact($this->input->post('employee_id', TRUE));
+                    $m_emergencycontact->is_active = $is_active;
+                }else{
+                    $m_emergencycontact->is_active = 0;
+                }
+
                 $m_emergencycontact->date_modified=date("Y-m-d");
                 $m_emergencycontact->modified_by = $user_id;
                 $m_emergencycontact->modify($emp_emergency_contact_details_id);

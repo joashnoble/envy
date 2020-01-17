@@ -165,7 +165,7 @@ class TemporaryDeduction extends CORE_Controller
                 
                 if ($employee_id == 'all'){
                 
-                    $employee = $this->Employee_model->get_emp_list();
+                    $employee = $this->Employee_model->get_employee_list();
 
                     for ($i=0; $i < count($employee) ; $i++) { 
 
@@ -280,7 +280,7 @@ class TemporaryDeduction extends CORE_Controller
 
                 $response['title']='Success';
                 $response['stat']='success';
-                $response['msg']='Section information successfully updated.';
+                $response['msg']='Temporary Deduction successfully updated.';
                 $response['row_updated']=$this->Regular_Deduction_model->get_list($deduction_regular_id,
                     'new_deductions_regular.*,employee_list.*,CONCAT(employee_list.first_name," ",employee_list.middle_name," ",employee_list.last_name) as full_name,refdeduction.deduction_desc,refdeductiontype.deduction_type_desc',
                     array(

@@ -354,6 +354,39 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="col-md-12">
+                                                    <hr>
+                                                    <label class="control-label boldlabel"><span class="fa fa-cog"></span> Report Footer Settings</label>
+                                                    <hr>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="col-md-3">
+                                                         <label class="control-label boldlabel" style="text-align:right;margin-top:8px;margin-top:8px;">Checked by :</label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-user"></i>
+                                                             </span>
+                                                            <input type="text" id="checked_by" name="checked_by" value="<?php echo $row->checked_by; ?>" class="form-control" placeholder="Checked by">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-3">
+                                                         <label class="control-label boldlabel" style="text-align:right;margin-top:8px;margin-top:8px;">Approved by :</label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-user"></i>
+                                                             </span>
+                                                            <input type="text" id="approved_by" name="approved_by" value="<?php echo $row->approved_by; ?>" class="form-control" placeholder="Checked by">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 </div>
 
                                                 <div class="col-md-3">

@@ -97,7 +97,7 @@ class RatesDuties extends CORE_Controller
 
                 $employee_id = $this->input->post('employee_id', TRUE);
                 $ref_payment_type_id = $this->input->post('ref_payment_type_id', TRUE);
-                // $pos_invoice_summary->total_after_tax=$this->get_numeric_value($summary_after_tax);
+                $monthly_based_salary = $this->get_numeric_value($this->input->post('monthly_based_salary', TRUE));
 
                 $m_ratesandduties->employee_id = $this->input->post('employee_id', TRUE);
                 $m_ratesandduties->ref_employment_type_id = $this->input->post('ref_employment_type_id', TRUE);
@@ -124,12 +124,19 @@ class RatesDuties extends CORE_Controller
                 $m_ratesandduties->duration_id = $this->input->post('duration_id', TRUE);
 
                 $hour_per_daytemp = $this->input->post('hour_per_day', TRUE);
-                $salary_reg_rates_temp = $this->input->post('salary_reg_rates', TRUE);
+                $salary_reg_rates_temp = $this->get_numeric_value($this->input->post('salary_reg_rates', TRUE));
+                $semi_monthly = $this->get_numeric_value($salary_reg_rates_temp) * 2;
 
-                if ($ref_payment_type_id == 4){
-                    $monthly_based_salary_temp = $this->input->post('monthly_based_salary', TRUE);
-                }else{
-                    $monthly_based_salary_temp = "0.00";
+                if ($ref_payment_type_id == 1){  // Semi Monthly
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($semi_monthly);
+                }else if ($ref_payment_type_id == 2){ // Monthly
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($salary_reg_rates_temp);
+                }else if ($ref_payment_type_id == 3){ // Daily
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($monthly_based_salary);
+                }else if ($ref_payment_type_id == 4){ // Weekly
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($monthly_based_salary);
+                }else{ // Semi Monthly (No Sat.)
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($monthly_based_salary);
                 }
 
                 $cola_per_hour_temp = $this->input->post('cola_per_hour', TRUE);
@@ -143,7 +150,6 @@ class RatesDuties extends CORE_Controller
 
                 $m_ratesandduties->hour_per_day=$this->get_numeric_value($hour_per_daytemp);
                 $m_ratesandduties->salary_reg_rates=$this->get_numeric_value($salary_reg_rates_temp);
-                $m_ratesandduties->monthly_based_salary=$this->get_numeric_value($monthly_based_salary_temp);
                 $m_ratesandduties->cola_per_hour=$this->get_numeric_value($cola_per_hour_temp);
                 $m_ratesandduties->per_day_pay=$this->get_numeric_value($per_day_pay_temp);
                 $m_ratesandduties->per_hour_pay=$this->get_numeric_value($per_hour_pay_temp);
@@ -260,12 +266,21 @@ class RatesDuties extends CORE_Controller
                 $m_ratesandduties->duration_id = $this->input->post('duration_id', TRUE);
 
                 $hour_per_daytemp = $this->input->post('hour_per_day', TRUE);
-                $salary_reg_rates_temp = $this->input->post('salary_reg_rates', TRUE);
+                $salary_reg_rates_temp = $this->get_numeric_value($this->input->post('salary_reg_rates', TRUE));
+                $ref_payment_type_id = $this->input->post('ref_payment_type_id', TRUE);
+                $monthly_based_salary = $this->get_numeric_value($this->input->post('monthly_based_salary', TRUE));
+                $semi_monthly = $this->get_numeric_value($salary_reg_rates_temp) * 2;
 
-                if ($ref_payment_type_id == 4){
-                    $monthly_based_salary_temp = $this->input->post('monthly_based_salary', TRUE);
-                }else{
-                    $monthly_based_salary_temp = "0.00";
+                if ($ref_payment_type_id == 1){  // Semi Monthly
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($semi_monthly);
+                }else if ($ref_payment_type_id == 2){ // Monthly
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($salary_reg_rates_temp);
+                }else if ($ref_payment_type_id == 3){ // Daily
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($monthly_based_salary);
+                }else if ($ref_payment_type_id == 4){ // Weekly
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($monthly_based_salary);
+                }else{ // Semi Monthly (No Sat.)
+                    $m_ratesandduties->monthly_based_salary = $this->get_numeric_value($monthly_based_salary);
                 }
 
                 $cola_per_hour_temp = $this->input->post('cola_per_hour', TRUE);
@@ -279,7 +294,6 @@ class RatesDuties extends CORE_Controller
 
                 $m_ratesandduties->hour_per_day=$this->get_numeric_value($hour_per_daytemp);
                 $m_ratesandduties->salary_reg_rates=$this->get_numeric_value($salary_reg_rates_temp);
-                $m_ratesandduties->monthly_based_salary=$this->get_numeric_value($monthly_based_salary_temp);
                 $m_ratesandduties->cola_per_hour=$this->get_numeric_value($cola_per_hour_temp);
                 $m_ratesandduties->per_day_pay=$this->get_numeric_value($per_day_pay_temp);
                 $m_ratesandduties->per_hour_pay=$this->get_numeric_value($per_hour_pay_temp);

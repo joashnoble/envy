@@ -100,9 +100,34 @@ class TemporaryOtherEarnings extends CORE_Controller
                 $m_temporary_otherearnings = $this->TemporaryOtherEarnings_model;
                 $employee_id = $this->input->post('employee_id', TRUE);
                 $earnings_id = $this->input->post('earnings_id', TRUE);
-                /*$retrocheck = $m_temporary_otherearnings->checkifretroexist($employee_id);*/
-                /*if($retrocheck==0 || $retrocheck==null){*/
-                    
+
+                if ($employee_id == 'all'){
+
+                    $employee = $this->Employee_model->get_employee_list();
+
+                    for ($i=0; $i < count($employee) ; $i++) { 
+
+                        $oe_regular_amount=$this->input->post('oe_regular_amount', TRUE);
+                        $user_id=$this->session->user_id;
+                        $m_temporary_otherearnings->pay_period_id = $this->input->post('pay_period_id', TRUE);
+                        $m_temporary_otherearnings->employee_id = $employee[$i]->employee_id;
+                        $m_temporary_otherearnings->earnings_id = $this->input->post('earnings_id', TRUE);
+                        $m_temporary_otherearnings->oe_regular_amount = $this->get_numeric_value($oe_regular_amount);
+                        $m_temporary_otherearnings->oe_regular_remarks = $this->input->post('oe_regular_remarks', TRUE);
+                        $m_temporary_otherearnings->date_created = date("Y-m-d H:i:s");
+                        $m_temporary_otherearnings->created_by = $this->session->user_id;
+                        $m_temporary_otherearnings->is_temporary = 1;
+                        $m_temporary_otherearnings->save();                        
+
+                    }
+
+                    $response['title'] = 'Success!';
+                    $response['stat'] = 'success';
+                    $response['mode'] = 1;
+                    $response['msg'] = 'Other Earnings successfully created.';
+
+                }else{
+
                     $oe_regular_amount=$this->input->post('oe_regular_amount', TRUE);
                     $user_id=$this->session->user_id;
                     $m_temporary_otherearnings->pay_period_id = $this->input->post('pay_period_id', TRUE);
@@ -117,10 +142,9 @@ class TemporaryOtherEarnings extends CORE_Controller
 
                     $earnings_temporary_id = $m_temporary_otherearnings->last_insert_id();
 
-
                     $response['title'] = 'Success!';
                     $response['stat'] = 'success';
-                    $response['msg'] = 'Other Earnings Deduction successfully created.';
+                    $response['msg'] = 'Other Earnings successfully created.';
 
                     $response['row_added'] = $this->TemporaryOtherEarnings_model->get_list($earnings_temporary_id,
                         'new_otherearnings_regular.*,employee_list.*,CONCAT(employee_list.first_name," ",middle_name," ",employee_list.last_name) as full_name,refotherearnings.earnings_desc,refotherearningstype.earnings_type_desc',
@@ -130,13 +154,9 @@ class TemporaryOtherEarnings extends CORE_Controller
                              array('refotherearningstype','refotherearningstype.earnings_type_id=refotherearnings.earnings_type_id','left'),
                             )
                         );
-                /*}
-                else{
-                    $response['title'] = 'Failure!';
-                    $response['stat'] = 'error';
-                    $response['msg'] = 'Retro Salary already Exist.';
-                    
-                }*/
+                }
+                
+
                 echo json_encode($response);
 
                 break;
@@ -155,7 +175,7 @@ class TemporaryOtherEarnings extends CORE_Controller
                     if($m_temporary_otherearnings->modify($oe_regular_id)){
                     $response['title']='Success!';
                     $response['stat']='success';
-                    $response['msg']='Other Earnings Deduction successfully Deleted.';
+                    $response['msg']='Other Earnings successfully Deleted.';
 
                     echo json_encode($response);
                     }
@@ -177,7 +197,8 @@ class TemporaryOtherEarnings extends CORE_Controller
 
                 $response['title']='Success';
                 $response['stat']='success';
-                $response['msg']='Section information successfully updated.';
+                $response['msg']='Other Earnings successfully updated.';
+
                 $response['row_updated']=$this->TemporaryOtherEarnings_model->get_list($oe_regular_id,
                     'new_otherearnings_regular.*,employee_list.*,CONCAT(employee_list.first_name," ",middle_name," ",employee_list.last_name) as full_name,refotherearnings.earnings_desc,refotherearningstype.earnings_type_desc',
                     array(
@@ -192,15 +213,4 @@ class TemporaryOtherEarnings extends CORE_Controller
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 }

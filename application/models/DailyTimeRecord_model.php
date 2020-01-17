@@ -29,18 +29,27 @@ class DailyTimeRecord_model extends CORE_Model {
     }
 
     function getwithoutdtr($pay_period_id) {
-        $query = $this->db->query('SELECT 
-            employee_list.*, ref_department.department 
-            FROM employee_list 
-            LEFT JOIN emp_rates_duties ON 
-            employee_list.employee_id=emp_rates_duties.employee_id
-            LEFT JOIN ref_department ON 
-            emp_rates_duties.ref_department_id=ref_department.ref_department_id
-            WHERE employee_list.emp_rates_duties_id!=0 
-            AND emp_rates_duties.active_rates_duties=1 
-            AND employee_list.is_retired!=1 
-            AND employee_list.employee_id IN(SELECT employee_id FROM schedule_employee WHERE pay_period_id ='.$pay_period_id.')
-            AND employee_list.employee_id NOT IN(SELECT employee_id FROM daily_time_record WHERE pay_period_id ='.$pay_period_id.') ORDER BY first_name ASC;');
+                        $query = $this->db->query("SELECT 
+                    employee_list.*, ref_department.department
+                FROM
+                    employee_list
+                        LEFT JOIN
+                    emp_rates_duties ON employee_list.employee_id = emp_rates_duties.employee_id
+                        LEFT JOIN
+                    ref_department ON emp_rates_duties.ref_department_id = ref_department.ref_department_id
+                WHERE
+                    employee_list.emp_rates_duties_id != 0
+                        AND emp_rates_duties.active_rates_duties = 1
+                        AND employee_list.is_retired != 1
+                        AND employee_list.status = 'Active'
+                        AND employee_list.is_deleted = 0
+                        AND employee_list.employee_id NOT IN (SELECT 
+                            employee_id
+                        FROM
+                            daily_time_record
+                        WHERE
+                            pay_period_id = $pay_period_id)
+                ORDER BY first_name ASC");
                 $query->result();
 
                 return $query->result();

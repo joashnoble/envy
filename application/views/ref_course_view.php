@@ -200,7 +200,9 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">*Course Name :</label>
+                                    <label class="boldlabel">
+                                        <i class="red">*</i> Course Name :
+                                    </label>
                                     <input type="text" class="form-control" id="course" name="course_degree" placeholder="Course Name" data-error-msg="Course name is Required!" required>
                                 </div>
                               </div>

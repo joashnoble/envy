@@ -203,7 +203,7 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">Compensation Type Name :</label>
+                                    <label class="boldlabel"><i class="red">*</i> Compensation Type Name :</label>
                                     <input type="text" class="form-control" id="compensation_type" name="compensation_type" placeholder="Compensation Type Name" data-error-msg="Compensation Type name is Required!" required>
                                 </div>
                               </div>

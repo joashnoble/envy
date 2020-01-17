@@ -94,8 +94,15 @@ class Users_model extends CORE_Model{
                                         //it will return whether it is true or false
     }
 
+    function check_username($user_name,$user_id){
+        $query=$this->db->query("SELECT * FROM user_accounts WHERE user_name ='$user_name' AND user_id !=".$user_id);
+        return $query->result();
+    }
 
-
+    function check_password($user_pword,$user_id){
+        $query=$this->db->query("SELECT * FROM user_accounts WHERE user_pword='".sha1($user_pword)."' AND user_id =".$user_id);
+        return $query->result();
+    }
 
 
 

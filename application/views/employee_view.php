@@ -158,6 +158,10 @@
             user-select:none;
             -o-user-select:none;
         }
+        .numeric{
+            text-align: right;
+        }
+        .red{ color: red!important; font-weight: bold!important; }
     </style>
 
 <?php echo $loaderscript; ?>
@@ -219,7 +223,7 @@
                                                 <th>Pin Number</th>
                                                 <th>Group</th>
                                                 <th>Status</th>
-                                                <th width="10%"><center>Action</center></th>
+                                                <th width="15%"><center>Action</center></th>
                                              </tr>
                                         </thead>
                                         <tbody>
@@ -228,10 +232,14 @@
                                 </div>
                                 <div class="panel-footer">
                                     <div class="col-sm-4 text-center" style="margin:0;padding:2px;">
-                                        <a href="Employee/transaction/export-employee-masterlist" style="width:350px;border-radius:7px;border-radius: 2em!important;" class="btn btn-success">EXPORT EMPLOYEE MASTERLIST TO EXCEL</a>
+                                        <a href="Employee/transaction/export-employee-masterlist" style="width:350px;border-radius:3px;border-radius: 2em!important;" class="btn btn-success">
+                                            <i class="fa fa-file-excel-o"></i> EXPORT EMPLOYEE MASTERLIST TO EXCEL
+                                        </a>
                                     </div>
                                     <div class="col-sm-4 text-center" style="margin:0;padding:2px;">
-                                        <a href="Employee/transaction/export-employee-rates-masterlist" style="width:350px;border-radius:7px;border-radius: 2em!important;" class="btn btn-success">EXPORT EMPLOYEE RATES &amp; DUTIES</a>
+                                        <button class="btn btn-success" id="generate_id" style="width:350px;border-radius:3px;border-radius: 2em!important;" class="btn btn-success">
+                                            <i class="fa fa-file-word-o"></i> GENERATE ID TEMPLATE
+                                        </button>
                                     </div>
                                     <div class="col-sm-4 text-center" style="margin:0;padding:2px;">
                                         <ted class="btn-success" style="padding: 8px 10px; border-radius: 2em;">
@@ -293,6 +301,7 @@
                                                         <div class="col-md-10" id="pin_panel">
                                                         <div class="col-md-3">
                                                              <label class="control-label boldlabel" style="text-align:left;">
+                                                                <span class="red">*</span>
                                                                 Pin Number
                                                             </label>
                                                         </div>
@@ -352,6 +361,22 @@
                                                                     <i class="fa fa-file-code-o"></i>
                                                                  </span>
                                                                 <input type="text" name="last_name" class="form-control" value="" data-error-msg="Last Name is required!" required>
+                                                                </div>
+                                                          </div>
+                                                        </div>
+                                                        <div class="col-md-10">
+                                                        <div class="col-md-3">
+                                                             <label class="control-label boldlabel" style="text-align:left;">
+                                                                Nickname
+                                                            </label>
+                                                        </div>
+                                                          <div class="form-group">
+
+                                                                <div class="input-group">
+                                                                <span class="input-group-addon">
+                                                                    <i class="fa fa-file-code-o"></i>
+                                                                 </span>
+                                                                <input type="text" name="nick_name" class="form-control" value="" data-error-msg="Nick Name is required!">
                                                                 </div>
                                                           </div>
                                                         </div>
@@ -575,7 +600,7 @@
                                                               <label class="control-label boldlabel" style="text-align:left;"><i class="fa fa-user" aria-hidden="true"></i> Employee Image</label>
                                                                 <hr style="margin-top:0px !important;height:1px;background-color:black;"></hr>
                                                         </div>
-                                                        <div style="width:100%; height:100%; padding-bottom: 10px;border:2px solid #34495e;border-radius:5px;">
+                                                        <div style="width:100%; height:100%; padding-bottom: 10px;border:2px solid #34495e;border-radius:5px;margin-bottom: 10px!important;">
                                                         <center><img name="img_user" id="img_user" src="assets/img/anonymous-icon.png" height="130px;" width="130px;"></img></center>
                                                         <hr style="margin-top:0px !important;height:1px;background-color:black;"></hr>
                                                         <center>
@@ -584,6 +609,37 @@
                                                              <input type="file" name="file_upload[]" class="hidden">
 
                                                     </div>
+
+                                                    <div class="col-md-12">
+                                                              <label class="control-label boldlabel" style="text-align:left;"><i class="fa fa-user" aria-hidden="true"></i> Signature</label> | 
+
+                                                             <input type="checkbox" id="is_admin_active" name="is_admin_active">
+                                                             <label for="is_admin_active">Active Admin</label>
+
+
+                                                                <hr style="margin-top:0px !important;height:1px;background-color:black;"></hr>
+                                                        </div>
+                                                        <div style="width:100%; height:30%; padding-bottom: 10px;border:2px solid #34495e;border-radius:5px;">
+                                                        <center>
+
+                                                            <img name="img_sig" id="img_sig" src="assets/img/signature/default.png" style="width: 90%;height: 90%;">
+
+                                                        </center>
+                                                        <hr style="margin-top:0px !important;height:1px;background-color:black;"></hr>
+                                                        <center>
+                                                            
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                 <button type="button" id="btn_browse_sig" style="width:100%;" class="btn btn-primary">Browse</button>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <button type="button" id="btn_remove_photo_sig" style="width:100%;" class="btn btn-danger">Remove</button>
+                                                                <input type="file" name="file_upload_sig[]" class="hidden">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
 
                                                     </div> <!--end of 1st date entry -->
 
@@ -799,7 +855,7 @@
                                                         </div>
 
                                                         <div class="col-md-2">
-                                                             <label class="control-label boldlabel" style="text-align:left;">Health ID:</label>
+                                                             <label class="control-label boldlabel" style="text-align:left;">Helath ID:</label>
                                                         </div>
                                                         <div class="col-md-3.5">
                                                           <div class="form-group">
@@ -1110,9 +1166,9 @@
                                                     <thead>
                                                             <th>Name</th>
                                                             <th>Relationship</th>
-                                                            <th>Contact #1</th>
-                                                            <th>Contact #2</th>
+                                                            <th>Contact</th>
                                                             <th>Address</th>
+                                                            <th>Status</th>
                                                             <th><center>Action</center></th>
                                                          </tr>
                                                     </thead>
@@ -1142,7 +1198,7 @@
                                     </div>
                                 <div class="panel-footer">
                                     <div class="row">
-                                        <div class="col-sm-9 col-sm-offset-3">
+                                        <div class="col-sm-12">
                                             <button id="btn_save" class="btn-primary btn" style="text-transform: capitalize;"><span></span>Save Changes</button>
                                             <button id="btn_cancelempfields" class="btn-default btn" style="text-transform: capitalize;">Cancel</button>
                                         </div>
@@ -1406,7 +1462,7 @@
                         <div class="modal-header" style="background-color:#2c3e50;">
                             <button type="button" class="close" style="color:white;"  data-dismiss="modal" aria-hidden="true">X</button>
                             <center><h3 class="modal-title" style="color:white;font-weight:450;"><datafullname id="datafullname"></datafullname></h3>
-                            <h5  class="modal-title" style="color:white;font-size:15px;">[ ECODE : <dataecode id="dataecode"></dataecode> ] [ ECODE : <datapinnumber id="datapinnumber"></datapinnumber> ][ ID : <dataid id="dataid"></dataid> ]</h5></center>
+                            <h5  class="modal-title" style="color:white;font-size:15px;">[ ECODE : <dataecode id="dataecode"></dataecode> ] [ PIN : <datapinnumber id="datapinnumber"></datapinnumber> ][ ID : <dataid id="dataid"></dataid> ]</h5></center>
                         </div>
 
                         <div class="modal-body">
@@ -1484,6 +1540,7 @@
                         <div class="modal-footer">
                             <button id="donwload_bcode" type="button" class="btn btn-primary">Download Barcode</button>
                             <button id="print_barcode" type="button" class="btn btn-success">Print Barcode</button>
+                            <button id="print_id" type="button" class="btn btn-success">Print ID Template</button>
                             <button id="" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -1550,6 +1607,39 @@
                     </div>
                 </div>
             </div>
+
+            <div id="modal_password_confirmation" class="modal fade" tabindex="-1" role="dialog"><!--modal-->
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close"   data-dismiss="modal" aria-hidden="true">X</button>
+                            <h4 class="modal-title"><span id="modal_mode"> </span> <i class="fa fa-lock"></i> Generate Default Password</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row">
+                                    
+                                <img src="assets/img/question_mark.png" style="width: 50px; position: absolute;margin-left: 30px;margin-top: 8px;"> 
+                                <p id="modal-body-message" style="font-size: 12pt;width: 80%;font-weight: normal!important;margin-left: 100px; font-weight: 400;margin-top: 10px;">Are you sure you want to generate default password of <emp id="empname1"></emp>?</p>
+
+                            </div>
+                            <div class="row" style="margin-top: 10px;">
+                                
+                            <center>
+                                <span style="font-size: 9pt;color: red;">
+                                    <b>Note :</b> This will remove the existing password of the employee and update to default password (prime_'Ecode')
+                                </span>
+                            </center>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button id="btn_yes_generate" type="button" class="btn btn-success" data-dismiss="modal">Generate</button>
+                            <button id="btn_close" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>       
 
             <div id="modal_email_confirmation" class="modal fade" tabindex="-1" role="dialog"><!--modal-->
                 <div class="modal-dialog modal-md">
@@ -1824,23 +1914,23 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">Course Degree :</label>
-                                    <select class="form-control ref_course_degree_id" id="ref_course_degree_id" name="ref_course_degree_id" id="sel1">   
-                                            <option value="0">[ Create Course/Degree ]</option>
-                                            <?php
-                                                                foreach($ref_course_degree as $row)
-                                                                {
-                                                                    echo '<option value="'.$row->ref_course_degree_id  .'">'.$row->course_degree.'</option>';
-                                                                }
-                                                                ?>
-                                          </select>
+                                    <label class="boldlabel"><i class="red">*</i> Course Degree :</label>
+                                    <select class="form-control ref_course_degree_id" id="ref_course_degree_id" name="ref_course_degree_id" id="sel1" required data-error-msg="Course/Degree is required!"> 
+                                        <option value="">Select Course / Degree</option>  
+                                        <option value="new">[ Create New Course/Degree ]</option>
+                                        <?php foreach($ref_course_degree as $row) { ?>
+                                            <option value="<?php echo $row->ref_course_degree_id; ?>">
+                                                <?php echo $row->course_degree; ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                               </div>
                             </div><br>
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">Year Graduate :</label>
+                                    <label class="boldlabel"><i class="red">*</i> Year Graduate :</label>
                                     <input type="text" class="form-control date-picker" id="year_graduate" name="year_graduate" data-error-msg="Year Graduate is Required!" placeholder="Year Graduate" required>
                                 </div>
                               </div>
@@ -1977,7 +2067,7 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">Name :</label>
+                                    <label class="boldlabel"><font style="color: red; font-weight: bold;">*</font> Name :</label>
                                     <input type="text" class="form-control" id="name" name="name" data-error-msg="Name is Required!" placeholder="Name" required>
                                 </div>
                               </div>
@@ -2002,16 +2092,16 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">Contact # 1 :</label>
-                                    <input type="text" class="form-control" id="contact_number_one" name="contact_number_one" data-error-msg="Contact #1 is Required!" placeholder="Contact 1" required>
+                                    <label class="boldlabel"><font style="color: red; font-weight: bold;">*</font> Contact:</label>
+                                    <input type="text" class="form-control" id="contact_number_one" name="contact_number_one" data-error-msg="Contact #1 is Required!" placeholder="Contact" required>
                                 </div>
                               </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="display: none;">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
                                     <label class="boldlabel">Contact # 2 :</label>
-                                    <input type="text" class="form-control" id="contact_number_two" name="contact_number_two" data-error-msg="Contact #2 is Required!" placeholder="Contact 2" required>
+                                    <input type="text" class="form-control" id="contact_number_two" name="contact_number_two" data-error-msg="Contact #2 is Required!" placeholder="Contact 2">
                                 </div>
                               </div>
                             </div>
@@ -2019,7 +2109,15 @@
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
                                     <label class="boldlabel">Address :</label>
-                                    <input type="text" class="form-control" id="address" name="address" data-error-msg="Address is Required!" placeholder="Address" required>
+                                    <input type="text" class="form-control" id="address" name="address" data-error-msg="Address is Required!" placeholder="Address">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="form-group" style="margin-bottom:0px;">
+                                    <label class="boldlabel">Status :</label>
+                                    <input type="checkbox" id="ec_is_active" style="text-align: left!important;width: 20px;height: 20px;"><label for="ec_is_active" style="font-size: 13pt;">Active</label>
                                 </div>
                               </div>
                             </div>
@@ -2231,35 +2329,62 @@
                         <div class="modal-body">
                             <div class="container-fluid">
                                 <div class="col-md-12">
-                                <h3 class="boldlabel"><span class="fa fa-circle fa-lg"></span> <text id="employment_type"></text></h3>
-                                <p class="boldlabel">[ Position : <text id="position"> </text>] [ Department : <text id="department"></text>]</p>
-                                <hr style="height:1px;background-color:black;"></hr>
+                                    <h3 class="boldlabel"><span class="fa fa-circle fa-lg"></span> <text id="employment_type"></text></h3>
+                                    <p class="boldlabel">[ Position : <text id="position"> </text>] [ Department : <text id="department"></text>]</p>
+                                    <hr style="height:1px;background-color:black;">
                                 </div>
-
                                 <div class="col-md-12">
 
-                                <div class="col-md-4"><p class="nomargin"><b>Date Start</b> : <text id="date_start"></p>
-                                <p class="nomargin"><b>Date End</b> : <text id="date_end"></text></p>
-                                <p class="nomargin"><b>Section</b> : <text id="section"></text></p>
-                                <p class="nomargin"><b>Group</b> : <text id="group"></text></p>
-                                <p class="nomargin"><b>Branch</b> : <text id="branch"></text></p>
-                                <p class="nomargin"><b>Payment Type</b> : <text id="payment_type"></text></p>
-                                <p class="nomargin"><b>Level</b> : <text id="level"></text></p>
+
+                                        <table width="100%" cellpadding="3" cellspacing="3">
+                                            <tr>
+                                                <td><b>Date Start</b> :</td>
+                                                <td><text id="date_start"></text></td>
+                                                <td><b>Salary Reg Rates :</b></td>
+                                                <td align="right"><text id="salary_reg_rates"></text></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Date End</b> :</td>
+                                                <td><text id="date_end"></text></td>
+                                                <td><b>Daily Rate </b> :</td>
+                                                <td align="right"><text id="daily_rate"></text></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Section</b> :</td>
+                                                <td><text id="section"></text></td>
+                                                <td><b>Rate Factor </b> :</td>
+                                                <td align="right"><text id="daily_rate_factor"></text></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Group</b> :</td>
+                                                <td><text id="group"></text></td>
+                                                <td><b>SSS PHIC Salary Credit</b> : </td>
+                                                <td align="right"><text id="sss_phic_salary_credit"></text></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Branch</b> :</td>
+                                                <td><text id="branch"></text></td>
+                                                <td><b>Philhealth Salary Credit</b> :</td>
+                                                <td align="right"><text id="philhealth_salary_credit"></text></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Payment Type</b> :</td>
+                                                <td><text id="payment_type"></text></td>
+                                                <td><b>Pagibig Salary Credit</b> :</td>
+                                                <td align="right"><text id="pagibig_salary_credit"></text></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Level</b> :</td>
+                                                <td><text id="level"></text></td>
+                                                <td><b>Tax Shield</b> :</td>
+                                                <td align="right"><text id="tax_shield"></text></td>
+                                            </tr>
+                                        </table>
                                 </div>
-                                <div class="col-md-4">
-                                <p class="nomargin"><b>Salary Reg Rates :</b><text id="salary_reg_rates"></text></p>
-                                <p class="nomargin"><b>Daily Rate :</b> :<text id="daily_rate"></text></p>
-                                <p class="nomargin"><b>Rate Factor </b> :<text id="daily_rate_factor"></text> </p>
-                                <p class="nomargin"><b>SSS PHIC Salary Credit</b> :<text id="sss_phic_salary_credit"></text></p>
-                                <p class="nomargin"><b>Philhealth Salary Credit</b> :<text id="philhealth_salary_credit"></text></p>
-                                <p class="nomargin"><b>Pagibig Salary Credit</b> :<text id="pagibig_salary_credit"></text></p>
-                                <p class="nomargin"><b>Tax Shield</b> :<text id="tax_shield"></text></p>
+                                <div class="col-md-12">
+                                    <p class="nomargin"><b>Remarks :</b><br><text id="remarks"></text><br></p>
                                 </div>
-                                <div class="col-md-4">
-                                <p class="nomargin"><b>Remarks :</b><br><text id="remarks"></text><br></p>
-                                </div>
-                                </div>
-                                </div>
+                            </div>
                         </div>
 
                         <div class="modal-footer" style="padding:10px;">
@@ -2280,25 +2405,27 @@
                         <div class="modal-body">
                             <div class="container-fluid">
                                 <div class="col-md-12">
-                                <h3 class="boldlabel"><span class="fa fa-circle fa-lg"></span> <text id="leave_type"></text></h3>
-                                <p class="boldlabel">[ Shortname : <text id="leave_type_short_name"> </text>]</p>
-                                <hr style="height:1px;background-color:black;"></hr>
+                                    <h3 class="boldlabel"><span class="fa fa-circle fa-lg" id="leave_entitlement_icon"></span> <text id="leave_type"></text></h3>
+                                    <p class="boldlabel">[ Shortname : <text id="leave_type_short_name"> </text>]</p>
+                                    <hr style="height:1px;background-color:black;">
                                 </div>
-
                                 <div class="col-md-12">
-
-                                <div class="col-md-6">
-                                <p class="nomargin"><b>Payable</b> : <text id="is_payable_detail"></text></p>
-                                <p class="nomargin"><b>Forwardable</b> : <text id="is_forwardable_detail"></text></p>
-                                <p class="nomargin"><b>Total Grant</b> : <text id="total_grant_detail"></text></p>
-                                <p class="nomargin"><b>Received Balance</b> : <text id="received_balance_detail"></text></p>
-                                <p class="nomargin"><b>Current Balance</b> : <text id="current_balance_detail"></text></p>
+                                    <div class="col-md-6">
+                                        <p class="nomargin"><b>Payable</b> : <text id="is_payable_detail"></text></p>
+                                        <p class="nomargin"><b>Forwardable</b> : <text id="is_forwardable_detail"></text></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="nomargin"><b>Total Grant</b> : <text id="total_grant_detail"></text></p>
+                                        <p class="nomargin"><b>Received Balance</b> : <text id="received_balance_detail"></text></p>
+                                        <p class="nomargin"><b>Current Balance</b> : <text id="current_balance_detail"></text></p>
+                                    </div>
                                 </div>
-                                <div class="col-md-4">
-                                <p class="nomargin"><b>Remarks :</b><br><text id="remark"></text><br></p>
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <p class="nomargin"><b>Remarks :</b><br><text id="leave_entitlement_remark"></text><br></p>
+                                    </div>
                                 </div>
-                                </div>
-                                </div>
+                            </div>
                         </div>
 
                         <div class="modal-footer" style="padding:10px;">
@@ -2343,143 +2470,142 @@
                             <form id="frm_ratesandduties">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <div class="form-group" style="margin-bottom:2px; !important">
-                                          <label class="boldlabel" style="margin-bottom:0px;">* Employee Type:</label>
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                          <label class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Employee Type:</label>
                                           <select class="form-control" id="ref_employment_type_id" name="ref_employment_type_id" id="sel1" data-error-msg="Employee Type is Required!" required>
-                                            <option value="0">[ Create Employment Type ]</option>
-                                            <?php
-                                                                foreach($ref_emptype as $row)
-                                                                {
-                                                                    echo '<option value="'.$row->ref_employment_type_id  .'">'.$row->employment_type.'</option>';
-                                                                }
-                                                                ?>
+                                            <option value="">Select Employment</option>
+                                            <option value="new">[ Create New Employment Type ]</option>
+                                            <?php foreach($ref_emptype as $row) { ?>
+                                                <option value="<?php echo $row->ref_employment_type_id; ?>">
+                                                    <?php echo $row->employment_type; ?>
+                                                </option>
+                                            <?php } ?>
                                           </select>
                                         </div>
-                                        <div class="form-group" style="margin-bottom:2px; !important">
-                                          <label class="boldlabel" style="margin-bottom:0px;">* Department:</label>
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                          <label class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Department:</label>
                                           <select class="form-control" id="ref_department_id" name="ref_department_id" id="sel1" data-error-msg="Department is Required!" required>
-                                            <option value="0">[ Create Department ]</option>
-                                           <?php
-                                                                foreach($ref_department as $row)
-                                                                {
-                                                                    echo '<option value="'.$row->ref_department_id  .'">'.$row->department.'</option>';
-                                                                }
-                                                                ?>
+                                            <option value="">Select Department</option>
+                                            <option value="new">[ Create New Department ]</option>
+                                            <?php foreach($ref_department as $row) { ?>
+                                                <option value="<?php echo $row->ref_department_id; ?>">
+                                                    <?php echo $row->department; ?>
+                                                </option>
+                                            <?php } ?>
                                           </select>
                                         </div>
-                                        <div class="form-group" style="margin-bottom:2px; !important">
-                                          <label class="boldlabel" style="margin-bottom:0px;">* Position:</label>
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                          <label class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Position:</label>
                                           <select class="form-control" id="ref_position_id" name="ref_position_id" id="sel1" data-error-msg="Position is Required!" required>
-                                            <option value="0">[ Create Position Type ]</option>
-                                            <?php
-                                                                foreach($ref_position as $row)
-                                                                {
-                                                                    echo '<option value="'.$row->ref_position_id  .'">'.$row->position.'</option>';
-                                                                }
-                                                                ?>
+                                            <option value="">Select Position</option>
+                                            <option value="new">[ Create New Position ]</option>
+                                            <?php foreach($ref_position as $row) { ?>
+                                                <option value="<?php echo $row->ref_position_id; ?>">
+                                                    <?php echo $row->position; ?>
+                                                </option>
+                                            <?php } ?>
                                           </select>
                                         </div>
-                                        <div class="form-group" style="margin-bottom:2px; !important">
-                                          <label class="boldlabel" style="margin-bottom:0px;">* Branch:</label>
-                                          <select class="form-control"  id="ref_branch_id" name="ref_branch_id" id="sel1" data-error-msg="Branch is Required!" required>
-                                            <option value="0">[ Create Branch ]</option>
-                                            <?php
-                                                                foreach($ref_branch as $row)
-                                                                {
-                                                                    echo '<option value="'.$row->ref_branch_id  .'">'.$row->branch.'</option>';
-                                                                }
-                                                                ?>
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                          <label class="boldlabel" style="margin-bottom:0px;"> Branch:</label>
+                                          <select class="form-control"  id="ref_branch_id" name="ref_branch_id" id="sel1">
+                                            <option value="">Select Branch</option>
+                                            <option value="new">[ Create New Branch ]</option>
+                                            <?php foreach($ref_branch as $row) { ?>
+                                                <option value="<?php echo $row->ref_branch_id; ?>">
+                                                    <?php echo $row->branch; ?>
+                                                </option>
+                                            <?php } ?>
                                           </select>
                                         </div>
-                                        <div class="form-group" style="margin-bottom:2px; !important">
-                                          <label class="boldlabel" style="margin-bottom:0px;">* Section:</label>
-                                          <select class="form-control" id="ref_section_id"  name="ref_section_id" id="sel1" data-error-msg="Section is Required!" required>
-                                            <option value="0">[ Create Section ]</option>
-                                            <?php
-                                                                foreach($ref_section as $row)
-                                                                {
-                                                                    echo '<option value="'.$row->ref_section_id  .'">'.$row->section.'</option>';
-                                                                }
-                                                                ?>
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                          <label class="boldlabel" style="margin-bottom:0px;">Section:</label>
+                                          <select class="form-control" id="ref_section_id" name="ref_section_id" id="sel1">
+                                            <option value="">Select Section</option>
+                                            <option value="new">[ Create New Section ]</option>
+                                            <?php foreach($ref_section as $row) { ?>
+                                                <option value="<?php echo $row->ref_section_id; ?>">
+                                                    <?php echo $row->section; ?>
+                                                </option>
+                                            <?php } ?>
                                           </select>
                                         </div>
-                                        <div class="form-group" style="margin-bottom:2px; !important">
-                                          <label class="boldlabel" style="margin-bottom:0px;">* Group:</label>
-                                          <select class="form-control" id="group_id"  name="group_id" id="sel1" data-error-msg="Group is Required!" required>
-                                            <option value="0">[ Create Group Type ]</option>
-                                            <?php
-                                                                foreach($ref_group as $row)
-                                                                {
-                                                                    echo '<option value="'.$row->group_id  .'">'.$row->group_desc.'</option>';
-                                                                }
-                                                                ?>
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                          <label class="boldlabel" style="margin-bottom:0px;">Group:</label>
+                                          <select class="form-control" id="group_id"  name="group_id" id="sel1">
+                                            <option value="">Select Group</option>
+                                            <option value="new">[ Create New Group ]</option>
+                                            <?php foreach($ref_group as $row) { ?>
+                                                <option value="<?php echo $row->group_id; ?>">
+                                                    <?php echo $row->group_desc; ?>
+                                                </option>
+                                            <?php } ?>
                                           </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <div class="form-group" style="margin-bottom:2px; !important">
+                                                <div class="form-group" style="margin-bottom:2px!important;">
                                                   <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">Date Start:</label>
                                                   <input type="text" name="date_start" class="date-picker form-control" value="" placeholder="Date Start" data-error-msg="Date Start is required!">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="form-group" style="margin-bottom:2px; !important">
+                                                <div class="form-group" style="margin-bottom:2px!important;">
                                                   <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">Date End:</label>
                                                   <input type="text" name="date_end" class="date-picker form-control" value="" placeholder="Date End" data-error-msg="Date End is required!">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group" style="margin-bottom:2px; !important">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
                                           <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">Duration:</label>
                                           <select name="duration_id" id="duration" class="form-control" data-error-msg="Duration is required!">
                                             <option value="0">None</option>
-                                                <?php
-                                                    foreach($ref_duration as $row)
-                                                    {
-                                                        echo '<option value="'.$row->duration_id.'" data-no="'.$row->no_of_duration.'" data-duration-type="'.$row->duration_type.'">'.$row->duration_desc.'</option>';
-                                                    }
-                                                ?>
+                                                <?php foreach($ref_duration as $row) { ?>
+                                                    <option value="<?php echo $row->duration_id; ?>" data-no="<?php echo $row->no_of_duration; ?>" data-duration-type="<?php echo $row->duration_type; ?>">
+                                                        <?php echo $row->duration_desc; ?>
+                                                    </option>
+                                                <?php } ?>
                                           </select>
                                         </div>
-                                        <div class="form-group" style="margin-bottom:2px; !important">
-                                          <label class="boldlabel" style="margin-bottom:0px;">* Pay Type:</label>
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                          <label class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Pay Type:</label>
                                           <select class="form-control" id="ref_payment_type_id" name="ref_payment_type_id" id="sel1" data-error-msg="Payment Type is Required!" required>
-                                            <option value="0">[ Create Payment Type ]</option>
-                                          <?php
-                                                                foreach($ref_payment as $row)
-                                                                {
-                                                                    echo '<option id="'.$row->pay_type_factor.'" value="'.$row->ref_payment_type_id  .'">'.$row->payment_type.'</option>';
-                                                                }
-                                                                ?>
+                                            <option value="">Select Payment Type</option>
+                                            <!-- <option value="new">[ Create New Payment Type ]</option> -->
+                                                <?php foreach($ref_payment as $row) { ?>
+                                                    <option id="<?php echo $row->pay_type_factor; ?>" value="<?php echo $row->ref_payment_type_id; ?>">
+                                                        <?php echo $row->payment_type; ?>
+                                                    </option>
+                                                <?php } ?>
                                             </select>
                                         </div>
-                                        <div class="form-group" style="margin-bottom:2px; !important">
-                                          <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">* Hours Per Day:</label>
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                          <label for="employeetype" class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Hours Per Day:</label>
                                           <input type="text" name="hour_per_day" id="hour_per_day" class="form-control numeric" placeholder="Hours Per Day" data-error-msg="Hours Per Day is required!" required>
                                         </div>
                                         <div class="form-group" style="margin-bottom:2px!important;" id="salaryregratespanel">
-                                          <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">* Salary Reg Rates:</label>
+                                          <label for="employeetype" class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Salary Reg Rates:</label>
                                           <input type="text" name="salary_reg_rates" id="salary_reg_rates_compute" class="form-control numeric" placeholder="Salary Reg Rates" data-error-msg="Basic Rate / Salary Reg Rates is required!" required>
                                         </div>         
 
                                         <div class="row" id="weeklyratespanel">
                                             <div class="col-md-6">
-                                                <div class="form-group" style="margin-bottom:2px; !important">
-                                                  <label for="employeetype" class="boldlabel" style="margin-bottom:0px;font-size: 9pt;">* Salary Reg Rates:</label>
+                                                <div class="form-group" style="margin-bottom:2px!important;">
+                                                  <label for="employeetype" class="boldlabel" style="margin-bottom:0px;font-size: 9pt;"><i class="red">*</i> Salary Reg Rates:</label>
                                                   <input type="text" name="salary_reg_rates" id="salary_reg_rates_compute_1" class="form-control numeric" placeholder="Salary Reg Rates" data-error-msg="Basic Rate / Salary Reg Rates is required!" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="form-group" style="margin-bottom:2px; !important">
-                                                  <label for="employeetype" class="boldlabel" style="margin-bottom:0px;font-size: 9pt;">* Monthly Salary:</label>
+                                                <div class="form-group" style="margin-bottom:2px!important;">
+                                                  <label for="employeetype" class="boldlabel" style="margin-bottom:0px;font-size: 9pt;"><i class="red">*</i> Monthly Salary:</label>
                                                   <input type="text" name="monthly_based_salary" id="monthly_based_salary" class="form-control numeric" placeholder="Monthly Based Salary" data-error-msg="Monthly Based Salary is required!">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="form-group" style="margin-bottom:2px; !important">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
                                           <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">Cola Per Hour:</label>
                                           <input type="text" name="cola_per_hour" class="form-control numeric" placeholder="Cola Per Hour" data-error-msg="Cola Per Hour is required!">
                                         </div>
@@ -2488,45 +2614,44 @@
                                     
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
+                                            <div class="form-group" style="margin-bottom:2px!important;">
                                               <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">Per Day</label>
-                                              <input type="text" name="per_day_pay" class="form-control numeric per_day_pay" data-error-msg="Per Day is required!" data-error-msg="Per Day is required!" readonly required>
+                                              <input type="text" name="per_day_pay" class="form-control numeric per_day_pay" placeholder="Per Day" data-error-msg="Per Day is required!" data-error-msg="Per Day is required!" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
+                                            <div class="form-group" style="margin-bottom:2px!important;">
                                               <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">Per Hour:</label>
-                                              <input type="text" name="per_hour_pay" class="form-control numeric per_hour_pay" placeholder="Factor" data-error-msg="Per Hour is required!" readonly required>
+                                              <input type="text" name="per_hour_pay" class="form-control numeric per_hour_pay" placeholder="Per Hour" data-error-msg="Per Hour is required!" required>
                                             </div>
                                         </div>
                                     </div>  
-
-                                    <div class="form-group" style="margin-bottom:2px!important;">
-                                          <label class="boldlabel" style="margin-bottom:0px;">Sunday Premium:</label>
-                                          <select class="form-control" id="sunday_premium" name="sunday_premium" id="sel1">
-                                            <option value="0">No</option>
-                                            <option value="1">Yes</option>
-                                          </select>
-                                    </div>
-                                        <div class="form-group" style="margin-bottom:2px; !important">
-                                          <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">SSS PHIC Salary Credit:</label>
-                                          <input type="text" name="sss_phic_salary_credit"class="form-control numeric" placeholder="SSS PHIC Salary Credit">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                              <label class="boldlabel" style="margin-bottom:0px;">Sunday Premium:</label>
+                                              <select class="form-control" id="sunday_premium" name="sunday_premium" id="sel1">
+                                                <option value="0">No</option>
+                                                <option value="1">Yes</option>
+                                              </select>
                                         </div>
-                                        <div class="form-group" style="margin-bottom:2px; !important">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                          <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">SSS Salary Credit:</label>
+                                          <input type="text" name="sss_phic_salary_credit"class="form-control numeric" placeholder="SSS Salary Credit">
+                                        </div>
+                                        <div class="form-group" style="margin-bottom:2px!important;">
                                           <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">PhilHealth Salary Credit:</label>
                                           <input type="text" name="philhealth_salary_credit"class="form-control numeric" placeholder="Philhealth Salary Credit">
                                         </div>
-                                        <div class="form-group" style="margin-bottom:2px; !important">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
                                           <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">Pag-Ibig Salary Credit:</label>
                                           <input type="text" name="pagibig_salary_credit" class="form-control numeric" placeholder="Pag-Ibig Salary Credit">
                                         </div>
-                                        <div class="form-group" style="margin-bottom:2px; !important">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
                                           <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">Tax Shield:</label>
                                           <input type="text" name="tax_shield" class="form-control numeric" placeholder="Tax Shield">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="form-group" style="margin-bottom:2px; !important">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
                                           <label for="employeetype" class="boldlabel" style="margin-bottom:0px;">Remarks:</label>
                                           <textarea type="text" name="remarks" class="form-control" placeholder="Remarks"></textarea>
                                         </div>
@@ -2557,29 +2682,26 @@
                             <form id="frm_entitlement">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group" style="margin-bottom:2px; !important">
-                                                  <label class="boldlabel" style="margin-bottom:0px;">Leave Type:</label>
-                                                  <select class="form-control" id="ref_leave_type_id" name="ref_leave_type_id" id="sel1" required>
-                                                    <option value="slt">[ Select Leave Type ]</option>
-                                                    <?php
-                                                                        foreach($ref_leave_type as $row)
-                                                                        {
-                                                                            echo '<option value="'.$row->ref_leave_type_id  .'">'.$row->leave_type.'</option>';
-                                                                        }
-                                                                        ?>
-                                                  </select>
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                          <label class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Leave Type:</label>
+                                          <select class="form-control" id="ref_leave_type_id" name="ref_leave_type_id" id="sel1" required data-error-msg="Leave Type is required!">
+                                            <option value="">[ Select Leave Type ]</option>
+                                            <?php foreach($ref_leave_type as $row) {
+                                                echo '<option value="'.$row->ref_leave_type_id  .'">'.$row->leave_type.'</option>';
+                                            } ?>
+                                          </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group" style="margin-bottom:2px; !important">
-                                                  <label class="boldlabel" style="margin-bottom:0px;">Short Name:</label>
-                                                  <input type="text" class="form-control" placeholder="Short Name" disabled>
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                                  <label class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Short Name:</label>
+                                                  <input type="text" name="leave_type_short_name" id="ref_leave_type_short_name" class="form-control" placeholder="Short Name" required data-error-msg="Short Name for Leave is required!">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group" style="margin-bottom:2px; !important">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
                                             <div class="checkbox" style="margin-top:25px;">
                                                  <label><input id="payable" type="checkbox" value=""><b>Is Payable?</b></label>
                                                  <label style="margin-left:20px;"><input id="forwardable" type="checkbox" value=""><b>Is Forwardable?</b></label>
@@ -2587,23 +2709,31 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group" style="margin-bottom:2px; !important">
-                                            <label class="boldlabel">Total Grant :</label>
-                                            <input type="text" class="form-control numeric" id="total_grant" name="total_grant" placeholder="Total Grant" data-error-msg="Total Grant is Required!">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                            <label class="boldlabel"><i class="red">*</i> Total Grant :</label>
+                                            <input type="text" class="form-control numeric" id="total_grant" name="total_grant" placeholder="Total Grant" data-error-msg="Total Grant is Required!" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group" style="margin-bottom:2px; !important">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
                                             <label class="boldlabel">Received Balance :</label>
                                             <input type="text" class="form-control numeric" id="received_balance" name="received_balance" placeholder="Total Grant" data-error-msg="Received Balance is Required!" required readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group" style="margin-bottom:2px; !important">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
                                             <label class="boldlabel">Current Balance :</label>
                                             <input type="text" class="form-control numeric" id="current_balance" name="current_balance" placeholder="Current Balance" data-error-msg="Current Balance is Required!" required readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                            <label class="boldlabel">Remarks :</label>
+                                            <textarea class="form-control" id="leave_entitlement_remarks" name="remark" placeholder="Remarks"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -2628,70 +2758,88 @@
                         </div>
 
                         <div class="modal-body">
+
                             <form id="frm_apply_leave">
                                 <div class="row">
                                     <div class="col-md-12">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                                  <label class="boldlabel" style="margin-bottom:0px;">Leave Type:</label>
-                                                  <availleavetype id="showavailableleave2select"></availleavetype>
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                              <label class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Leave Type:</label>
+                                              <availleavetype id="showavailableleave2select"></availleavetype>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                            <label for="Current Balance" class="boldlabel" style="margin-bottom:0px;">Current Balance:</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                <i class="fa fa-file-code-o"></i></span>
+                                                <input type="text" class="form-control numeric" name="current_balance" id="apply_current_balance" placeholder="Current Balance" style="text-align: right;" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                            <label for="Purpose" class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Total Leave:</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                <i class="fa fa-file-code-o"></i></span>
+                                                <input type="text" class="form-control numeric" name="total" id="apply_total" placeholder="Total Leave" required data-error-msg="Total is required!" style="text-align: right;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
                                             <div class="form-group" style="margin-bottom:10px;margin-top:10px;">
-                                                    <label class="boldlabel" style="margin-bottom:0px;">Date Filed:</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">
-                                                        <i class="fa fa-file-code-o"></i></span>
-                                                            <input type="text" name="date_filed" class="date-picker form-control" value="" placeholder="Date Filed" data-error-msg="Date Filed is required!" required>
-                                                    </div>
+                                                <label class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Date Filed:</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i></span>
+                                                        <input type="text" name="date_filed" class="date-picker form-control" value="" placeholder="Date Filed" data-error-msg="Date Filed is required!" required>
+                                                </div>
                                             </div>
                                     </div>
                                     <div class="col-md-6">
                                             <div class="form-group" style="margin-bottom:10px;">
-                                                    <label class="boldlabel" style="margin-bottom:0px;margin-top:10px;">Date Granted:</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">
-                                                        <i class="fa fa-file-code-o"></i></span>
-                                                            <input type="text" name="date_granted" class="date-picker form-control" value="" placeholder="Date Granted" data-error-msg="Date Granted is required!" required>
-                                                    </div>
+                                                <label class="boldlabel" style="margin-bottom:0px;margin-top:10px;"><i class="red">*</i> Date Granted:</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i></span>
+                                                        <input type="text" name="date_granted" class="date-picker form-control" value="" placeholder="Date Granted" data-error-msg="Date Granted is required!" required>
+                                                </div>
                                             </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                            <div class="form-group" style="margin-bottom:10px;">
-                                                    <label class="boldlabel" style="margin-bottom:0px;">From:</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">
-                                                        <i class="fa fa-file-code-o"></i></span>
-                                                            <input type="text" name="date_time_from" class="date-picker form-control" value="" placeholder="From Date" data-error-msg="From Date is required!" required>
-                                                    </div>
+                                                <label class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> From:</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i></span>
+                                                        <input type="text" name="date_time_from" class="date-picker form-control" value="" placeholder="From Date" data-error-msg="From Date is required!" required>
+                                                </div>
                                             </div>
                                     </div>
                                     <div class="col-md-6">
                                              <div class="form-group" style="margin-bottom:10px;">
-                                                    <label class="boldlabel" style="margin-bottom:0px;">To:</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">
-                                                        <i class="fa fa-file-code-o"></i></span>
-                                                            <input type="text" name="date_time_to" class="date-picker form-control" value="" placeholder="To Date" data-error-msg="To Date is required!" required>
-                                                    </div>
+                                                <label class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> To:</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i></span>
+                                                        <input type="text" name="date_time_to" class="date-picker form-control" value="" placeholder="To Date" data-error-msg="To Date is required!" required>
+                                                </div>
                                             </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                                <label for="Purpose" class="boldlabel" style="margin-bottom:0px;">Total:</label>
-                                                <input type="text" class="form-control numeric" name="total" placeholder="total">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
+                                        <div class="col-md-12">
+                                            <div class="form-group" style="margin-bottom:2px!important;">
                                                 <label for="Purpose" class="boldlabel" style="margin-bottom:0px;">Purpose:</label>
-                                                <textarea type="text" name="purpose" class="form-control" placeholder="Purpose" required></textarea>
+                                                <textarea type="text" name="purpose" class="form-control" placeholder="Purpose" data-error-msg="Purpose is required!"></textarea>
                                             </div>
                                         </div>
                                 </div>
@@ -2719,57 +2867,57 @@
                             <form id="frm_memo">
                                 <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                                <label for="Purpose" class="boldlabel" style="margin-bottom:0px;">Date:</label>
-                                                <input type="text" name="date_memo" class="date-picker form-control" value="" placeholder="Date of Memo" data-error-msg="Date is required!" required>
+                                            <div class="form-group" style="margin-bottom:2px!important;">
+                                                <label for="Purpose" class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Date:</label>
+                                                <input type="text" name="date_memo" class="date-picker form-control" value="" placeholder="Date of Memo is required!" data-error-msg="Date is required!" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                                <label for="Memo #" class="boldlabel" style="margin-bottom:0px;">Memo #:</label>
-                                                <input type="text" class="form-control" name="memo_number" placeholder="Memo #" required>
+                                            <div class="form-group" style="margin-bottom:2px!important;">
+                                                <label for="Memo #" class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Memo #:</label>
+                                                <input type="text" class="form-control" name="memo_number" placeholder="Memo #" data-error-msg="Memo # is required!" required>
                                             </div>
                                         </div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                          <label class="boldlabel" style="margin-bottom:0px;">Disciplinary Action Policy:</label>
-                                          <select class="form-control" id="ref_disciplinary_action_policy_id" name="ref_disciplinary_action_policy_id" id="sel1"  data-error-msg="Displinary Action!" required>
-                                            <option value="0">[ Create Disciplinary Policy ]</option>
-                                            <?php
-                                                foreach($ref_disciplinary_action_policy as $row)
-                                                {
-                                                    echo '<option value="'.$row->ref_disciplinary_action_policy_id  .'">'.$row->disciplinary_action_policy.'</option>';
-                                                }
-                                            ?>
+                                    <div class="col-md-6">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                          <label class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Disciplinary Action Policy:</label>
+                                          <select class="form-control" id="ref_disciplinary_action_policy_id" name="ref_disciplinary_action_policy_id" id="sel1"  data-error-msg="Displinary Action is required!" required>
+                                            <option value="">Select New Disciplinary Action Policy</option>
+                                            <option value="new">[ Create Disciplinary Policy ]</option>
+                                            <?php foreach($ref_disciplinary_action_policy as $row) { ?>
+                                                <option value="<?php echo $row->ref_disciplinary_action_policy_id; ?>">
+                                                    <?php echo $row->disciplinary_action_policy; ?>
+                                                </option>
+                                            <?php } ?>
                                           </select>
                                         </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                          <label class="boldlabel" style="margin-bottom:0px;">Action Taken:</label>
-                                          <select class="form-control" id="ref_action_taken_id" name="ref_action_taken_id" id="sel1">
-                                            <option value="0">[ Create Action Taken ]</option>
-                                            <?php
-                                                foreach($ref_action_taken as $row)
-                                                {
-                                                    echo '<option value="'.$row->ref_action_taken_id  .'">'.$row->action_taken.'</option>';
-                                                }
-                                            ?>
+                                            <div class="form-group" style="margin-bottom:2px!important;">
+                                          <label class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Action Taken:</label>
+                                          <select class="form-control" id="ref_action_taken_id" name="ref_action_taken_id" id="sel1" data-error-msg="Action Taken is required!" required>
+                                            <option value="">Select Action Taken</option>
+                                            <option value="new">[ Create New Action Taken ]</option>
+                                            <?php foreach($ref_action_taken as $row) { ?>
+                                                <option value="<?php echo $row->ref_action_taken_id; ?>">
+                                                    <?php echo $row->action_taken; ?>
+                                                </option>
+                                            <?php } ?>
                                           </select>
                                         </div>
-                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                                <label for="Purpose" class="boldlabel" style="margin-bottom:0px;">Date Granted:</label>
+                                            <div class="form-group" style="margin-bottom:2px!important;">
+                                                <label for="Purpose" class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Date Granted:</label>
                                                 <input type="text" name="date_granted" class="date-picker form-control" value="" placeholder="Date Granted" data-error-msg="Date Granted is required!" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
+                                            <div class="form-group" style="margin-bottom:2px!important;">
                                                 <label for="Remarks" class="boldlabel" style="margin-bottom:0px;">Remarks:</label>
                                                 <textarea type="text" name="remarks" class="form-control" placeholder="Remarks"></textarea>
                                             </div>
@@ -2799,14 +2947,14 @@
                                 <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group" style="margin-bottom:2px!important;">
-                                                <label for="Purpose" class="boldlabel" style="margin-bottom:0px;">Date:</label>
+                                                <label for="Purpose" class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Date:</label>
                                                 <input type="text" name="date_commendation" class="date-picker form-control" value="" placeholder="Date of Memo" data-error-msg="Date is required!" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group" style="margin-bottom:2px!important;">
-                                                <label for="Memo #" class="boldlabel" style="margin-bottom:0px;">Memo #:</label>
-                                                <input type="text" class="form-control" name="memo_number" placeholder="Memo #" required>
+                                                <label for="Memo #" class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Memo #:</label>
+                                                <input type="text" class="form-control" name="memo_number" data-error-msg="Memo # is required!" placeholder="Memo #" required>
                                             </div>
                                         </div>
                                 </div>
@@ -2840,69 +2988,70 @@
                         </div>
 
                         <div class="modal-body">
+
                             <form id="frm_seminarstraining">
                                 <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                                <label for="Date" class="boldlabel" style="margin-bottom:0px;">Date:</label>
-                                                <input type="text" name="date" class="date-picker form-control" value="" placeholder="Date of Seminar" data-error-msg="Date of Seminar is required!" required>
-                                            </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                            <label for="Date" class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Date:</label>
+                                            <input type="text" name="date" class="date-picker form-control" value="" placeholder="Date of Seminar" data-error-msg="Date of Seminar is required!" required>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                                <label for="Seminar Title" class="boldlabel" style="margin-bottom:0px;">Title:</label>
-                                                <input type="text" class="form-control" name="seminar_title" placeholder="Seminar Title " data-error-msg="Title of Seminar is required!" required>
-                                            </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                            <label for="Seminar Title" class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Title:</label>
+                                            <input type="text" class="form-control" name="seminar_title" placeholder="Seminar Title " data-error-msg="Title of Seminar is required!" required>
                                         </div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                                <label for="Given By" class="boldlabel" style="margin-bottom:0px;">Given By:</label>
-                                                <input type="text" class="form-control" name="given_by" placeholder="Give By" data-error-msg="Given By is required!" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                                <label for="Venue" class="boldlabel" style="margin-bottom:0px;">Venue:</label>
-                                                <input type="text" class="form-control" name="venue" placeholder="Venue" data-error-msg="Venue is required!" required>
-                                            </div>
-                                        </div>
-                                </div>
-                                <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                                <label for="Date From" class="boldlabel" style="margin-bottom:0px;">Date From:</label>
-                                                <input type="text" name="date_from" class="date-picker form-control" value="" placeholder="Date From" data-error-msg="Date From is required!" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                                <label for="Date To " class="boldlabel" style="margin-bottom:0px;">Date To:</label>
-                                                <input type="text" name="date_to" class="date-picker form-control" value="" placeholder="Date From" data-error-msg="Date To is required!" required>
-                                            </div>
-                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                            <label for="Given By" class="boldlabel" style="margin-bottom:0px;">Given By:</label>
+                                            <input type="text" class="form-control" name="given_by" placeholder="Give By" data-error-msg="Given By is required!">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                            <label for="Venue" class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Venue:</label>
+                                            <input type="text" class="form-control" name="venue" placeholder="Venue" data-error-msg="Venue is required!" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                            <label for="Date From" class="boldlabel" style="margin-bottom:0px;">Date From:</label>
+                                            <input type="text" name="date_from" class="date-picker form-control" value="" placeholder="Date From" data-error-msg="Date From is required!">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                            <label for="Date To " class="boldlabel" style="margin-bottom:0px;">Date To:</label>
+                                            <input type="text" name="date_to" class="date-picker form-control" value="" placeholder="Date From" data-error-msg="Date To is required!">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" style="margin-bottom:2px!important;">
                                           <label class="boldlabel" style="margin-bottom:0px;">Certificate:</label>
-                                          <select class="form-control" id="ref_certificate_id" name="ref_certificate_id" id="sel1" data-error-msg="Certificate is required!" required>
-                                            <option value="0">[ Create Seminars And Training ]</option>
-                                            <?php
-                                                                foreach($ref_certificate as $row)
-                                                                {
-                                                                    echo '<option value="'.$row->ref_certificate_id  .'">'.$row->certificate.'</option>';
-                                                                }
-                                                                ?>
+                                          <select class="form-control" id="ref_certificate_id" name="ref_certificate_id" id="sel1" data-error-msg="Certificate is required!">
+                                            <option value="">Select Certificate</option>
+                                            <option value="new">[ Create New Certificate ]</option>
+                                            <?php foreach($ref_certificate as $row) { ?>
+                                                <option value="<?php echo $row->ref_certificate_id; ?>">
+                                                    <?php echo $row->certificate; ?>
+                                                </option>
+                                            <?php } ?>
                                           </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                            <div class="form-group" style="margin-bottom:2px; !important">
-                                                <label for="Remarks" class="boldlabel" style="margin-bottom:0px;">Remarks:</label>
-                                                <textarea type="text" name="remarks" class="form-control" placeholder="Remarks"></textarea>
-                                            </div>
+                                        <div class="form-group" style="margin-bottom:2px!important;">
+                                            <label for="Remarks" class="boldlabel" style="margin-bottom:0px;">Remarks:</label>
+                                            <textarea type="text" name="remarks" class="form-control" placeholder="Remarks"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -2963,7 +3112,30 @@ $(document).ready(function(){
     var _selectRowObjseminarstraining; var _selectedIDseminarstraining; var _isCheckedrates; var _selectRowObjcourse; var _selectedIDcourse;
     var _selectRowObjchildren; var _selectedIDchildren; var _selectRowObjfamily; var _selectedIDfamily; var _selectRowObjemergency; var _selectedIDemergency;
     var _cbo_active_mode = 1; var _cbo_inactive_mode = 0;
-    var _cbo_mode;var emp_ecode;var emp_fullname;var _selectedEcode; var _selectedPinNumber;var _selectedEmail;
+    var _cbo_mode;var emp_ecode;var emp_fullname;var _selectedEcode; var _selectedPinNumber;var _selectedEmail; var e_id;
+    var _leave_type_filter; var _leave_apply_filter;
+
+    // Rates and Duties Select2
+    var _ref_employment_type_id; 
+    var _ref_department_id;
+    var _ref_position_id;
+    var _ref_branch_id;
+    var _ref_section_id;
+    var _group_id;
+    var _duration;
+    var _ref_payment_type_id;
+    var _sunday_premium;
+
+    // Memorandum Select2
+    var _ref_disciplinary_action_policy_id;
+    var _ref_action_taken_id;
+
+    // Seminars and Training Select2
+    var _ref_certificate_id;
+
+    // Course and Degree
+    var _ref_course_degree_id;
+
 
     getactiveratespanel(0);
 
@@ -3000,7 +3172,7 @@ $(document).ready(function(){
     };
 
     function getactiveratespanel(code){
-        if (code == 4){
+        if (code == 4 || code == 3){
             $('#salaryregratespanel').hide(200);
             $('#weeklyratespanel').show(200);
             $('#monthly_based_salary').attr('required',true);
@@ -3050,6 +3222,8 @@ $(document).ready(function(){
                     targets:[7],data: null,
                     render: function (data, type, full, meta){
 
+                        var right_employee_update_pass='<button class="btn btn-default btn-sm btnupdatepass" name="generate_pass_info"  data-toggle="tooltip" data-placement="top" title="Generate Default Password"><i class="fa fa-lock fa-lg"></i> </button>';
+
                         if (data.status == "Inactive"){
                             return '<center>'+right_employee_active+right_employee_edit+right_employee_delete+'</center>';
                         }
@@ -3057,7 +3231,7 @@ $(document).ready(function(){
                             return '<center>'+right_employee_edit+right_employee_delete+'</center>';     
                         }
                         else{
-                            return '<center>'+right_employee_email+right_employee_edit+right_employee_delete+'</center>';
+                            return '<center>'+right_employee_email+right_employee_update_pass+right_employee_edit+right_employee_delete+'</center>';
                         }
 
                     }
@@ -3107,6 +3281,8 @@ $(document).ready(function(){
                     targets:[7],data: null,
                     render: function (data, type, full, meta){
 
+                        var right_employee_update_pass='<button class="btn btn-default btn-sm btnupdatepass" name="generate_pass_info"  data-toggle="tooltip" data-placement="top" title="Generate Default Password"><i class="fa fa-lock fa-lg"></i> </button>';
+
                         if (data.status == "Inactive"){
                             return '<center>'+right_employee_active+right_employee_edit+right_employee_delete+'</center>';
                         }
@@ -3114,7 +3290,7 @@ $(document).ready(function(){
                             return '<center>'+right_employee_edit+right_employee_delete+'</center>';     
                         }
                         else{
-                            return '<center>'+right_employee_email+right_employee_edit+right_employee_delete+'</center>';
+                            return '<center>'+right_employee_email+right_employee_update_pass+right_employee_edit+right_employee_delete+'</center>';
                         }
 
                     }
@@ -3135,6 +3311,89 @@ $(document).ready(function(){
 
         $('.numeric').autoNumeric('init');
 
+        _leave_type_filter=$("#ref_leave_type_id").select2({
+            dropdownParent: $("#frm_entitlement"),
+            placeholder: "Select Leave Type",
+            allowClear: false
+        });
+
+        _ref_employment_type_id=$("#ref_employment_type_id").select2({
+            dropdownParent: $("#frm_ratesandduties"),
+            placeholder: "Select Employment Type",
+            allowClear: false
+        });
+
+        _ref_department_id=$("#ref_department_id").select2({
+            dropdownParent: $("#frm_ratesandduties"),
+            placeholder: "Select Department",
+            allowClear: false
+        });
+
+        _ref_position_id=$("#ref_position_id").select2({
+            dropdownParent: $("#frm_ratesandduties"),
+            placeholder: "Select Position",
+            allowClear: false
+        });
+
+        _ref_branch_id=$("#ref_branch_id").select2({
+            dropdownParent: $("#frm_ratesandduties"),
+            placeholder: "Select Branch",
+            allowClear: false
+        });
+
+        _ref_section_id=$("#ref_section_id").select2({
+            dropdownParent: $("#frm_ratesandduties"),
+            placeholder: "Select Section",
+            allowClear: false
+        });
+
+        _group_id=$("#group_id").select2({
+            dropdownParent: $("#frm_ratesandduties"),
+            placeholder: "Select Group",
+            allowClear: false
+        });
+
+        _duration=$("#duration").select2({
+            dropdownParent: $("#frm_ratesandduties"),
+            placeholder: "Select Duration",
+            allowClear: false
+        });
+
+        _ref_payment_type_id=$("#ref_payment_type_id").select2({
+            dropdownParent: $("#frm_ratesandduties"),
+            placeholder: "Select Payment Type",
+            allowClear: false
+        });
+
+        _sunday_premium=$("#sunday_premium").select2({
+            dropdownParent: $("#frm_ratesandduties"),
+            placeholder: "Select Sunday Premium",
+            allowClear: false
+        });        
+
+        _ref_disciplinary_action_policy_id=$("#ref_disciplinary_action_policy_id").select2({
+            dropdownParent: $("#frm_memo"),
+            placeholder: "Select Disciplinary Action Policy",
+            allowClear: false
+        });                             
+
+        _ref_action_taken_id=$("#ref_action_taken_id").select2({
+            dropdownParent: $("#frm_memo"),
+            placeholder: "Select Action Taken",
+            allowClear: false
+        });     
+
+        _ref_certificate_id=$("#ref_certificate_id").select2({
+            dropdownParent: $("#frm_seminarstraining"),
+            placeholder: "Select Certificate",
+            allowClear: false
+        }); 
+
+        _ref_course_degree_id=$("#ref_course_degree_id").select2({
+            dropdownParent: $("#frm_course_degree"),
+            placeholder: "Select Course/Degree",
+            allowClear: false
+        });         
 
     }();
 
@@ -3149,6 +3408,18 @@ $(document).ready(function(){
     $('#chckbx_block').click(function(){
         // getChckBoxStatus();
     });    
+
+    var leave_apply_select2 = function(){
+
+        _leave_apply_filter=$("#emp_apply_leaves_entitlement_id").select2({
+            dropdownParent: $("#frm_apply_leave"),
+            placeholder: "Select Leave",
+            allowClear: false
+        });
+
+        _leave_apply_filter.select2('val', null);
+
+    };
 
     var getChckBoxStatus = function(){
 
@@ -3398,7 +3669,7 @@ $(document).ready(function(){
                     "bDestroy": true,
                 },
                 { targets:[1],data: "leave_type" },
-                { targets:[2],data: "leave_type_short_name" },
+                { targets:[2],data: "ref_leave_type_short_name" },
                 { targets:[3],data: "is_payable",
                     render: function (data, type, full, meta){
                         //alert(data);
@@ -3449,6 +3720,20 @@ $(document).ready(function(){
         });
 
     }
+
+    // Function for getting current balance for applying leave
+
+    var OnChangeLeave=function(){
+        $('#emp_apply_leaves_entitlement_id').change(function(){
+            var i = $(this).val();
+            get_leave_details(i).done(function(response){
+                var row = response.data[0];
+                $('#apply_current_balance').val(accounting.formatNumber(row.current_balance,2));
+            }).always(function(){
+                $.unblockUI();
+            });
+        });
+    };
 
     var getFiledLeave=function(){
                     dt_apply_leave=$('#tbl_apply_leave').DataTable({
@@ -3774,8 +4059,16 @@ $(document).ready(function(){
                 { targets:[0],data: "name" },
                 { targets:[1],data: "relationship" },
                 { targets:[2],data: "contact_number_one" },
-                { targets:[3],data: "contact_number_two" },
-                { targets:[4],data: "address" },
+                { targets:[3],data: "address" },
+                { targets:[4],data: null,
+                    render: function (data, type, full, meta){
+                        if (data.is_active == 1){
+                            return '<center><b><i class="fa fa-check-circle" style="color: #558B2F;font-size: 15pt;"></i></center>';
+                        }else{
+                            return '<center><b><i class="fa fa-times-circle" style="color: red;font-size: 15pt;"></i></center>';
+                        }
+                    }
+                },
                 {
                     targets:[5],
                     render: function (data, type, full, meta){
@@ -3878,6 +4171,7 @@ $(document).ready(function(){
 
             /*_selectedID=data.emp_rates_duties_id;*/
             /*alert("aw");*/
+            e_id = data.employee_id;
             emp_ecode = data.ecode;
             emp_fullname = data.full_name;
             $('#datafullname').text(' '+data.full_name);
@@ -3927,20 +4221,51 @@ $(document).ready(function(){
             $('#employment_type').text(data.employment_type);
             $('#position').text(data.position);
             $('#department').text(data.department);
-            $('#date_start').text(data.date_start);
-            $('#date_end').text(data.date_end);
-            $('#section').text(data.section);
-            $('#group').text(data.group_desc);
-            $('#branch').text(data.branch);
+
+            if (data.date_start == "" || data.date_start == null || data.date_start == "0000-00-00"){
+                $('#date_start').text("N/A");
+            }else{
+                $('#date_start').text(data.date_start);
+            }
+
+            if (data.date_end == null || data.date_end == "" || data.date_end == "0000-00-00"){
+                $('#date_end').text("N/A");
+            }else{
+                $('#date_end').text(data.date_end);
+            }
+
+            if (data.section == "" || data.section == null){
+                $('#section').text("N/A");
+            }else{
+                $('#section').text(data.section);
+            }
+
+            if (data.group_desc == "" || data.group_desc == null){
+                $('#group').text("N/A");
+            }else{
+                $('#group').text(data.group_desc);
+            }    
+            
+            if (data.branch == "" || data.branch == null){
+                $('#branch').text("N/A");
+            }else{
+                $('#branch').text(data.branch);
+            }  
+
+            if (data.level == "" || data.level == null){
+                $('#level').text("N/A");
+            }else{
+                $('#level').text(data.level);
+            }       
+
             $('#payment_type').text(data.payment_type);
-            $('#level').text(data.level);
-            $('#salary_reg_rates').text(data.salary_reg_rates);
-            $('#daily_rate').text(data.daily_rate);
-            $('#daily_rate_factor').text(data.daily_rate_factor);
-            $('#sss_phic_salary_credit').text(data.sss_phic_salary_credit);
-            $('#philhealth_salary_credit').text(data.philhealth_salary_credit);
-            $('#pagibig_salary_credit').text(data.pagibig_salary_credit);
-            $('#tax_shield').text(data.tax_shield);
+            $('#salary_reg_rates').text(accounting.formatNumber(data.salary_reg_rates,2));
+            $('#daily_rate').text(accounting.formatNumber(data.per_day_pay,2));
+            $('#daily_rate_factor').text(accounting.formatNumber(data.hour_per_day,2));
+            $('#sss_phic_salary_credit').text(accounting.formatNumber(data.sss_phic_salary_credit,2));
+            $('#philhealth_salary_credit').text(accounting.formatNumber(data.philhealth_salary_credit,2));
+            $('#pagibig_salary_credit').text(accounting.formatNumber(data.pagibig_salary_credit,2));
+            $('#tax_shield').text(accounting.formatNumber(data.tax_shield,2));
             $('#remarks').text(data.remarks);
 
             $('#modal_rates_details').modal('toggle');
@@ -3951,29 +4276,32 @@ $(document).ready(function(){
             _selectRowObjentitlement=$(this).closest('tr');
             var data=dt_entitlement.row(_selectRowObjentitlement).data();
             _selectedIDentitlement=data.emp_leaves_entitlement_id
-                if(data.is_payable==1){
-                    var  payable_detail = "<span style='color:#37d077' class='glyphicon glyphicon-ok'></span>";
-                }
-                else{
-                    var  payable_detail = "<span style='color:#e74c3c' class='glyphicon glyphicon-remove'></span>";
-                }
-                if(data.is_forwardable==1){
-                    var forwardable_detail = "<span style='color:#37d077' class='glyphicon glyphicon-ok'></span>";
-                }
-                else{
-                    var forwardable_detail = "<span style='color:#e74c3c' class='glyphicon glyphicon-remove'></span>";
-                }
+
+            if(data.is_payable==1){ var  payable_detail = "<span style='color:#37d077' class='glyphicon glyphicon-ok'></span>"; }
+            else{ var  payable_detail = "<span style='color:#e74c3c' class='glyphicon glyphicon-remove'></span>"; }
+            
+            if(data.is_forwardable==1){ var forwardable_detail = "<span style='color:#37d077' class='glyphicon glyphicon-ok'></span>";
+            } else{ var forwardable_detail = "<span style='color:#e74c3c' class='glyphicon glyphicon-remove'></span>"; }
+
+            var current_balance = parseInt(data.total_grant) - parseInt(data.received_balance);
+
+            if (current_balance > 0){
+                $('#leave_entitlement_icon').css('color','#228B22');
+            }else{
+                $('#leave_entitlement_icon').css('color','#B22222');
+            }
+
             $('#leave_type').text(data.leave_type);
-            $('#leave_type_short_name').text(data.leave_type_short_name);
+            $('#leave_type_short_name').text(data.ref_leave_type_short_name);
             $('#is_payable_detail').html(payable_detail);
             $('#is_forwardable_detail').html(forwardable_detail);
             $('#total_grant_detail').text(data.total_grant);
-            var current_balance = parseInt(data.total_grant) + parseInt(data.received_balance);
-            $('#received_balance_detail').text(accounting.formatNumber("0",2));
+            $('#received_balance_detail').text(accounting.formatNumber(data.received_balance,2));
             $('#current_balance_detail').text(accounting.formatNumber(current_balance,2));
+            $('#leave_entitlement_remark').text(data.remark);
             $('#modal_entitlement_details').modal('toggle');
 
-        } );
+        });
 
      /*   $('#tbl_rates_duties_list tbody').on( 'click', 'tr td.details-control1', function () {
             var tr = $(this).closest('tr');
@@ -4088,7 +4416,12 @@ $(document).ready(function(){
             $('#btn_newcoursedegree').click(function(){
                 _txnMode2="newcoursedegree";
                 $('#coursedegreetitle').text("Create Course/Degree");
+                $('#ref_course_degree_id').val(null).trigger("change");
                 $('#modal_course_degree_new').modal('toggle');
+
+                setTimeout(function(){
+                    clearFieldsInput($('#frm_course_degree'));
+                },500);
 
             });
 
@@ -4108,6 +4441,8 @@ $(document).ready(function(){
 
             $('#btn_newemergencycontact').click(function(){
                 _txnMode2="newcontact";
+                clearFields($('#frm_emergency_details'));
+                $('#ec_is_active').prop('checked',true);
                 $('#emergencycontactgreettitle').text("Create Emergency Contact");
                 $('#modal_emergency_contact_new').modal('toggle');
 
@@ -4214,7 +4549,10 @@ $(document).ready(function(){
                             if(_txnMode2=="newcontact"){
                                 createEmergencyContact().done(function(response){
                                     showNotification(response);
-                                    dt_emergency_contact.row.add(response.row_added[0]).draw();
+                                    // dt_emergency_contact.row.add(response.row_added[0]).draw();
+
+                                    dt_emergency_contact.ajax.reload();
+
                                     clearFields($('#frm_emergency_details'))
                                 }).always(function(){
                                     $('#modal_emergency_contact_new').modal('toggle');
@@ -4226,7 +4564,8 @@ $(document).ready(function(){
                             if(_txnMode2=="editfamily"){
                                 updateEmergencyContact().done(function(response){
                                     showNotification(response);
-                                    dt_emergency_contact.row(_selectRowObjemergency).data(response.row_updated[0]).draw();
+                                    // dt_emergency_contact.row(_selectRowObjemergency).data(response.row_updated[0]).draw();
+                                    dt_emergency_contact.ajax.reload();
                                     clearFields($('#frm_emergency_details'))
                                 }).always(function(){
                                     $('#modal_emergency_contact_new').modal('toggle');
@@ -4289,7 +4628,7 @@ $(document).ready(function(){
                 _selectedIDcourse=data.emp_educational_attainment_id;
                 //alert(_selectedIDcourse);
 
-                $('#ref_course_degree_id').val(data.ref_course_degree_id);
+                $('#ref_course_degree_id').val(data.ref_course_degree_id).trigger("change");
 
                 $('input,textarea').each(function(){
                     var _elem=$(this);
@@ -4365,6 +4704,12 @@ $(document).ready(function(){
                         }
                     });
                 });
+
+                if (data.is_active == 1){
+                    $('#ec_is_active').prop('checked',true);
+                }else{
+                    $('#ec_is_active').prop('checked',false);
+                }
 
                $('#modal_emergency_contact_new').modal('toggle');
             });
@@ -4475,14 +4820,16 @@ $(document).ready(function(){
 
             //function for getting details of leave type//
             $('#ref_leave_type_id').change(function() {
-            _Leave_type_value=$(this).val();
-            if(_Leave_type_value==0){
-                alert("create leave type");
-                return;
-            }
-            getLeaveTypeDetails().done(function(response){
+                if (_txnMode == "newentitlement"){
+                    _Leave_type_value=$(this).val();
+
+                    if(_Leave_type_value==0){
+                        return;
+                    }
+                    getLeaveTypeDetails().done(function(response){
                         $('#total_grant').val(response.data[0].total_grant);
-                        $('#ref_leave_type_short_name').val(response.data[0].ref_leave_type_short_name);
+                        $('#ref_leave_type_short_name').val(response.data[0].leave_type_short_name);
+                        
                         currentBalance();
                         if(response.data[0].is_payable==1){
                             $('#payable').prop('checked', true);
@@ -4503,13 +4850,12 @@ $(document).ready(function(){
                             $('#forwardable').prop('checked', false);
                             //alert(data.is_forwardable);
                             _isforwardable = 0;
-
                         }
-                        //alert("done");
                         clearFields($('#'))
                     }).always(function(){
                         $.unblockUI();
                     });
+                }
             });
 
             $("#hour_per_day").keyup(function(){
@@ -4550,10 +4896,10 @@ $(document).ready(function(){
             });
 
             var currentBalance=function(){
-                var total_grant = $('#total_grant').val();
-                var received_balance = $('#received_balance').val();
-                var current_balance = parseFloat(total_grant) + parseFloat(received_balance);
-                $('#current_balance').val(current_balance);
+                var total_grant = accounting.unformat($('#total_grant').val());
+                var received_balance = accounting.unformat($('#received_balance').val());
+                var current_balance = total_grant - received_balance;
+                $('#current_balance').val(accounting.formatNumber(current_balance,2));
             };
             //synchronize total grant and current balance//
 
@@ -4792,14 +5138,14 @@ $(document).ready(function(){
             }
         });
 
-        $('.ref_course_degree_id').click(function() {
-            if($('#ref_course_degree_id').val() == 0){
-                $('.ref_course_degree_id').val(1);
+        $('#ref_course_degree_id').on('change',function() {
+            if($('#ref_course_degree_id').val() == "new"){
+                $('#ref_course_degree_id').val(null).trigger("change");
                 $('#modal_create_course').modal('show');
+                setTimeout(function(){
+                    clearFields($('#frm_refcourse'));
+                },500);
                 return;
-            }
-            else{
-
             }
         });
 
@@ -4878,164 +5224,176 @@ $(document).ready(function(){
 
         $('#ref_employment_type_id').change(function() {
             var a = $('#ref_employment_type_id').val();
-            if(a=="0"){
+
+            if(a=="new"){
                 _txnModeRate="employment";
-                $('#ref_employment_type_id').val(1);
+                $('#ref_employment_type_id').val(null).trigger("change");
                 $('#title_modal').text('Create Employment Type');
                 $('#name_modal').text('Employment Name');
                 $('#description_modal').text('Description');
                 $('#modal_references').modal('show');
-
-                return;
-            }
-            else{
-
+                setTimeout(function(){
+                    clearFields($('#frm_references'));
+                },500);
             }
         });
+
 
         $('#ref_payment_type_id').change(function() {
 
             var a = $('#ref_payment_type_id').val();
-            if(a=="0"){
+            if(a=="new"){
                 _txnModeRate="paymenttype";
-                $('#ref_payment_type_id').val(1);
+                $('#ref_payment_type_id').val(null).trigger("change");
                 $('#title_modal').text('Create Payment Type');
                 $('#name_modal').text('Payment Name');
                 $('#description_modal').text('Description');
                 $('#modal_references').modal('show');
+                clearFields($('#frm_references'));
+                setTimeout(function(){
+                    clearFields($('#frm_references'));
+                },500);
                 return;
             }
             else{
-                if (a == 4){getactiveratespanel(4);}else{getactiveratespanel(0);}
+                if (a == 4){ // Weekly
+                    getactiveratespanel(4);
+                }
+                else if (a == 3){ // Daily
+                    getactiveratespanel(3);
+                }
+                else{
+                    getactiveratespanel(0);
+                }
                 computeperdayandperhour();
             }
         });
 
         $('#ref_department_id').change(function() {
             var a = $('#ref_department_id').val();
-            if(a=="0"){
+            if(a=="new"){
                 _txnModeRate="department";
-                $('#ref_department_id').val(1);
+                $('#ref_department_id').val(null).trigger("change");
                 $('#title_modal').text('Create Department');
                 $('#name_modal').text('Department Name');
                 $('#description_modal').text('Description');
                 $('#modal_references').modal('show');
+                setTimeout(function(){
+                    clearFields($('#frm_references'));
+                },500);
                 return;
-            }
-            else{
-
             }
         });
 
         $('#ref_position_id').change(function() {
             var a = $('#ref_position_id').val();
-            if(a=="0"){
+            if(a=="new"){
                 _txnModeRate="position";
-                $('#ref_position_id').val(1);
+                $('#ref_position_id').val(null).trigger("change");
                 $('#title_modal').text('Create Position');
                 $('#name_modal').text('Position Name');
                 $('#description_modal').text('Description');
                 $('#modal_references').modal('show');
+                setTimeout(function(){
+                    clearFields($('#frm_references'));
+                },500);
                 return;
-            }
-            else{
-
             }
         });
 
         $('#ref_branch_id').change(function() {
             var a = $('#ref_branch_id').val();
-            if(a=="0"){
+            if(a=="new"){
                 _txnModeRate="branch";
-                $('#ref_branch_id').val(1);
+                $('#ref_branch_id').val(null).trigger("change");
                 $('#title_modal').text('Create Branch');
                 $('#name_modal').text('Branch Name');
                 $('#description_modal').text('Description');
                 $('#modal_references').modal('show');
+                setTimeout(function(){
+                    clearFields($('#frm_references'));
+                },500);
                 return;
             }
-            else{
-
-            }
-        });
+        });        
 
         $('#ref_section_id').change(function() {
             var a = $('#ref_section_id').val();
-            if(a=="0"){
+            if(a=="new"){
                 _txnModeRate="section";
-                $('#ref_section_id').val(1);
+                $('#ref_section_id').val(null).trigger("change");
                 $('#title_modal').text('Create Section');
                 $('#name_modal').text('Section Name');
                 $('#description_modal').text('Description');
                 $('#modal_references').modal('show');
+                setTimeout(function(){
+                    clearFields($('#frm_references'));
+                },500);
                 return;
-            }
-            else{
-
             }
         });
 
         $('#group_id').change(function() {
             var a = $('#group_id').val();
-            if(a=="0"){
+            if(a=="new"){
                 _txnModeRate="group";
-                $('#group_id').val(1);
+                $('#group_id').val(null).trigger("change");
                 $('#title_modal').text('Create Group');
                 $('#name_modal').text('Group Name');
                 $('#description_modal').text('Description');
                 $('#modal_references').modal('show');
+                setTimeout(function(){
+                    clearFields($('#frm_references'));
+                },500);
                 return;
-            }
-            else{
-
             }
         });
 
         $('#ref_disciplinary_action_policy_id').change(function() {
             var a = $('#ref_disciplinary_action_policy_id').val();
-            if(a=="0"){
+            if(a=="new"){
                 _txnModeRate="actionpolicy";
-                $('#ref_disciplinary_action_policy_id').val(1);
+                $('#ref_disciplinary_action_policy_id').val(null).trigger("change");
                 $('#title_modal').text('Create Disciplinary Action Policy');
                 $('#name_modal').text('Disciplinary Action Policy Name');
                 $('#description_modal').text('Description');
                 $('#modal_references').modal('show');
+                setTimeout(function(){
+                    clearFields($('#frm_references'));
+                },500);
                 return;
-            }
-            else{
-
             }
         });
 
         $('#ref_action_taken_id').change(function() {
             var a = $('#ref_action_taken_id').val();
-            if(a=="0"){
+            if(a=="new"){
                 _txnModeRate="actiontaken";
-                $('#ref_action_taken_id').val(1);
+                $('#ref_action_taken_id').val(null).trigger("change");
                 $('#title_modal').text('Create Action Taken');
                 $('#name_modal').text('Action Taken Name');
                 $('#description_modal').text('Description');
                 $('#modal_references').modal('show');
+                setTimeout(function(){
+                    clearFields($('#frm_references'));
+                },500);
                 return;
-            }
-            else{
-
             }
         });
 
         $('#ref_certificate_id').change(function() {
             var a = $('#ref_certificate_id').val();
-            if(a=="0"){
+            if(a=="new"){
                 _txnModeRate="certificatecreate";
-                $('#ref_certificate_id').val(1);
+                $('#ref_certificate_id').val(null).trigger("change");
                 $('#title_modal').text('Create Certificate');
                 $('#name_modal').text('Certificate Name');
                 $('#description_modal').text('Description');
                 $('#modal_references').modal('show');
+                setTimeout(function(){
+                    clearFields($('#frm_references'));
+                },500);
                 return;
-            }
-            else{
-
             }
         });
 
@@ -5043,6 +5401,7 @@ $(document).ready(function(){
             clearFields($('#frm_employee'))
             $('.otherul').hide();
             _txnMode="new";
+            $('#pin_number').attr('required', false);
             $('#pin_panel').hide();
             $('#newempdisplayname').hide();
             $('#emp_religion').val(1);
@@ -5061,6 +5420,7 @@ $(document).ready(function(){
             $('#reg_contract').val(0);
             $('#perfomance_eval_1').val(0);
             $('#perfomance_eval_2').val(0);
+            $('#is_admin_active').prop('checked',false);
 
             $('#empstatus').hide();
 
@@ -5074,13 +5434,12 @@ $(document).ready(function(){
             $('#entitlementtittle').text("New");
             clearFields($('#frm_entitlement'));
             _txnMode="newentitlement";
-            $('#ref_leave_type_id').val(0);
+            $('#ref_leave_type_id').val(null).trigger("change");
             $('#received_balance').val("0.00");
-
-           // $('#ref_employment_type_id').val(1);//
-
+            $('#ref_leave_type_id').attr('disabled', false);
+            $('#payable').prop('checked', false);
+            $('#forwardable').prop('checked', false);
             $('.modal_create_entitlement').modal('show');
-
         });
 
         $('#btn_apply_leave').click(function(){
@@ -5089,35 +5448,27 @@ $(document).ready(function(){
             _txnMode="newfileleave";
             $(".date-picker").val('<?php echo date("m/d/Y"); ?>');
             getAvailLeave().done(function(response){
-                        var show1todiv="";
-                        var show2select="<select class='form-control' name='emp_leaves_entitlement_id'>";
-                        if(response.available_leave.length==0||response.available_leave.length==null){
-                                //alert("no data");
-                                $('#showavailableleave').html('<center><h1>No Available Leave</h1></center>');
-                                return;
-                            }
-                        var jsoncount=response.available_leave.length-1;
-                         for(var i=0;parseInt(jsoncount)>=i;i++){
-                            //alert(response.available_leave[i].leave_type);
-                            show2select+='<option value='+response.available_leave[i].emp_leaves_entitlement_id+'>'+response.available_leave[i].leave_type+'</option>';
-                         }
-                         $('#showavailableleave2select').html(show2select+"</select>");
-                        /*alert(data.religion);
-                        var arr = [];
-                        for (var prop in data) {
-                            arr.push(data[prop]);
-                        }*/
-                        //console.
-                    }).always(function(){
-                        $.unblockUI();
-                        $('.modal_file_leave').modal('show');
-                    });
-            //$('#ref_leave_type_id').val(0);
-            //$('#received_balance').val("0.00");
+                var show1todiv="";
+                var show2select="<select class='form-control' name='emp_leaves_entitlement_id' id='emp_apply_leaves_entitlement_id' required data-error-msg='Leave is required!'><option value=''>Select Leave</option>";
+                if(response.available_leave.length==0||response.available_leave.length==null){
+                        //alert("no data");
+                        $('#showavailableleave').html('<center><h1>No Available Leave</h1></center>');
+                        return;
+                    }
+                var jsoncount=response.available_leave.length-1;
+                 for(var i=0;parseInt(jsoncount)>=i;i++){
+                    //alert(response.available_leave[i].leave_type);
+                    show2select+='<option value='+response.available_leave[i].emp_leaves_entitlement_id+'>'+response.available_leave[i].ref_leave_type_short_name+'</option>';
+                 }
+                 $('#showavailableleave2select').html(show2select+"</select>");
 
-           // $('#ref_employment_type_id').val(1);//
+                 leave_apply_select2();
+                 OnChangeLeave();
 
-
+            }).always(function(){
+                $.unblockUI();
+                $('.modal_file_leave').modal('show');
+            });
 
         });
 
@@ -5133,7 +5484,7 @@ $(document).ready(function(){
                          for(var i=0;parseInt(jsoncount)>=i;i++){
                             //alert(response.available_leave[i].leave_type);
                             show1todiv+='<div class="col-md-4"><div style="width:100%;background-color:#2c3e50;border-radius:5px; padding-bottom: 10px;" id="test">'+
-                            '<h2 class="boldlabel" style="padding:10px;color:#ecf0f1;font-size: 13pt;"><leavetypeshow id="leavetypeshow">'+response.available_leave[i].leave_type+
+                            '<h2 class="boldlabel" style="padding:10px;color:#ecf0f1;font-size: 13pt;"><leavetypeshow id="leavetypeshow">'+response.available_leave[i].ref_leave_type_short_name+
                             '</leavetypeshow></h2><hr><div style="background-color: #455A64;"><p style="padding-left:10px;margin:0px;color:#ecf0f1;">Total Grant : <totalgrantshow id="totalgrantshow">'+response.available_leave[i].total_grant+
                             '</totalgrantshow></p><p style="padding-left:10px;margin:0px;color:#ecf0f1;">Balance : <balanceshow id="balanceshow">'+response.available_leave[i].current_balance+'</balanceshow></p></div></div></div>';
                          }
@@ -5150,14 +5501,15 @@ $(document).ready(function(){
                     });
         })
 
+
         $('#btn_newmemo').click(function(){
-            $('#memotitle').text("New");
+            $('#memotitle').text("New Memo");
             clearFields($('#frm_memo'));
             _txnMode="newmemo";
             $(".date-picker").val('<?php echo date("m/d/Y"); ?>');
 
-            $('#ref_disciplinary_action_policy_id').val(1);
-            $('#ref_action_taken_id').val(1);
+            $('#ref_disciplinary_action_policy_id').val(null).trigger("change");
+            $('#ref_action_taken_id').val(null).trigger("change");
             $('.modal_create_memo').modal('show');
 
         });
@@ -5177,7 +5529,7 @@ $(document).ready(function(){
             $(".date-picker").val('<?php echo date("m/d/Y"); ?>');
             _txnMode="newseminarstraining";
 
-            $('#ref_certificate_id').val(1);
+            $('#ref_certificate_id').val(null).trigger("change");
             $('.modal_create_seminarstraining').modal('show');
 
         });
@@ -5187,13 +5539,28 @@ $(document).ready(function(){
             _txnMode="newrateandduties";
             $(".date-picker").val('<?php echo date("m/d/Y"); ?>');
             $('.ratestransactiontext').text("New");
-            $('#ref_employment_type_id').val(1);
-            $('#ref_payment_type_id').val(1);
-            $('#ref_department_id').val(1);
-            $('#ref_position_id').val(1);
-            $('#ref_branch_id').val(1);
-            $('#ref_section_id').val(1);
-            $('#group_id').val(1);
+
+            _ref_employment_type_id.select2('val', null);
+            _ref_department_id.select2('val', null);
+            _ref_position_id.select2('val', null);
+            _ref_branch_id.select2('val', null);
+            _ref_section_id.select2('val', null);
+            _group_id.select2('val', null);
+            _duration.select2('val', 0);
+            _ref_payment_type_id.select2('val', null);
+            _sunday_premium.select2('val', 0);
+
+
+            $('#ref_employment_type_id').val(null).trigger("change");
+            $('#ref_department_id').val(null).trigger("change");
+            $('#ref_position_id').val(null).trigger("change");
+            $('#ref_branch_id').val(null).trigger("change");
+            $('#ref_section_id').val(null).trigger("change");
+            $('#group_id').val(null).trigger("change");
+            $('#duration').val(0).trigger("change");
+            $('#ref_payment_type_id').val(null).trigger("change");
+            $('#sunday_premium').val(0).trigger("change");
+
             getDuration();
             getactiveratespanel(1);
             $('#modal_create_ratesandduties').modal('show');
@@ -5235,10 +5602,20 @@ $(document).ready(function(){
             $('#modal_activate_confirmation').modal('show');
         });
 
+        $('#tbl_employee_list tbody').on('click','button[name="generate_pass_info"]',function(){
+            _selectRowObj=$(this).closest('tr');
+            var data=dt.row(_selectRowObj).data();
+            _selectedID=data.employee_id;
+            _selectedName = data.full_name;
+            $('#empname1').text(_selectedName);
+            $('#modal_password_confirmation').modal('show');
+        });                
+
         $('#tbl_employee_list tbody').on('click','button[name="edit_info"]',function(){
             $('.otherul').show();
             $('.nav-tabs a[href="#personal_info_field"]').tab('show');
             _txnMode="edit";
+            $('#pin_number').attr('required', true);
             $('#pin_panel').show();
             $('#newempdisplayname').show();
             _selectRowObj=$(this).closest('tr');
@@ -5274,12 +5651,25 @@ $(document).ready(function(){
                 $('#emp_cbo_inactive').prop('checked',true);
             }
 
+            if (data.is_admin_active == 1){
+                $('#is_admin_active').prop('checked',true);
+            }else{
+                $('#is_admin_active').prop('checked',false);
+            }            
+
             if(data.image_name==""){
                  $('img[name="img_user"]').attr('src','assets/img/anonymous-icon.png');
             }
             else{
                 $('img[name="img_user"]').attr('src',data.image_name);
             }
+
+            if(data.image_sig==""){
+                 $('img[name="img_sig"]').attr('src','assets/img/signature/default.png');
+            }
+            else{
+                $('img[name="img_sig"]').attr('src',data.image_sig);
+            }            
             
             $('#tax_pay_type').val(data.tax_pay_type);
 
@@ -5321,6 +5711,12 @@ $(document).ready(function(){
                 $('img[name="img_user"]').attr('src','assets/img/anonymous-icon.png');
             });
 
+        $('#btn_remove_photo_sig').click(function(event){
+                event.preventDefault();
+                $('img[name="img_sig"]').attr('src','assets/img/signature/default.png');
+            });
+
+
         $('#tbl_employee_list tbody').on('click','button[name="remove_info"]',function(){
             _selectRowObj=$(this).closest('tr');
             var data=dt.row(_selectRowObj).data();
@@ -5332,39 +5728,34 @@ $(document).ready(function(){
         $('#tbl_entitlement tbody').on('click','button[name="entitlement_edit"]',function(){
             _txnMode="editentitlement";
             $('#entitlementtittle').text("Edit");
+
+            $('.modal_create_entitlement').modal('toggle');
             _selectRowObjentitlement=$(this).closest('tr');
             var data=dt_entitlement.row(_selectRowObjentitlement).data();
             _selectedIDentitlement=data.emp_leaves_entitlement_id;
-            //alert(data.ref_leave_type_id);
-            $('#ref_leave_type_id').val(data.ref_leave_type_id);
 
-                         if(data.is_payable==1){
-                            $('#payable').prop('checked', true);
-                            //alert(data.is_payable);
-                            _ispayable = 1;
-                        }
-                        else{
-                            $('#payable').prop('checked', false);
-                            //alert(data.is_payable);
-                            _ispayable = 0;
-                        }
-                        if(data.is_forwardable==1){
-                            $('#forwardable').prop('checked', true);
-                            //alert(data.is_forwardable);
-                            _isforwardable = 1;
-                        }
-                        else{
-                            $('#forwardable').prop('checked', false);
-                            //alert(data.is_forwardable);
-                            _isforwardable = 0;
+            $('#ref_leave_type_id').attr('disabled', true);
+            _leave_type_filter.select2('val', data.ref_leave_type_id);
 
-                        }
-                        $('.modal_create_entitlement').modal('toggle');
-            //console.log(_selectedID);
-            //$('#ref_employment_type_id').val(data.ref_employment_type_id);//
-           // alert($('input[name="tax_exempt"]').length);
-            //$('input[name="tax_exempt"]').val(0);
-            //$('input[name="inventory"]').val(data.is_inventory);
+            setTimeout(function(){
+                if(data.is_forwardable==1){
+                    $('#forwardable').prop('checked', true);
+                    _isforwardable = 1;
+                }
+                else{
+                    $('#forwardable').prop('checked', false);
+                    _isforwardable = 0;
+                }
+
+                if(data.is_payable==1){
+                    $('#payable').prop('checked', true);
+                    _ispayable = 1;
+                }
+                else{
+                    $('#payable').prop('checked', false);
+                    _ispayable = 0;
+                }
+            },200);
 
             $('input,textarea').each(function(){
                 var _elem=$(this);
@@ -5375,46 +5766,52 @@ $(document).ready(function(){
                 });
             });
 
+            $('#ref_leave_type_short_name').val(data.ref_leave_type_short_name);
 
-        })
+        });
 
-        $('#tbl_rates_duties_list tbody').on('click','button[name="rates_duties_edit"]',function(){
+         $('#tbl_rates_duties_list tbody').on('click','button[name="rates_duties_edit"]',function(){
             _txnMode="editratesandduties";
             $('.modal_create_ratesandduties').modal('toggle');
             _selectRowObjrates=$(this).closest('tr');
             var data=dt_rates.row(_selectRowObjrates).data();
             _selectedIDrates=data.emp_rates_duties_id;
-            //console.log(_selectedID);
-            $('#ref_employment_type_id').val(data.ref_employment_type_id);
-            $('#ref_payment_type_id').val(data.ref_payment_type_id);
-            $('#ref_department_id').val(data.ref_department_id);
-            $('#ref_position_id').val(data.ref_position_id);
-            $('#ref_branch_id').val(data.ref_branch_id);
-            $('#ref_section_id').val(data.ref_section_id);
-            $('#group_id').val(data.group_id);
-            $('#sunday_premium').val(data.is_sunday_premium);
 
-            if (data.ref_payment_type_id == 4){
+
+            $('#ref_employment_type_id').val(data.ref_employment_type_id).trigger("change");
+            $('#ref_payment_type_id').val(data.ref_payment_type_id).trigger("change");
+            $('#ref_department_id').val(data.ref_department_id).trigger("change");
+            $('#ref_position_id').val(data.ref_position_id).trigger("change");
+            $('#ref_branch_id').val(data.ref_branch_id).trigger("change");
+            $('#ref_section_id').val(data.ref_section_id).trigger("change");
+            $('#group_id').val(data.group_id).trigger("change");
+            $('#sunday_premium').val(data.is_sunday_premium).trigger("change");
+
+            if (data.ref_payment_type_id == 4){ // Weekly
                 getactiveratespanel(4);
-            }else{
+            }
+            else if (data.ref_payment_type_id == 3){ // Daily
+                getactiveratespanel(3);
+            }
+            else{
                 getactiveratespanel(0);
             }
-
-           // alert($('input[name="tax_exempt"]').length);
-            //$('input[name="tax_exempt"]').val(0);
-            //$('input[name="inventory"]').val(data.is_inventory);
 
             $('input,textarea,select').each(function(){
                 var _elem=$(this);
                 $.each(data,function(name,value){
                     if(_elem.attr('name')==name){
-                        _elem.val(value);
+                        if (_elem.hasClass('numeric')){
+                            _elem.val(accounting.formatNumber(value,2));
+                        }else{
+                            _elem.val(value);
+                        }
+
                     }
                 });
             });
 
-
-        })
+        });
 
         $('#tbl_rates_duties_list tbody').on('click','button[name="rates_duties_remove"]',function(){
             _selectRowObjrates=$(this).closest('tr');
@@ -5439,10 +5836,9 @@ $(document).ready(function(){
             _selectRowObjmemorandum=$(this).closest('tr');
             var data=dt_memo.row(_selectRowObjmemorandum).data();
             _selectedIDmemo=data.emp_memo_id;
-            $('#ref_disciplinary_action_policy_id').val(data.ref_disciplinary_action_policy_id);
-            $('#ref_action_taken_id').val(data.ref_action_taken_id);
-            //alert(_selectedIDmemo);
 
+            $('#ref_disciplinary_action_policy_id').val(data.ref_disciplinary_action_policy_id).trigger("change");
+            $('#ref_action_taken_id').val(data.ref_action_taken_id).trigger("change");
 
             $('input,textarea').each(function(){
                 var _elem=$(this);
@@ -5500,8 +5896,9 @@ $(document).ready(function(){
             _selectRowObjseminarstraining=$(this).closest('tr');
             var data=dt_seminarstraining.row(_selectRowObjseminarstraining).data();
             _selectedIDseminarstraining=data.emp_seminar_training_id;
-            $('#ref_certificate_id').val(data.ref_certificate_id);
-            //alert(_selectedIDseminarstraining);
+
+            $('#ref_certificate_id').val(data.ref_certificate_id).trigger("change");
+
             $('input,textarea').each(function(){
                 var _elem=$(this);
                 $.each(data,function(name,value){
@@ -5538,6 +5935,13 @@ $(document).ready(function(){
             });
         });
 
+        $('#btn_yes_generate').click(function(){
+            generatepassEmployee().done(function(response){
+                showNotification(response);
+                $.unblockUI();
+            });
+        });       
+
         $('#btn_yes_email').click(function(){
             showNotification({title:"Sending!",stat:"info",msg:"Please wait for a few seconds."});
 
@@ -5558,10 +5962,13 @@ $(document).ready(function(){
         $('#btn_yes_entitlement').click(function(){
             removeEntitlement().done(function(response){
                 showNotification(response);
-                dt_entitlement.row(_selectRowObjentitlement).remove().draw();
+                if (response.stat == "success"){
+                    dt_entitlement.row(_selectRowObjentitlement).remove().draw();
+                }
                 $.unblockUI();
             });
         });
+
 
         $('#btn_yes_memo').click(function(){
             removeMemo().done(function(response){
@@ -5616,10 +6023,49 @@ $(document).ready(function(){
                            // $('#div_img_user').show();
                             $.unblockUI();
                             $('img[name="img_user"]').attr('src',response.path);
+                            showNotification(response);
 
                         }
             });
         });
+
+        $('input[name="file_upload_sig[]"]').change(function(event){
+            var _files=event.target.files;
+
+           showSpinningProgressUpload();
+
+            var data=new FormData();
+            $.each(_files,function(key,value){
+                data.append(key,value);
+            });
+
+            console.log(_files);
+
+            $.ajax({
+                url : 'Employee/transaction/upload_sig',
+                type : "POST",
+                data : data,
+                cache : false,
+                dataType : 'json',
+                processData : false,
+                contentType : false,
+                success : function(response){
+                            $.unblockUI();
+                            $('img[name="img_sig"]').attr('src',response.path);
+                            showNotification(response);
+
+                        }
+            });
+        });
+
+        $("#generate_id").click(function(){
+            window.open('Hris_Reports/reports/generate_all_template','_blank');
+        });
+
+        $("#print_id").click(function(){
+            window.open('Hris_Reports/reports/generate_id_template?e_id='+e_id,'_blank');
+        });        
+
         // for back and cancel buttons to destroy datatables
         $('#btn_cancelempfields').click(function(){
             hideemployeeFields();
@@ -5728,6 +6174,7 @@ $(document).ready(function(){
                         dt.row.add(response.row_added[0]).draw();
                         clearFields($('#frm_employee'))
                         $('img[name="img_user"]').attr('src','assets/img/anonymous-icon.png');
+                        $('img[name="img_sig"]').attr('src','assets/img/signature/default.png');
                     }).always(function(){
 
                         $.unblockUI();
@@ -5746,6 +6193,7 @@ $(document).ready(function(){
                         hideemployeeFields();
                         showemployeeList();
                         $('img[name="img_user"]').attr('src','assets/img/anonymous-icon.png');
+                        $('img[name="img_sig"]').attr('src','assets/img/signature/default.png');
                     }).always(function(){
 
                         $.unblockUI();
@@ -5827,19 +6275,20 @@ $(document).ready(function(){
             if(validateRequiredFields($('#frm_apply_leave'))){
                 if(_txnMode=="newfileleave"){
                     createFileLeave().done(function(response){
-                        if(response.stat=="error"){
-                            showNotification(response);
-                            $.unblockUI();
-                            return false;
-                            }
                         showNotification(response);
-                        $('#modal_create_entitlement').modal('hide');
-                        dt_apply_leave.row.add(response.row_added[0]).draw();
-                        clearFields($('#frm_apply_leave'))
+
+                        if(response.stat=="error"){
+                            $('#apply_total').focus();
+                            return false;
+                        }else{
+                            dt_apply_leave.row.add(response.row_added[0]).draw();
+                            clearFields($('#frm_apply_leave'));
+                            $('#modal_file_leave').modal('hide');
+                            $('.datepicker').remove();
+                        }
+
                     }).always(function(){
-                        $('#modal_file_leave').modal('hide');
                         $.unblockUI();
-                        $('.datepicker').remove();
                     });
                     return;
                 }
@@ -6173,8 +6622,6 @@ $(document).ready(function(){
 
 
     })();
-
-
     var validateRequiredFields=function(f){
         var stat=true;
 
@@ -6210,6 +6657,17 @@ $(document).ready(function(){
                         return false;
                     }
                 }
+
+                if (_txnMode == "newfileleave"){
+                    if($('#apply_total').val() == 0.00 || 0){
+                        showNotification({title:"Error!",stat:"error",msg:"Total Leave must not be zero!"});
+                        $('#apply_total').closest('div.form-group').addClass('has-error');
+                        $('#apply_total').focus();
+                        stat=false;
+                        return false;
+                    }
+                }
+
             }
         });
 
@@ -6221,9 +6679,25 @@ $(document).ready(function(){
                     $('input[name="file_upload[]"]').click();
              });
 
+    $('#btn_browse_sig').click(function(event){
+                    event.preventDefault();
+                    $('input[name="file_upload_sig[]"]').click();
+             });
+
+
     var createEmployee=function(){
         var _data=$('#frm_employee').serializeArray();
         _data.push({name : "image_name" ,value : $('img[name="img_user"]').attr('src')});
+        _data.push({name : "image_sig" ,value : $('img[name="img_sig"]').attr('src')});
+
+        var is_admin_active = $('#is_admin_active').is('checked');
+
+        if (is_admin_active == true){
+            _data.push({name : "is_admin_active" ,value : 1});
+        }else{
+            _data.push({name : "is_admin_active" ,value : 0});
+        }
+
         return $.ajax({
             "dataType":"json",
             "type":"POST",
@@ -6236,9 +6710,19 @@ $(document).ready(function(){
     var updateEmployee=function(){
         var _data=$('#frm_employee').serializeArray();
         _data.push({name : "image_name" ,value : $('img[name="img_user"]').attr('src')});
+        _data.push({name : "image_sig" ,value : $('img[name="img_sig"]').attr('src')});
 
         console.log(_data);
         _data.push({name : "employee_id" ,value : _selectedID});
+
+        var is_admin_active = $('#is_admin_active').is(':checked');
+
+        if (is_admin_active == true){
+            _data.push({name : "is_admin_active" ,value : 1});
+        }else{
+            _data.push({name : "is_admin_active" ,value : 0});
+        }
+
         //_data.push({name:"is_inventory",value: $('input[name="is_inventory"]').val()});
 
         //alert($('input[name="is_inventory"]').val());
@@ -6305,6 +6789,16 @@ $(document).ready(function(){
             "beforeSend": showSpinningProgress($('#'))
         });
     };
+
+    var generatepassEmployee=function(){
+        return $.ajax({
+            "dataType":"json",
+            "type":"POST",
+            "url":"Employee/transaction/generatepassEmployee",
+            "data":{employee_id : _selectedID},
+            "beforeSend": showSpinningProgress($('#'))
+        });
+    };    
 
     var emailEmployee=function(){
         return $.ajax({
@@ -6547,6 +7041,15 @@ $(document).ready(function(){
     var createEmergencyContact=function(){
         var _data=$('#frm_emergency_details').serializeArray();
         _data.push({name : "employee_id" ,value : _selectedID});
+        
+        var is_active = $('#ec_is_active').is(":checked");
+
+        if (is_active == true){
+            _data.push({name : "is_active" ,value : 1});
+        }else{
+            _data.push({name : "is_active" ,value : 0});
+        }
+
         return $.ajax({
             "dataType":"json",
             "type":"POST",
@@ -6559,6 +7062,16 @@ $(document).ready(function(){
     var updateEmergencyContact=function(){
         var _data=$('#frm_emergency_details').serializeArray();
         _data.push({name : "emp_emergency_contact_details_id" ,value : _selectedIDemergency});
+        _data.push({name : "employee_id" ,value : _selectedID});
+
+        var is_active = $('#ec_is_active').is(":checked");
+
+        if (is_active == true){
+            _data.push({name : "is_active" ,value : 1});
+        }else{
+            _data.push({name : "is_active" ,value : 0});
+        }
+
         return $.ajax({
             "dataType":"json",
             "type":"POST",
@@ -6803,6 +7316,19 @@ $(document).ready(function(){
             "url":"RefCertificate/transaction/createdirect",
             "data":_data,
             "beforeSend": showSpinningProgress($('#'))
+        });
+    };
+
+    var get_leave_details=function(emp_leaves_entitlement_id){
+        var _data=$('#').serializeArray();
+        _data.push({name : "emp_leaves_entitlement_id" ,value : emp_leaves_entitlement_id});
+
+        return $.ajax({
+            "dataType":"json",
+            "type":"POST",
+            "url":"Entitlement/transaction/leave_details",
+            "data":_data,
+            "beforeSend": showSpinningProgressLoading()
         });
     };
 

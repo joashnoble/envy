@@ -111,9 +111,7 @@
 </head>
 
 <body class="animated-content">
-
 <?php echo $_top_navigation; ?>
-
 <div id="wrapper">
     <div id="layout-static">
 
@@ -137,39 +135,33 @@
                                         </div>
                                     <div class="panel-body table-responsive" style="padding-top:8px;">
                                         <div class="row" style="margin:10px;">
-                                            <div class="col-md-5">
+                                            <div class="col-md-12">
                                                 <div class="row">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 inlinecustomlabel-sm" for="inputEmail1">Period :</label>
-                                                        <div class="col-sm-8">
-                                                            <select class="form-control" name="period_id" id="period_id" data-error-msg="Please Select Employee" required>
-                                                            <option value="">[ Select Pay Period ]</option>
-                                                           <?php
-                                                                foreach($pay_period as $row)
-                                                                {
-                                                                    echo '<option value="'.$row->pay_period_id  .'">'.$row->pay_period_start.'&nbsp ~ &nbsp'.$row->pay_period_end.'</option>';
-                                                                }
-                                                            ?>
-                                                          </select>
-                                                        </div>
+                                                    <div class="col-md-4">
+                                                        <label>Pay Period : </label>
+                                                        <select class="form-control" name="period_id" id="period_id" data-error-msg="Please Select Employee" required>
+                                                        <option value="">[ Select Pay Period ]</option>
+                                                       <?php
+                                                            foreach($pay_period as $row)
+                                                            {
+                                                                echo '<option value="'.$row->pay_period_id  .'">'.$row->pay_period_start.'&nbsp ~ &nbsp'.$row->pay_period_end.'</option>';
+                                                            }
+                                                        ?>
+                                                      </select>
                                                     </div>
-                                                </div>
-                                                <div class="row" style="margin-top: 5px;">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 inlinecustomlabel-sm" for="inputEmail1">Department :</label>
-                                                        <div class="col-sm-8">
-                                                            <select class="form-control" name="department_id" id="department_id" data-error-msg="Please Select Employee" required>
-                                                            <option value="">[ Select Department ]</option>
-                                                            <?php
-                                                                foreach($department as $row)
-                                                                {
-                                                                    echo '<option value="'.$row->ref_department_id  .'">'.$row->department.'</option>';
-                                                                }
-                                                            ?>
-                                                          </select>
-                                                        </div>
+                                                    <div class="col-md-4">
+                                                        <label>Department : </label>
+                                                        <select class="form-control" name="department_id" id="department_id" data-error-msg="Please Select Employee" required>
+                                                        <option value="">[ Select Department ]</option>
+                                                        <?php
+                                                            foreach($department as $row)
+                                                            {
+                                                                echo '<option value="'.$row->ref_department_id  .'">'.$row->department.'</option>';
+                                                            }
+                                                        ?>
+                                                      </select>
                                                     </div>
-                                                </div>                                            
+                                                </div>                                           
                                             </div>
                                         </div>
                                         <hr>
@@ -248,7 +240,7 @@ $(document).ready(function(){
     // SELECT2 - Department
     _departmentOT=$("#department_id").select2({
         placeholder: "Select Department",
-        allowClear: true
+        allowClear: false
     });
     _departmentOT.select2('val', null);
     // ## 
@@ -256,7 +248,7 @@ $(document).ready(function(){
     // ## SELECT2 - Pay Period 
     _payperiodid=$("#period_id").select2({
         placeholder: "Select Pay Period",
-        allowClear: true
+        allowClear: false
     });
     _payperiodid.select2('val', null);
     // ##

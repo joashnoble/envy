@@ -92,12 +92,12 @@
                                 <div class="panel-heading" style="background-color:#2c3e50 !important;margin-top:2px;">
                                      <center><h2 style="color:white;font-weight:300;">Expiring Personnel</h2></center>
                                 </div>
-                                <div class="panel-body table-responsive" style="padding-top:10px;">
+                                <div class="panel-body table-responsive">
                                     <div>
-                                        <div class="row" style="padding: 15px;">
+                                        <div class="row" style="margin: 15px;">
                                             <div class="col-md-3">
-                                                <label  style="float:left;margin-top:5px;font-weight: bold;" for="inputEmail1">Month Filter :</label>
-                                                <select class="form-control" style="margin-left: 20px;" name="month_filter" id="month_filter" data-error-msg="Month Filter is required" required>
+                                                <label style="font-weight: bold;" for="inputEmail1">Month :</label>
+                                                <select class="form-control" name="month_filter" id="month_filter" data-error-msg="Month Filter is required" required>
                                                     <option value="1">January</option>
                                                     <option value="2">February</option>
                                                     <option value="3">March</option>
@@ -113,8 +113,8 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-3">
-                                                <label  style="float:left;margin-top:5px;font-weight: bold;" for="inputEmail1">Year Filter :</label>
-                                                <select class="form-control" style="margin-left: 20px;" name="year_filter" id="year_filter" data-error-msg="Year Filter is required" required>
+                                                <label style="font-weight: bold;" for="inputEmail1">Year :</label>
+                                                <select class="form-control" name="year_filter" id="year_filter" data-error-msg="Year Filter is required" required>
 
                                                     <?php $minyear=2016; $maxyear=2050;
                                                         while($minyear!=$maxyear){
@@ -126,11 +126,11 @@
                                             </div>
 
                                             <div class="col-md-6">
-                                                <button type="button" class="btn col-sm-12 form-control" id="print_expiring_personnel" style="background-color:#27ae60; color:white;width: 100px;margin-top: 30px;"><i class="fa fa-print"></i> PRINT</button>
+                                                <button type="button" class="btn col-sm-12 form-control" id="print_expiring_personnel" style="background-color:#27ae60; color:white;width: 100px;margin-top: 25px;"><i class="fa fa-print"></i> PRINT</button>
 
-                                                <button type="button" class="btn btn-primary col-sm-12 form-control" id="export_expiring_personnel" style="color:white;margin-left: 20px;margin-top: 30px;width: auto;"> <i class="fa fa-file-excel-o"></i> EXPORT EXCEL</button>
+                                                <button type="button" class="btn btn-primary col-sm-12 form-control" id="export_expiring_personnel" style="color:white;margin-left: 20px;margin-top: 25px;width: auto;"> <i class="fa fa-file-excel-o"></i> EXPORT EXCEL</button>
 
-                                                <button type="button" class="btn btn-info col-sm-12 form-control" id="email_expiring_personnel" style="color:white;margin-left: 20px;margin-top: 30px; width: 100px;"><i class="fa fa-envelope"></i> EMAIL</button>
+                                                <button type="button" class="btn btn-info col-sm-12 form-control" id="email_expiring_personnel" style="color:white;margin-left: 20px;margin-top: 25px; width: 100px;"><i class="fa fa-envelope"></i> EMAIL</button>
                                             </div>
 
                                         </div>
@@ -167,14 +167,14 @@ $(document).ready(function(){
 
     _month=$("#month_filter").select2({
         placeholder: "Select Month",
-        allowClear: true
+        allowClear: false
     });
 
     _month.select2('val', '');
 
     _year=$("#year_filter").select2({
         placeholder: "Select Year",
-        allowClear: true
+        allowClear: false
     });
 
     _year.select2('val', '');

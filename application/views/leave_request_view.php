@@ -141,6 +141,7 @@
                                                     <th>Date Filed</th>
                                                     <th>Employee</th>
                                                     <th>Type of Leave</th>
+                                                    <th width="15%">Leave Request</th>
                                                     <th width="25%">Action</th>
                                                  </tr>
                                             </thead>
@@ -205,8 +206,9 @@ $(document).ready(function(){
                 { targets:[1],data: "date_filed" },
                 { targets:[2],data: "fullname" },
                 { targets:[3],data: "leave_type" },
+                { targets:[4],data: "total" },
                 {
-                    targets:[4],
+                    targets:[5],
                     render: function (data, type, full, meta){
 
                         return '<center>'+right_leaverequest_approve+' '+right_leaverequest_decline+'</center>';
@@ -220,7 +222,7 @@ $(document).ready(function(){
 
             "rowCallback":function( row, data, index ){
 
-                $(row).find('td').eq(5).attr({
+                $(row).find('td').eq(4).attr({
                     "align": "right"
                 });
 
@@ -279,7 +281,6 @@ $(document).ready(function(){
             _selectedemployee_id = data.employee_id;
             _selectedref_leave_type_id = data.ref_leave_type_id
             _selectedtotal = data.total;
-
 
             $('#modal_confirmation').modal('show');
             $('#modal_mode').text('Approve Leave?');
@@ -376,9 +377,7 @@ $(document).ready(function(){
             if (leave_mode == "approve"){
                 approveLeaveRequest().done(function(response){
                     showNotification(response);
-                    if(response.false==0){
-                    }
-                    else{
+                    if(response.stat=="success"){                    
                         dt.row(_selectRowObj).remove().draw();
                     }
                     $.unblockUI();
@@ -386,9 +385,7 @@ $(document).ready(function(){
             }else if (leave_mode == "decline"){
                 declineLeaveRequest().done(function(response){
                         showNotification(response);
-                        if(response.false==0){
-                        }
-                        else{
+                        if(response.stat=="success"){
                             dt.row(_selectRowObj).remove().draw();
                         }
                         $.unblockUI();
@@ -571,10 +568,10 @@ $(document).ready(function(){
 
        var _data=$('#').serializeArray();
         _data.push({name : "emp_leaves_filed_id" , value : _selectedID});
-        _data.push({name : "emp_leave_year_id" , value : _selectedemp_leave_year_id});
-        _data.push({name : "employee_id" ,value : _selectedemployee_id});
-        _data.push({name : "ref_leave_type_id" ,value : _selectedref_leave_type_id});
-        _data.push({name : "total" ,value : _selectedtotal});
+        // _data.push({name : "emp_leave_year_id" , value : _selectedemp_leave_year_id});
+        // _data.push({name : "employee_id" ,value : _selectedemployee_id});
+        // _data.push({name : "ref_leave_type_id" ,value : _selectedref_leave_type_id});
+        // _data.push({name : "total" ,value : _selectedtotal});
 
         return $.ajax({
             "dataType":"json",

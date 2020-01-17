@@ -110,6 +110,9 @@
             width: 60%;
         }
 
+        .red{
+            color: red; 
+        }
     </style>
 <?php echo $loaderscript; ?>
 </head>
@@ -200,7 +203,9 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">Description :</label>
+                                    <label class="boldlabel">
+                                        <span class="red"><b>*</b></span> Description :
+                                    </label>
                                     <textarea type="text" class="form-control" id="group_desc" name="group_desc" placeholder="Group Description" data-error-msg="Group Description is Required!" required></textarea>
                                 </div>
                               </div>

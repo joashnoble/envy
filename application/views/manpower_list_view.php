@@ -92,12 +92,12 @@
                                 <div class="panel-heading" style="background-color:#2c3e50 !important;margin-top:2px;">
                                      <center><h2 style="color:white;font-weight:300;">Man Power List (Active) </h2></center>
                                 </div>
-                                <div class="panel-body table-responsive" style="padding-top:8px;">
-                                    <div class="row">
+                                <div class="panel-body table-responsive">
+                                    <div class="row" style="margin: 10px;">
 
 
-                                        <div class="col-md-3" style="margin-left: 20px;">
-                                            <label  style="float:left;margin-top:5px;font-weight: bold;" for="inputEmail1">Branch Filter :</label>
+                                        <div class="col-md-3">
+                                            <label style="font-weight: bold;" for="inputEmail1">Branch Filter :</label>
                                             <select class="form-control"  name="branch_filter_list" id="branch_filter_list" data-error-msg="Pay Period Filter is required" required>
                                             <option value="all">All</option>   
                                             <?php
@@ -144,7 +144,7 @@ $(document).ready(function(){
     _branch=$("#branch_filter_list").select2({
         /*dropdownParent: $("#modal_create_schedule"),*/
         placeholder: "Select Branch",
-        allowClear: true
+        allowClear: false
     });
 
     _branch.select2('val', '');

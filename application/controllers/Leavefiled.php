@@ -13,7 +13,7 @@ class LeaveFiled extends CORE_Controller
         $this->load->model('Employee_model');
         $this->load->model('RefYearSetup_model');
         $this->load->model('Leavefiled_model');
-        
+        $this->load->model('DailyTimeRecord_model');
         
     }
 
@@ -47,8 +47,12 @@ class LeaveFiled extends CORE_Controller
                 $m_yearsetup = $this->RefYearSetup_model;
                 $active_year = $m_yearsetup->getactiveyear();
                 $response['data']=$this->Leavefiled_model->get_list(
-                   array('emp_leaves_filed.employee_id'=>$employee_id,'emp_leaves_filed.emp_leave_year_id'=>$active_year,'emp_leaves_entitlement.is_deleted'=>FALSE),
-                    'emp_leaves_filed.*,ref_leave_type.leave_type',
+                   array('emp_leaves_filed.employee_id'=>$employee_id,'emp_leaves_filed.emp_leave_year_id'=>$active_year,'emp_leaves_entitlement.is_deleted'=>FALSE,'emp_leaves_filed.status'=>2),
+                    'emp_leaves_filed.*,ref_leave_type.leave_type,
+                    DATE_FORMAT(emp_leaves_filed.date_filed, "%m/%d/%Y") as date_filed,
+                    DATE_FORMAT(emp_leaves_filed.date_granted, "%m/%d/%Y") as date_granted,
+                    DATE_FORMAT(emp_leaves_filed.date_time_from, "%m/%d/%Y") as date_time_from,
+                    DATE_FORMAT(emp_leaves_filed.date_time_to, "%m/%d/%Y") as date_time_to',
                         array(
                             array('emp_leaves_entitlement','emp_leaves_entitlement.emp_leaves_entitlement_id=emp_leaves_filed.emp_leaves_entitlement_id','left'),
                             array('ref_leave_type','ref_leave_type.ref_leave_type_id=emp_leaves_entitlement.ref_leave_type_id','left'),
@@ -63,6 +67,8 @@ class LeaveFiled extends CORE_Controller
                 $m_leavefiled = $this->Leavefiled_model;
                 $m_yearsetup = $this->RefYearSetup_model;
                 $m_leaves_entitlement = $this->Entitlement_model;
+                $m_dtr = $this->DailyTimeRecord_model;
+
                 $employee_id = $this->input->post('employee_id', TRUE);
                 $emp_leaves_entitlement_id = $this->input->post('emp_leaves_entitlement_id', TRUE);
 
@@ -93,7 +99,12 @@ class LeaveFiled extends CORE_Controller
                 $m_leavefiled->created_by = $user_id;
                 $m_leavefiled->save();
 
+
                 $m_leaves_filed_id = $m_leavefiled->last_insert_id();
+
+
+
+
                 $total_leaves_filed_this_year = $m_leavefiled->getleavesfiled($active_year,$employee_id,$emp_leaves_entitlement_id); //model funct. to get total leave :)
                 $total_leaves_grant_this_year = $m_leaves_entitlement->gettotalgrantthisyear($active_year,$emp_leaves_entitlement_id); //model funct. to get total leave grant :)
 
@@ -106,19 +117,37 @@ class LeaveFiled extends CORE_Controller
                         $m_leaves_entitlement->set('current_balance',$leave_current_balance);
                         /*echo $total_leaves_filed_this_year;*/
                         $m_leaves_entitlement->modify($emp_leaves_entitlement_id);
-
                         
+                        // ## Update Leave on Payroll if existing
+                        // $dtr = $m_dtr->ifexistdtr($employee_id,$pay_period_id);
 
-                        //$m_products->set('quantity','quantity-'.$pos_qty[$i]);
-                        //$m_products->modify($product_id[$i]);
+                        // if (count($dtr) > 0){
+                        //     $dtr_id = $dtr[0]->dtr_id;
+
+                        //     $per_hour_pay = $m_dtr->get_per_hour_pay($employee_id);
+                        //     $hour_per_day = $m_dtr->get_hour_per_day($employee_id);
+
+                        //     $days_with_pay = $dtr[0]->days_with_pay;
+                        //     $total_days_with_pay = $this->get_numeric_value($days_with_pay) + $this->get_numeric_value($total);
+                        //     $grand_total = $total_days_with_pay * $hour_per_day;
+
+                        //     $m_dtr->days_with_pay = $this->get_numeric_value($grand_total);
+                        //     $m_dtr->days_with_pay_amt = ($per_hour_pay)*$this->get_numeric_value($grand_total);
+                        //     $m_dtr->modify($dtr_id);
+                        // }
+                        // ## END 
 
                         $response['title'] = 'Success!';
                         $response['stat'] = 'success';
-                        $response['msg'] = 'Entitlement successfully created.';
+                        $response['msg'] = 'Leave successfully applied.';
 
                         $response['row_added'] = $this->Leavefiled_model->get_list(
                            $m_leaves_filed_id,
-                            'emp_leaves_filed.*,ref_leave_type.leave_type',
+                            'emp_leaves_filed.*,ref_leave_type.leave_type,
+                            DATE_FORMAT(emp_leaves_filed.date_filed, "%m/%d/%Y") as date_filed,
+                            DATE_FORMAT(emp_leaves_filed.date_granted, "%m/%d/%Y") as date_granted,
+                            DATE_FORMAT(emp_leaves_filed.date_time_from, "%m/%d/%Y") as date_time_from,
+                            DATE_FORMAT(emp_leaves_filed.date_time_to, "%m/%d/%Y") as date_time_to',
                                 array(
                                     array('emp_leaves_entitlement','emp_leaves_entitlement.emp_leaves_entitlement_id=emp_leaves_filed.emp_leaves_entitlement_id','left'),
                                     array('ref_leave_type','ref_leave_type.ref_leave_type_id=emp_leaves_entitlement.ref_leave_type_id','left'),
@@ -129,8 +158,7 @@ class LeaveFiled extends CORE_Controller
                         $response['title'] = 'Error!';
                         $response['stat'] = 'error';
                         $response['msg'] = 'Not Enough Leave Grant.';
-                        /*$m_leavefiled->is_deleted = 1;
-                        $m_leavefiled->modify($m_leaves_filed_id);*/
+                        
                         //DELETE LAST INSERTED BEC. OF LACK OF GRANT
                         $this->db->where('emp_leaves_filed_id', $m_leaves_filed_id);
                         $this->db->delete('emp_leaves_filed'); 
@@ -139,44 +167,22 @@ class LeaveFiled extends CORE_Controller
                 echo json_encode($response);
                 break;
 
-            case 'delete':
-                
-
-                break;
-
-            case 'update':
-                
-
-                break;
-
             case 'test':
-function replaceCharsInNumber($num, $chars) {
-   return substr((string) $num, 0, -strlen($chars)) . $chars;
-}
+                    function replaceCharsInNumber($num, $chars) {
+                       return substr((string) $num, 0, -strlen($chars)) . $chars;
+                    }
 
-$format = "000000";
-$temp = replaceCharsInNumber($format, '200'); //5069xxx
-$ecode = $temp .'-'. $today = date("Y");
-echo $ecode;
-
-
+                    $format = "000000";
+                    $temp = replaceCharsInNumber($format, '200'); //5069xxx
+                    $ecode = $temp .'-'. $today = date("Y");
+                    echo $ecode;
                 break;
-                case 'test2':
+
+            case 'test2':
                 $m_yearsetup = $this->RefYearSetup_model;
                 $active_year = $m_yearsetup->getactiveyear();
                 echo $active_year;
                 break;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 }

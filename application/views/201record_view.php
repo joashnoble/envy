@@ -92,13 +92,13 @@
                                 <div class="panel-heading" style="background-color:#2c3e50 !important;margin-top:2px;">
                                      <center><h2 style="color:white;font-weight:300;">201 Record </h2></center>
                                 </div>
-                                <div class="panel-body table-responsive" style="padding-top:8px;">
-                                    <div class="row">
-                                        <div style="padding: 5px;margin-left: 20px; margin-top: 10px;">
+                                <div class="panel-body table-responsive">
+                                    <div class="row" style="margin: 15px;">
+                                        <div>
                                              <div class="col-md-3">
-                                                <label style="font-weight: bold;" for="inputEmail1">Employee Filter :</label>
+                                                <label style="font-weight: bold;" for="inputEmail1">Employee :</label>
                                                 <select class="form-control" name="employee_filter_list" id="employee_filter_list" data-error-msg="Pay Period Filter is required" required>
-                                                <option value="0">Select an employee</option>
+                                                <option value="">Select an employee</option>
                                                 <?php foreach($employee as $employees){?>
                                                           <option value="<?php echo $employees->employee_id; ?>">
                                                             <?php echo $employees->ecode.' '.$employees->full_name; ?>
@@ -108,11 +108,11 @@
                                             </div>
 
                                             <div class="col-md-6">
-                                                <button type="button" class="btn col-sm-12 form-control" id="print_employee_201record" style="background-color:#27ae60; color:white;width: 100px;margin-top: 30px;"><i class="fa fa-print"></i> PRINT</button>
+                                                <button type="button" class="btn col-sm-12 form-control" id="print_employee_201record" style="background-color:#27ae60; color:white;width: 100px;margin-top: 25px;"><i class="fa fa-print"></i> PRINT</button>
 
-                                                <button type="button" class="btn btn-primary col-sm-12 form-control" id="export_employee_201record" style="color:white;margin-left: 20px;margin-top: 30px;width: auto;"> <i class="fa fa-file-excel-o"></i> EXPORT EXCEL</button>
+                                                <button type="button" class="btn btn-primary col-sm-12 form-control" id="export_employee_201record" style="color:white;margin-left: 20px;margin-top: 25px;width: auto;"> <i class="fa fa-file-excel-o"></i> EXPORT EXCEL</button>
 
-                                                <button type="button" class="btn btn-info col-sm-12 form-control" id="email_employee_201record" style="color:white;margin-left: 20px;margin-top: 30px; width: 100px;"><i class="fa fa-envelope"></i> EMAIL</button>
+                                                <button type="button" class="btn btn-info col-sm-12 form-control" id="email_employee_201record" style="color:white;margin-left: 20px;margin-top: 25px; width: 100px;"><i class="fa fa-envelope"></i> EMAIL</button>
                                             </div>
 
                                          
@@ -244,7 +244,7 @@ $(document).ready(function(){
 
     _employee=$("#employee_filter_list").select2({
         placeholder: "Select an employee",
-        allowClear: true
+        allowClear: false
     });
 
     _employee.select2('val', null);

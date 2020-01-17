@@ -19,7 +19,7 @@
                     <ul class="acc-menu">
                         <li class="nav-separator"><span>Explore</span></li>
                         <li><a href="Dashboard"><i class="ti ti-home"></i><span>Dashboard</span></a></li>
-<!--                         <li class="right_announcement_view"><a href="Announcement"><i class="fa fa-newspaper-o"></i><span>Announcement</span></a></li> -->
+                        <li class="right_announcement_view"><a href="Announcement"><i class="fa fa-newspaper-o"></i><span>Announcement</span></a></li>
                         <li class="right_employee_view" id="employee_parent"><a href="javascript:void();"><i class="fa fa-users" aria-hidden="true"></i><span>Personell Information</span></a>
                             <ul class="acc-menu" id="personal_info">
                                 <li id="employeejs"><a href="Employee">Employee Information</a>
@@ -32,7 +32,7 @@
                         </li>
                         <li class="right_leavemgmt_view" id="leave_parent"><a href="javascript:void();"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Leave Management</span></a>
                             <ul class="acc-menu" id="ul_leave">
-<!--                                 <li class="right_leaverequest_view" id="leavetypejs"><a href="LeaveRequest">Leave Request</a></li> -->
+                                <li class="right_leaverequest_view" id="leavetypejs"><a href="LeaveRequest">Leave Request</a></li>
                                 <li class="right_leavetype_view" id="leavetypejs"><a href="RefLeave" class="" id="">Leave Type</a>
                                 </li>
                                 <li class="right_yearsetup_view" id="yearsetupjs"><a href="RefYearSetup" class="" id="">Year Setup</a>
@@ -108,24 +108,6 @@
                                 </li>  
                                 <li class="right_attrition_view"><a href="Attrition" id="Attrition">Attrition Report</a>
                                 </li>   
-                            </ul>
-                        </li>
-                        <li class="right_deductionsparent_view"><a href="javascript:void();"><i class="fa fa-minus-square" aria-hidden="true"></i><span>Deduction</span></a>
-                            <ul class="acc-menu">
-                                <li class="right_regdeduction_view"><a href="RegularDeduction" class="departmentjs" id="departmentjs">Regular Deduction</a>
-                                </li>
-                                <li class="right_tempdeduction_view"><a href="TemporaryDeduction" class="departmentjs" id="departmentjs">Temporary Deduction</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="right_otherearningsparent_view"><a href="javascript:void();"><i class="fa fa-university" aria-hidden="true"></i><span>Other Earnings</span></a>
-                            <ul class="acc-menu">
-                                <li class="right_otherregearnings_view"><a href="RefOtherEarningRegular" class="departmentjs" id="departmentjs">Other Earnings Regular</a>
-                                </li>
-                                <li class="right_othertempearnings_view"><a href="TemporaryOtherEarnings" class="departmentjs" id="departmentjs">Other Earnings Temporary</a>
-                                </li>
-                                <li class="right_overtimeentry_view"><a href="OvertimeEntry" class="" id="OvertimeEntry">Overtime Entry</a>
-                                </li>
                             </ul>
                         </li>
                         <li class="right_adminparent_view"><a href="javascript:void();"><i class="fa fa-cog" aria-hidden="true"></i><span>Settings</span></a>

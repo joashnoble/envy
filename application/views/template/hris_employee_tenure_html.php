@@ -35,6 +35,8 @@
 	 	if($branch!="all"){
 	 		$this->db->where('emp_rates_duties.ref_department_id', $deptrow->ref_department_id);
 	 		$this->db->where('emp_rates_duties.active_rates_duties', 1);
+            $this->db->where('employee_list.is_deleted', 0);
+            $this->db->where('employee_list.status="Active"');
 	 		$this->db->where('ref_branch.ref_branch_id', $branch);
 		 	$this->db->select('*,ref_position.position,CONCAT(employee_list.first_name," ",employee_list.middle_name," ",employee_list.last_name) as full_name');
 			$this->db->from('employee_list');
@@ -71,12 +73,14 @@
 					}
 				}
 				else{
-						echo "<tr><td></td><td></td><td>No Result</td></tr>";
+						echo "<tr><td colspan='7'><center>No Result</center></td></tr>";
 				}
 	 	}
 	 	else{
 	 		$this->db->where('emp_rates_duties.ref_department_id', $deptrow->ref_department_id);
 	 		$this->db->where('emp_rates_duties.active_rates_duties', 1);
+	        $this->db->where('employee_list.is_deleted', 0);
+	        $this->db->where('employee_list.status="Active"');	 		
 		 	$this->db->select('*,ref_position.position,CONCAT(employee_list.first_name," ",employee_list.middle_name," ",employee_list.last_name) as full_name');
 			$this->db->from('employee_list');
 			$this->db->join('emp_rates_duties', 'emp_rates_duties.employee_id = employee_list.employee_id');
@@ -110,7 +114,7 @@
 					}
 				}
 				else{
-						echo "<tr><td></td><td></td><td>No Result</td></tr>";
+						echo "<tr><td colspan='7'><center>No Result</center></td></tr>";
 				}
 	 	}
 

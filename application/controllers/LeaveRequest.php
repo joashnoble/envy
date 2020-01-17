@@ -75,32 +75,43 @@ class LeaveRequest extends CORE_Controller
             case 'approveleave':
 
                 $m_leave=$this->Leavefiled_model;
-                $m_leave_enttitlement = $this->Entitlement_model;
+                $m_entitlement=$this->Entitlement_model;
                 $m_yearsetup = $this->RefYearSetup_model;
 
                 $emp_leaves_filed_id=$this->input->post('emp_leaves_filed_id',TRUE);
-                $active_year = $m_yearsetup->getactiveyear(); //model funct. to get active year :)
 
-                $m_leave_enttitlement->emp_leave_year_id = $active_year;
-                $m_leave_enttitlement->emp_leaves_entitlement_id = $emp_leaves_filed_id;
-                $m_leave_enttitlement->employee_id = $this->input->post('employee_id',TRUE);
-                $m_leave_enttitlement->ref_leave_type_id = $this->input->post('ref_leave_type_id',TRUE);
-                $m_leave_enttitlement->total_grant = $this->input->post('total',TRUE);
-                $m_leave_enttitlement->received_balance = $this->input->post('total',TRUE);
-                $m_leave_enttitlement->current_balance = 0;
-                $m_leave_enttitlement->date_created = date('Y-m-d H:i:s');
-                $m_leave_enttitlement->save();
+                $get_leave_filed = $m_leave->get_list($emp_leaves_filed_id);
+                $emp_leaves_entitlement_id = $get_leave_filed[0]->emp_leaves_entitlement_id;
+                $request_total = $get_leave_filed[0]->total;
 
-                $m_leave_enttitlement_id =$m_leave_enttitlement->last_insert_id();
+                $entitlement = $m_entitlement->getEntitlement(null,$emp_leaves_entitlement_id);
 
-                $m_leave->status = 1;
-                $m_leave->emp_leaves_entitlement_id = $m_leave_enttitlement_id;
-                $m_leave->date_granted = date('Y-m-d');
-                $m_leave->modify($emp_leaves_filed_id);
+                if (count($entitlement) > 0){
+                    $current_balance = $entitlement[0]->current_balance;
 
-                $response['title'] = 'Success!';
-                $response['stat'] = 'success';
-                $response['msg'] = 'Leave Request is successfully approved.';
+                    if ($current_balance >= $request_total){
+
+                        $m_leave->status = 2;
+                        $m_leave->date_granted = date('Y-m-d');
+                        $m_leave->modify($emp_leaves_filed_id);
+
+                        $response['title'] = 'Success!';
+                        $response['stat'] = 'success';
+                        $response['msg'] = 'Leave Request is successfully approved.';
+                    }else{
+
+                        $response['title'] = 'Error!';
+                        $response['stat'] = 'error';
+                        $response['msg'] = 'Leave Balance is below the requested leave!';
+                    }
+
+                }else{
+
+                    $response['title'] = 'Error!';
+                    $response['stat'] = 'error';
+                    $response['msg'] = 'Leave Request failed!';
+                }
+
                 echo json_encode($response); 
             break;
 
@@ -109,7 +120,7 @@ class LeaveRequest extends CORE_Controller
                 $m_leave=$this->Leavefiled_model;
 
                 $emp_leaves_filed_id=$this->input->post('emp_leaves_filed_id',TRUE);
-                $m_leave->status = 2;
+                $m_leave->status = 3;
                 $m_leave->modify($emp_leaves_filed_id);
 
                 $response['title'] = 'Success!';
@@ -225,12 +236,4 @@ class LeaveRequest extends CORE_Controller
 
         }
     }
-
-
-
-
-
-
-
-
 }

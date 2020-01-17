@@ -66,7 +66,7 @@ class Users extends CORE_Controller
                     $m_users->user_telephone=$this->input->post('user_telephone',TRUE);
                     $m_users->user_bdate=date('Y-m-d',strtotime($this->input->post('user_bdate',TRUE)));
                     $m_users->user_group_id=$this->input->post('user_group_id',TRUE);
-                    $m_users->photo_path=$this->input->post('photo_path',TRUE);
+                    $m_users->photo_path=base_url($this->input->post('photo_path',TRUE));
                     $m_users->date_created = date("Y-m-d H:i:s");
                     $m_users->created_by = $this->session->user_id;
                     $m_users->save();
@@ -118,7 +118,7 @@ class Users extends CORE_Controller
                     $m_users->user_telephone=$this->input->post('user_telephone',TRUE);
                     $m_users->user_bdate=date('Y-m-d',strtotime($this->input->post('user_bdate',TRUE)));
                     $m_users->user_group_id=$this->input->post('user_group_id',TRUE);
-                    $m_users->photo_path=$this->input->post('photo_path',TRUE);
+                    $m_users->photo_path=base_url($this->input->post('photo_path',TRUE));
                     $m_users->date_modified = date("Y-m-d H:i:s");
                     $m_users->modified_by = $this->session->user_id;
                     $m_users->modify($user_account_id);
@@ -146,7 +146,7 @@ class Users extends CORE_Controller
                         $m_users->user_telephone=$this->input->post('user_telephone',TRUE);
                         $m_users->user_bdate=date('Y-m-d',strtotime($this->input->post('user_bdate',TRUE)));
                         $m_users->user_group_id=$this->input->post('user_group_id',TRUE);
-                        $m_users->photo_path=$this->input->post('photo_path',TRUE);
+                        $m_users->photo_path=base_url($this->input->post('photo_path',TRUE));
                         $m_users->date_modified = date("Y-m-d H:i:s");
                         $m_users->modified_by = $this->session->user_id;
                         $m_users->modify($user_account_id);

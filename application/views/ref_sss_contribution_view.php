@@ -206,6 +206,7 @@
                                                     <th style="background-color:#7c8618;color:#FFF;">EC</th>
                                                     <th style="background-color:#7c8618;color:#FFF;">Total</th>
                                                     <th style="background-color:#7c8618;color:#FFF;"><center>Action</center></th>
+                                                    <th class="hidden"></th>
                                                  </tr>
                                             </thead>
                                             <tbody>
@@ -259,42 +260,42 @@
                                 <div class="container" style="width:100% !important;">
                                     <div class="form-group">
                                         <label class="boldlabel">RANGE OF COMPENSATION</label><br>
-                                        <label class="col-sm-5 inlinecustomlabel" for="inputEmail1">Salary Range From :</label>
+                                        <label class="col-sm-5 inlinecustomlabel" for="inputEmail1"><i class="red">*</i> Salary Range From :</label>
                                         <div class="col-sm-7">
-                                            <input class="form-control numeric" id="salary_range_from" name="salary_range_from" placeholder="Ex: 9,250.00" data-error-msg="This is Required!">
+                                            <input class="form-control numeric" id="salary_range_from" name="salary_range_from" placeholder="Ex: 9,250.00" data-error-msg="Salary Range From Field is Required!" required>
                                         </div>
                                     </div>
                                     <div class="form-group" style="padding-bottom:15px !important;">
-                                      <label class="col-sm-5 inlinecustomlabel" for="inputPassword1">Salary Range To :</label>
+                                      <label class="col-sm-5 inlinecustomlabel" for="inputPassword1"><i class="red">*</i> Salary Range To :</label>
                                         <div class="col-sm-7">
-                                            <input class="form-control numeric" id="salary_range_to" name="salary_range_to" placeholder="Ex: 9,250.00" data-error-msg="This is Required!">
+                                            <input class="form-control numeric" id="salary_range_to" name="salary_range_to" placeholder="Ex: 9,250.00" data-error-msg="Salary Range To Field is Required!" required>
                                         </div>
                                     </div>
                                     <hr style="border-bottom:1px solid;">
                                     <div class="form-group" style="padding-bottom:15px !important;">
-                                      <label class="col-sm-5 inlinecustomlabel" for="inputPassword1">Monthly Salary Credit :</label>
+                                      <label class="col-sm-5 inlinecustomlabel" for="inputPassword1"><i class="red">*</i> Monthly Salary Credit :</label>
                                         <div class="col-sm-7">
-                                            <input class="form-control numeric" id="monthly_salary_credit" name="monthly_salary_credit" placeholder="Ex: 9,250.00" data-error-msg="This is Required!">
+                                            <input class="form-control numeric" id="monthly_salary_credit" name="monthly_salary_credit" placeholder="Ex: 9,250.00" data-error-msg="Monthly Salary Credit Field is Required!" required>
                                         </div>
                                     </div>
                                     <hr style="border-bottom:1px solid;">
                                     <div class="form-group">
                                     <label class="boldlabel">SOCIAL SECURITY</label><br>
-                                      <label class="col-sm-5 inlinecustomlabel" for="inputPassword1">Employer :</label>
+                                      <label class="col-sm-5 inlinecustomlabel" for="inputPassword1"><i class="red">*</i> Employer :</label>
                                         <div class="col-sm-7">
-                                            <input class="form-control numeric" id="employer" name="employer" placeholder="Ex: 9,250.00" data-error-msg="This is Required!">
+                                            <input class="form-control numeric" id="employer" name="employer" placeholder="Ex: 9,250.00" data-error-msg="Employer Field is Required!" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                      <label class="col-sm-5 inlinecustomlabel" for="inputPassword1">Employer's Contribution  :</label>
+                                      <label class="col-sm-5 inlinecustomlabel" for="inputPassword1"><i class="red">*</i> Employer's Contribution  :</label>
                                         <div class="col-sm-7">
-                                            <input class="form-control numeric" id="employer_contribution" name="employer_contribution" placeholder="Ex: 9,250.00" data-error-msg="This is Required!">
+                                            <input class="form-control numeric" id="employer_contribution" name="employer_contribution" placeholder="Ex: 9,250.00" data-error-msg="Employer's Contribution Field is Required!" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                      <label class="col-sm-5 inlinecustomlabel" for="inputPassword1">Employee :</label>
+                                      <label class="col-sm-5 inlinecustomlabel" for="inputPassword1"><i class="red">*</i> Employee :</label>
                                         <div class="col-sm-7">
-                                           <input class="form-control numeric" id="employee" name="employee" placeholder="Ex: 9,250.00" data-error-msg="This is Required!">
+                                           <input class="form-control numeric" id="employee" name="employee" placeholder="Ex: 9,250.00" data-error-msg="Employee Field is Required!" required>
                                         </div>
                                     </div>
                                 </div>
@@ -318,23 +319,84 @@ $(document).ready(function(){
         dt=$('#tbl_sss_contribution_list').DataTable({
             "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             "ajax" : "RefSSS_Contribution/transaction/list",
+            "order": [[ 9, 'asc' ]],
             "columns": [
-
-                { targets:[1],data: "salary_range_from" },
-                { targets:[2],data: "salary_range_to" },
-                { targets:[3],data: "monthly_salary_credit" },
-                { targets:[4],data: "employer" },
-                { targets:[5],data: "employee" },
-                { targets:[6],data: "sub_total" },
-                { targets:[7],data: "employer_contribution" },
-                { targets:[8],data: "total" },
                 {
-                    targets:[9],
+                    className: "text-right",
+                    targets:[0],data: "salary_range_from",
+                    render: function(data){
+                        if(data == "1.00") {
+                            return "Below";
+                        } else if (data == "999999.00") {
+                            return "and above";
+                        }else{
+                            return accounting.formatNumber(data,2);
+                        }
+                    }
+                },
+                {
+                    className: "text-right",
+                    targets:[1],data: "salary_range_to",
+                    render: function(data){
+                        if(data == "0.00") {
+                            return "and below";
+                        } else if (data == "999999.00") {
+                            return "and above";
+                        }else{
+                            return accounting.formatNumber(data,2);
+                        }
+                    }
+                },
+                {
+                    className: "text-right",
+                    targets:[2],data: "monthly_salary_credit",
+                    render: function(data){
+                        return accounting.formatNumber(data,2);
+                    }
+                },
+                {
+                    className: "text-right",
+                    targets:[3],data: "employer",
+                    render: function(data){
+                        return accounting.formatNumber(data,2);
+                    }
+                },
+                {
+                    className: "text-right",
+                    targets:[4],data: "employee",
+                    render: function(data){
+                        return accounting.formatNumber(data,2);
+                    }
+                },
+                {
+                    className: "text-right",
+                    targets:[5],data: "sub_total",
+                    render: function(data){
+                        return accounting.formatNumber(data,2);
+                    }
+                },
+                {
+                    className: "text-right",
+                    targets:[6],data: "employer_contribution",
+                    render: function(data){
+                        return accounting.formatNumber(data,2);
+                    }
+                },
+                {
+                    className: "text-right",
+                    targets:[7],data: "total",
+                    render: function(data){
+                        return accounting.formatNumber(data,2);
+                    }
+                },
+                {
+                    targets:[2],
                     render: function (data, type, full, meta){
 
                         return '<center>'+right_sss_edit+right_sss_delete+'</center>';
                     }
-                }
+                },
+                { visible:false, targets:[9],data: "ref_sss_contribution_id"}
 
             ],
             language: {
@@ -342,22 +404,11 @@ $(document).ready(function(){
                      },
             "rowCallback":function( row, data, index ){
 
-                $(row).find('td').eq(5).attr({
-                    "align": "left"
-                });
             }
         });
 
-
-
-
-
-
         $('.numeric').autoNumeric('init');
-
-
     }();
-
 
     var bindEventHandlers=(function(){
         var detailRows = [];

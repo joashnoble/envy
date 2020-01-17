@@ -61,9 +61,11 @@
 <!-- numeric formatter -->
 <script src="assets/plugins/formatter/autoNumeric.js" type="text/javascript"></script>
 <script src="assets/plugins/formatter/accounting.js" type="text/javascript"></script>
-    <style>
-
-    </style>
+<style>
+    .red{
+        color: red;
+    }
+</style>
 <?php echo $loaderscript; ?>
 </head>
 
@@ -99,27 +101,16 @@
                                                 <div class="col-md-6">
                                                     <div class="col-md-12">
                                                         <div class="col-md-4">
-                                                            <label class="control-label boldlabel" style="text-align:left;">Firstname</label>
+                                                            <label class="control-label boldlabel" style="text-align:left;">
+                                                                <span class="red"><b>*</b></span> Firstname
+                                                            </label>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-user"></i>
                                                                 </span>
                                                                 <input type="text" name="emp_fname" class="form-control" value="" data-error-msg="Firstname is required!" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="col-md-4">
-                                                            <label class="control-label boldlabel" style="text-align:left;">Lastname</label>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
-                                                                </span>
-                                                                <input type="text" name="emp_lname" class="form-control" value="" data-error-msg="Lastname is required!" required>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -130,10 +121,25 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-user"></i>
                                                                 </span>
                                                                 <input type="text" name="emp_mname" class="form-control" value="">
                                                                 <!-- data-error-msg="Middlename is required!" required -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label class="control-label boldlabel" style="text-align:left;">
+                                                               <span class="red"><b>*</b></span> Lastname
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon">
+                                                                <i class="fa fa-user"></i>
+                                                                </span>
+                                                                <input type="text" name="emp_lname" class="form-control" value="" data-error-msg="Lastname is required!" required>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -144,9 +150,9 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-envelope"></i>
                                                                 </span>
-                                                                <input type="text" name="emp_email" class="form-control" value="" data-error-msg="Email is required!" required>
+                                                                <input type="text" name="emp_email" class="form-control" value="" data-error-msg="Email is required!">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -157,7 +163,7 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-building"></i>
                                                                 </span>
                                                                 <select name="emp_dept" id="emp_dept" class="form-control" data-error-msg="Department is Required!" required style="width: 100%;">
                                                                     <option value="0">[ Create Department ]</option>
@@ -178,7 +184,7 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-building"></i>
                                                                 </span>
                                                                 <select class="form-control" name="emp_branch" id="emp_branch" data-error-msg="Branch is Required!" required style="width: 100%;">
                                                                     <option value="0">[ Create Branch ]</option>
@@ -194,15 +200,17 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="col-md-4">
-                                                            <label class="control-label boldlabel" style="text-align:left;">Tax Pay Type</label>
+                                                            <label class="control-label boldlabel" style="text-align:left;">
+                                                                <span class="red"><b>*</b></span> Pay Frequency
+                                                            </label>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-code"></i>
                                                                 </span>
                                                                 <select class="form-control" id="emp_pay_type" name="emp_pay_type" data-error-msg="Payment Type is Required!" required style="width: 100%;">
-                                                                    <option value="0">[ Please select tax pay type ]</option>
+                                                                    <option value="">[ Please select tax pay type ]</option>
                                                                     <?php
                                                                     foreach($ref_payment as $row)
                                                                         {
@@ -222,7 +230,7 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-calendar"></i>
                                                                 </span>
                                                                     <input type="text" name="employment_date" class="date-picker form-control" id="employment_date" required data-error-msg="Employment Date is required.">
                                                             </div>
@@ -235,7 +243,7 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-user"></i>
                                                                 </span>
                                                                     <select class="form-control" id="emp_type" name="emp_type" data-error-msg="Employee Type is Required!" required style="width: 100%;">
                                                                         <option value="0">[ Create Employment Type ]</option>
@@ -256,9 +264,9 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-users"></i>
                                                                 </span>
-                                                                    <select class="form-control" id="emp_group" name="emp_group" data-error-msg="Group is Required!" required style="width: 100%;">
+                                                                    <select class="form-control" id="emp_group" name="emp_group" data-error-msg="Group is Required!" style="width: 100%;">
                                                                     <option value="0">[ Create Group Type ]</option>
                                                                         <?php
                                                                             foreach($ref_group as $row)
@@ -272,12 +280,14 @@
                                                     </div> 
                                                     <div class="col-md-12">
                                                         <div class="col-md-4">
-                                                            <label class="control-label boldlabel" style="text-align:left;">Hrs Per Day</label>
+                                                            <label class="control-label boldlabel" style="text-align:left;">
+                                                               <span class="red"><b>*</b></span> Hrs Per Day
+                                                            </label>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-code"></i>
                                                                 </span>
                                                                 <input type="text" name="emp_hrs_per_day" id="emp_hrs_per_day" class="form-control numeric" value="" data-error-msg="Hrs Per Day is required!" required>
                                                             </div>
@@ -285,12 +295,14 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="col-md-4">
-                                                            <label class="control-label boldlabel" style="text-align:left;">Regular Rates</label>
+                                                            <label class="control-label boldlabel" style="text-align:left;">
+                                                                <span class="red"><b>*</b></span> Regular Rates
+                                                            </label>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-code"></i>
                                                                 </span>
                                                                 <input type="text" name="emp_reg_rates" id="emp_reg_rates" class="form-control numeric" value="" data-error-msg="Regular Rates is required!" required>
                                                             </div>
@@ -298,12 +310,14 @@
                                                     </div>
                                                     <div class="col-md-12 monthly_salary_panel">
                                                         <div class="col-md-4">
-                                                            <label class="control-label boldlabel" style="text-align:left;">Monthly Salary</label>
+                                                            <label class="control-label boldlabel" style="text-align:left;">
+                                                                <span class="red"><b>*</b></span> Monthly Salary
+                                                            </label>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-code"></i>
                                                                 </span>
                                                                 <input type="text" name="monthly_based_salary" id="monthly_based_salary" class="form-control numeric" data-error-msg="Monthly Based Salary is required!">
                                                             </div>
@@ -316,7 +330,7 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-code"></i>
                                                                 </span>
                                                                 <input type="text" id="emp_per_day_pay" name="emp_per_day_pay" class="form-control numeric" readonly>
                                                             </div>
@@ -329,7 +343,7 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon">
-                                                                <i class="fa fa-file-code-o"></i>
+                                                                <i class="fa fa-code"></i>
                                                                 </span>
                                                                 <input type="text" id="emp_per_hour_pay" name="emp_per_hour_pay" class="form-control numeric" readonly>
                                                             </div>
@@ -358,7 +372,9 @@
                                         <div class="row">
                                           <div class="col-md-12">
                                             <div class="form-group" style="margin-bottom:0px;">
-                                                <label class="boldlabel"><texttitle id="name_modal"></texttitle> :</label>
+                                                <label class="boldlabel">
+                                                    <span class="red"><b>*</b></span> <texttitle id="name_modal"></texttitle> :
+                                                </label>
                                                 <input type="text" class="form-control" id="postname" name="postname" placeholder="" data-error-msg="This Field is Required!" required>
                                             </div>
                                           </div>
@@ -398,8 +414,49 @@
 $(document).ready(function(){
 
     var emp_dept; var emp_branch; var emp_pay_type; var emp_type; var emp_group; var _txnModeRate;
+    var _department; var _branch; var _tax_pay_type; var _employment_type; var _group;
 
     $('.numeric').autoNumeric('init');
+
+    var initialize = function(){
+
+        _department=$("#emp_dept").select2({
+            placeholder: "Select Department",
+            allowClear: false
+        });
+
+        _department.val(null).trigger("change");
+
+        _branch=$("#emp_branch").select2({
+            placeholder: "Select Branch",
+            allowClear: false
+        });
+
+        _branch.val(null).trigger("change");    
+
+        _tax_pay_type=$("#emp_pay_type").select2({
+            placeholder: "Select Pay Frequency",
+            allowClear: false
+        });
+
+        _tax_pay_type.val(null).trigger("change");
+
+        _employment_type=$("#emp_type").select2({
+            placeholder: "Select Employee Type",
+            allowClear: false
+        });
+
+        _employment_type.val(null).trigger("change");                
+
+        _group=$("#emp_group").select2({
+            placeholder: "Select Group",
+            allowClear: false
+        });
+
+        _group.val(null).trigger("change");   
+
+
+    }();
 
     var initialize_select = function(){
         $('#emp_dept').val(1);
@@ -417,7 +474,7 @@ $(document).ready(function(){
         if(a=="0"){
             _txnModeRate="department";
             clearFieldsRef();
-            $('#emp_dept').val(1);
+            _department.val(null).trigger("change");   
             $('#title_modal').text('Create Department');
             $('#name_modal').text('Department Name');
             $('#description_modal').text('Description');
@@ -432,7 +489,7 @@ $(document).ready(function(){
         if(a=="0"){
             _txnModeRate="branch";
             clearFieldsRef();
-            $('#emp_branch').val(1);
+            _branch.val(null).trigger("change");  
             $('#title_modal').text('Create Branch');
             $('#name_modal').text('Branch Name');
             $('#description_modal').text('Description');
@@ -447,7 +504,7 @@ $(document).ready(function(){
         if(a=="0"){
             _txnModeRate="emp_type";
             clearFieldsRef();
-            $('#emp_type').val(1);
+            _employment_type.val(null).trigger("change"); 
             $('#title_modal').text('Create Employee Type');
             $('#name_modal').text('Employee Type');
             $('#description_modal').text('Description');
@@ -462,7 +519,7 @@ $(document).ready(function(){
         if(a=="0"){
             _txnModeRate="group";
             clearFieldsRef();
-            $('#emp_group').val(1);
+            _group.val(null).trigger("change");
             $('#title_modal').text('Group');
             $('#name_modal').text('Group name');
             $('#description_modal').text('Description');

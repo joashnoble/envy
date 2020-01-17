@@ -69,7 +69,7 @@
         }
 
         .numeric{
-            text-align: right;
+            text-align: left;
             width:100% !important;
         }
 
@@ -104,36 +104,50 @@
         }    
         #deduction_view_cycle_row{
             font-size: 12pt;
-            max-height: 300px!important;
-            overflow: auto;
         }    
         hr.hr_row{
             padding: 5px!important;
             margin: 5px!important;
-            border-top: 1px solid lightgray;
+            border-top: 1px solid gray;
         }
     </style>
+
+<script type="text/javascript">
+    // $(window).load(function(){
+    //     setTimeout(function() {
+    //         $('#loading').fadeOut( 400, "linear" );
+    //     }, 300);
+    // });
+</script>
 <?php echo $_switcher_settings; ?>
 <?php echo $_def_js_files; ?>
 <script type="text/javascript" src="assets/plugins/datatables/jquery.dataTables.js"></script>
 <script type="text/javascript" src="assets/plugins/datatables/dataTables.bootstrap.js"></script>
+
+
 <!-- Date range use moment.js same as full calendar plugin -->
 <script src="assets/plugins/fullcalendar/moment.min.js"></script>
 <!-- Data picker -->
 <script src="assets/plugins/datapicker/bootstrap-datepicker.js"></script>
+
 <!-- Select2 -->
 <script src="assets/plugins/select2/select2.full.min.js"></script>
+
+
 <!-- Date range use moment.js same as full calendar plugin -->
 <script src="assets/js/plugins/fullcalendar/moment.min.js"></script>
 <!-- Data picker -->
 <script src="assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
 <!-- twitter typehead -->
 <script src="assets/plugins/twittertypehead/handlebars.js"></script>
 <script src="assets/plugins/twittertypehead/bloodhound.min.js"></script>
 <script src="assets/plugins/twittertypehead/typeahead.bundle.min.js"></script>
 <script src="assets/plugins/twittertypehead/typeahead.jquery.min.js"></script>
+
 <!-- touchspin -->
 <script type="text/javascript" src="assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script>
+
 <!-- numeric formatter -->
 <script src="assets/plugins/formatter/autoNumeric.js" type="text/javascript"></script>
 <script src="assets/plugins/formatter/accounting.js" type="text/javascript"></script>
@@ -167,7 +181,6 @@
                                         <i class="fa fa-file"></i> New Deduction Regular</button>
                                         <div class="panel-heading" style="background-color:#2c3e50 !important;margin-top:2px;">
                                              <center><h2 style="color:white;font-weight:300;">Deduction Regular</h2></center>
-                                             <a href="pdf/regular_deduction.pdf" target="_blank"><i class="fa fa-question-circle help" style="color: white!important; font-size: 15pt!important;float: right;margin-top: 15px!important;" data-toggle="tooltip" data-placement="top" title="Help"></i></a>
                                         </div>
                                     <div class="panel-body table-responsive" style="padding:0px;">
                                         <table id="tbl_deduction_regular_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -184,8 +197,7 @@
                                                     <th>Starting Date</th>
                                                     <th>Ending Date</th>
                                                     <th>Remarks</th>
-                                                    <th>Status</th>
-                                                    <th style="width: 60px;"><center>Action</center></th>
+                                                    <th><center>Action</center></th>
                                                     <th>ID</th>
                                                  </tr>
                                             </thead>
@@ -299,7 +311,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                      <label class="col-sm-4 inlinecustomlabel" for="inputPassword1"><i class="red">*</i> Deduction Per Pay :</label>
+                                      <label class="col-sm-4 inlinecustomlabel" for="inputPassword1"><i class="red">*</i> Deducted Per Pay :</label>
                                         <div class="col-sm-8">
                                            <input class="form-control numeric" id="deduction_per_pay_amount" name="deduction_per_pay_amount" placeholder="Deduction Per Pay" data-error-msg="Deduction Description is Required!" required>
                                         </div>
@@ -316,23 +328,12 @@
                                            <textarea class="form-control" id="remarks" name="deduction_regular_remarks" rows="3" data-error-msg="Remarks is Required!"></textarea>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                      <label class="col-sm-4 inlinecustomlabel" for="inputPassword1">Status :</label>
-                                        <div class="col-sm-8">
-                                           <select class="form-control" id="deduction_status_id" name="deduction_status_id" required data-error-msg="Status is Required!">
-                                                <?php foreach($status as $status){?>
-                                                    <option value="<?php echo $status->status_id; ?>">
-                                                        <?php echo $status->status; ?>
-                                                    </option>
-                                                <?php } ?>
-                                           </select>    
-                                        </div>
-                                    </div>
                                   </form>
                                   <hr>
                                 </div>
                             </form>
                         </div>
+
                         <div class="modal-footer">
                             <button id="btn_create" type="button" class="btn" style="background-color:#2ecc71;color:white;">Save</button>
                             <button id="btn_cancel" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -382,7 +383,7 @@
                         <div class="modal-header" style="border-bottom: 5px solid lightgray;">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
                             <h4 class="modal-title" style="font-size: 12pt;">
-                                Deduction Cycle <br /><viewemployeename id="viewemployeename"></viewemployeename>
+                                Deduction Cycle <viewemployeename id="viewemployeename"></viewemployeename>
                             </h4>
                         </div>
                         <div class="modal-body">
@@ -419,12 +420,12 @@ $(document).ready(function(){
             //     var data = localStorage.getItem('DataTables_' + window.location.pathname);
             //     return JSON.parse(data);
             // },
-            "order": [[ 13, "desc" ]],
+            "order": [[ 12, "desc" ]],
             "ajax" : "RegularDeduction/transaction/list",
             "columns": [
                 { targets:[0],data: "deduction_cycle",
                     render: function (data, type, full, meta){
-                        return '<center><button class="btn btn-default" id="btn_view" name="view_info" data-toggle="tooltip" title="View Deduction Cycle"><i class="fa fa-ellipsis-h"></i></button></center>';
+                        return '<center><button class="btn btn-default" id="btn_view" name="view_info"><i class="fa fa-ellipsis-h"></i></button></center>';
                     }
                 },
                 { targets:[1],data: "ecode" },
@@ -450,25 +451,13 @@ $(document).ready(function(){
                 { targets:[9],data: "ending_date" },
                 { targets:[10],data: "deduction_regular_remarks" },
                 {
-                    targets:[11], data:null,
-                    render: function (data, type, full, meta){
-
-                        if (data.deduction_status_id == 1){
-                            return '<center><i class="fa fa-check-circle" style="color: green;"></i></center>';
-                        }else{
-                            return '<center><i class="fa fa-times-circle" style="color: red;"></i></center>';
-                        }
-
-                    }
-                },
-                {
-                    targets:[12],
+                    targets:[11],
                     render: function (data, type, full, meta){
 
                         return '<center>'+right_regdeduction_edit+right_regdeduction_delete+'</center>';
                     }
                 },
-                { targets:[13],data: "deduction_regular_id",visible:false }
+                { targets:[12],data: "deduction_regular_id",visible:false }
             ],
             language: {
                          searchPlaceholder: "Search Deduction Regular"
@@ -479,17 +468,17 @@ $(document).ready(function(){
         
         _employees=$("#employee_id").select2({
             dropdownParent: $("#modal_create_Deduction_Regular"),
-            placeholder: "Select Employee",
-            allowClear: false
-        });
+                placeholder: "Select Employee",
+                allowClear: false
+            });
 
         _employees.select2('val', null);
 
         _deduction=$("#deduction_id").select2({
             dropdownParent: $("#modal_create_Deduction_Regular"),
-            placeholder: "Select Deduction",
-            allowClear: false
-        });
+                placeholder: "Select Deduction",
+                allowClear: false
+            });
 
         _deduction.select2('val', null);
 
@@ -543,16 +532,11 @@ $(document).ready(function(){
                 });
             });
 
-            $('#employee_id').prop({ disabled : true });
-            $('#deduction_id').prop({ disabled : true });
-
             $('#deduction_regular_id').val(data.deduction_regular_id);
             $('#employee_id').val(data.employee_id).trigger("change");
 
             $('#deduction_id').val(data.deduction_id).trigger("change");
             $('#deduction_cycle').val(data.deduction_cycle);
-
-            $('#deduction_status_id').val(data.deduction_status_id);
 
             $('#deduction_total_amount').val(Math.round(data.loan_total_amount).toFixed(2)); // Beginning Balance
             $('#balance').val(Math.round(data.deduction_total_amount).toFixed(2)); // Balance
@@ -581,17 +565,12 @@ $(document).ready(function(){
             getDeductionCycle().done(function(response){
                 var rows=response.data;                
                 $('#modal_view_deduction_cycle').modal('show');
-                $('#viewemployeename').text(_selectedEmployee);
+                $('#viewemployeename').text('for '+_selectedEmployee);
                 $('#deduction_view_cycle_row').text('');
 
                 if (rows.length > 0){
                      $.each(rows,function(i,value){
-
-                            if (value.status == 1){
-                                $('#deduction_view_cycle_row').append('<i class="fa fa-check-circle green" style=""></i> '+value.payperiod+'<hr class="hr_row" />');
-                            }else{
-                                $('#deduction_view_cycle_row').append('<i class="fa fa-check-circle" style="color: lightgray;"></i> '+value.payperiod+'<hr class="hr_row" />');
-                            }
+                           $('#deduction_view_cycle_row').append(value.payperiod+'<hr class="hr_row" />');
                     });
                 }else{
                     $('#deduction_view_cycle_row').text('No deduction cycle set.');
@@ -723,9 +702,6 @@ $(document).ready(function(){
             $('#transactmode').text('New');            
             clearFields($('#frm_deduction_regular'));
 
-            $('#employee_id').prop({ disabled : false });
-            $('#deduction_id').prop({ disabled : false });
-
             $('#employee_id').select2('val',0);
             $('#deduction_id').select2('val',0);
 
@@ -746,13 +722,12 @@ $(document).ready(function(){
                         if(response.stat=='error'){
                              $.unblockUI();
                             return;
-                        }else{
-                            dt.row.add(response.row_added[0]).draw();
-                            clearFields($('#frm_deduction_regular'));
-                            $('#modal_create_Deduction_Regular').modal('toggle');
                         }
+                        dt.row.add(response.row_added[0]).draw();
+                        clearFields($('#frm_deduction_regular'));
                     }).always(function(){
                         $.unblockUI();
+                        $('#modal_create_Deduction_Regular').modal('toggle');
                     });
                     return;
 
@@ -765,13 +740,12 @@ $(document).ready(function(){
                         if(response.stat=='error'){
                              $.unblockUI();
                             return;
-                        }else{
-                            dt.row(_selectRowObj).data(response.row_updated[0]).draw();
-                            $('#modal_create_Deduction_Regular').modal('toggle');
                         }
+                        dt.row(_selectRowObj).data(response.row_updated[0]).draw();
                        //clearFields($('#frm_deduction_regular'))
                     }).always(function(){
                         $.unblockUI();
+                        $('#modal_create_Deduction_Regular').modal('toggle');
                     });
                     return;
                 }

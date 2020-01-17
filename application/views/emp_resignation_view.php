@@ -624,7 +624,7 @@ $(document).ready(function(){
                 $.each(rows,function(i,value){
                    $("#employee_id").append('<option value="'+value.employee_id+'" data-position="'+value.position+'" data-department="'+value.department+'" data-hired="'+value.employment_date+'" data-ecode="'+value.ecode+'">'+value.full_name+'</option>');
                 });
-                    $('#employee_id').val("").trigger("change")
+                    $('#employee_id').val(null).trigger("change")
 
 
                 $("#approved_by option").remove();
@@ -632,7 +632,7 @@ $(document).ready(function(){
                 $.each(rows,function(i,value){
                    $("#approved_by").append('<option value="'+value.employee_id+'">'+value.full_name+'</option>');
                 });
-                    $('#approved_by').val("").trigger("change")
+                    $('#approved_by').val(null).trigger("change")
 
             });         
 
@@ -656,18 +656,18 @@ $(document).ready(function(){
         });
 
         _employeesdt=$("#employee_id").select2({
-            value: "[ Select Employee ]",
-            allowClear: true
+            placeholder: "Select Employee",
+            allowClear: false
         });
 
-        _employeesdt.select2('val', null);
+        _employeesdt.val(null).trigger("change");
 
         _employeedt=$("#approved_by").select2({
-            value: "[ Select Employee ]",
-            allowClear: true
+            placeholder: "Select Employee",
+            allowClear: false
         });
 
-        _employeedt.select2('val', null);        
+        _employeedt.val(null).trigger("change");     
 
         $('#btn_create').click(function(){
             if(validateRequiredFields($('#frm_resignation'))){

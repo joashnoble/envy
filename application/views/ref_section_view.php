@@ -108,6 +108,9 @@
             width: 60%;
         }
 
+        .red{
+            color: red;
+        }
     </style>
 <?php echo $loaderscript; ?>
 </head>
@@ -199,7 +202,9 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">*Section Name :</label>
+                                    <label class="boldlabel">
+                                        <span class="red"><b>*</b></span> Section Name :
+                                    </label>
                                     <input type="text" class="form-control" id="section" name="section" placeholder="Section Name" data-error-msg="Section Name is Required!" required>
                                 </div>
                               </div>

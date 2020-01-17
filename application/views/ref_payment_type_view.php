@@ -102,7 +102,9 @@
             from { -webkit-transform: rotate(0deg); }
             to { -webkit-transform: rotate(360deg); }
         }
-
+        .red{
+            color: red;
+        }
 
     </style>
 <?php echo $loaderscript; ?>
@@ -197,7 +199,9 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">* Payment Type :</label>
+                                    <label class="boldlabel">
+                                        <span class="red"><b>*</b></span> Payment Type :
+                                    </label>
                                     <input type="text" class="form-control" id="payment_type" name="payment_type" placeholder="Payment Type" data-error-msg="Payment Type Name is Required!" required>
                                 </div>
                               </div>
@@ -213,8 +217,10 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">* Factor :</label>
-                                    <input type="text" class="form-control numeric" id="pay_type_factor" name="pay_type_factor" placeholder="Factor" required>
+                                    <label class="boldlabel">
+                                        <span class="red"><b>*</b></span> Factor :
+                                    </label>
+                                    <input type="text" class="form-control numeric" id="pay_type_factor" name="pay_type_factor" placeholder="Factor" data-error-msg="Factor is Required!" required>
                                 </div>
                               </div>
                             </div>

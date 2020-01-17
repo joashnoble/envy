@@ -199,7 +199,9 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">*Duration Desc :</label>
+                                    <label class="boldlabel">
+                                        <i class="red">*</i> Duration Description :
+                                    </label>
                                     <input type="text" class="form-control" id="duration_desc" name="duration_desc" placeholder="Duration Desc" data-error-msg="Duration Desc is Required!" required>
                                 </div>
                               </div>
@@ -207,13 +209,13 @@
 
                             <div class="row">
                               <div class="col-md-4" style="margin-right: -100px;">
-                                    <label class="boldlabel">No of duration :</label>
+                                    <label class="boldlabel"><i class="red">*</i> No of duration :</label>
                                     <input type="number" name="no_of_duration" id="no_of_duration" class="numeric form-control" data-error-msg="No of duration is Required!" required>
                               </div>
-                              <div class="col-md-6">
-                                    <label class="boldlabel">Duration Type :</label>
+                              <div class="col-md-6" style="padding-left: 30px;">
+                                    <label class="boldlabel"><i class="red">*</i> Duration Type :</label>
                                     <select name="duration_type" id="duration_type" class="form-control" data-error-msg="Duration Type is Required!" required>
-                                        <option value="0">[ Select duration type ]</option>
+                                        <option value="">Select Duration Type</option>
                                         <option value="1">Day</option>
                                         <option value="2">Week</option>
                                         <option value="3">Month</option>
@@ -236,7 +238,7 @@
 <script>
 
 $(document).ready(function(){
-    var dt; var _txnMode; var _selectedID; var _selectRowObj;
+    var dt; var _txnMode; var _selectedID; var _selectRowObj; var _duration_type;
 
     var initializeControls=function(){
         dt=$('#tbl_duration').DataTable({
@@ -264,9 +266,13 @@ $(document).ready(function(){
             }
         });
 
+        _duration_type=$("#duration_type").select2({
+            dropdownParent: $("#model_create_duration"),
+            placeholder: "Select Duration Type",
+            allowClear: false
+        });
 
-
-
+        _duration_type.val(null).trigger("change");
 
 
         $('.numeric').autoNumeric('init');
@@ -309,6 +315,8 @@ $(document).ready(function(){
             var data=dt.row(_selectRowObj).data();
             _selectedID=data.duration_id;
 
+            _duration_type.val(data.duration_type).trigger("change");
+
             $('input,textarea,select').each(function(){
                 var _elem=$(this);
                 $.each(data,function(name,value){
@@ -339,6 +347,7 @@ $(document).ready(function(){
 
         $('#btn_new').click(function(){
             _txnMode="new";
+            _duration_type.val(null).trigger("change");
             $('.transaction_type').text('New');
             $('#model_create_duration').modal('show');
             clearFields($('#frm_duration'));

@@ -257,9 +257,9 @@ $(document).ready(function(){
 
                 { targets:[1],data: "deduction_desc" },
                 { targets:[2],data: "deduction_type_desc" },
-                { targets:[3],data: "deduction_id",
+                { targets:[3],data: "deduction_type_id",
                     render: function (data, type, full, meta){
-                        if(data == 1 || data == 2 || data == 3 || data == 4) {
+                        if(data == 1 || data == 2 || data == 4) {
                             return "";
                         }
 

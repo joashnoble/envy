@@ -50,7 +50,7 @@ class Commendation extends CORE_Controller
                 $active_year = $m_yearsetup->getactiveyear();
                 $response['data']=$this->Commendation_model->get_list(
                    array('emp_commendation.employee_id'=>$employee_id,'emp_commendation.is_deleted'=>FALSE),
-                    'emp_commendation.*'
+                    'emp_commendation.*, DATE_FORMAT(date_commendation, "%m/%d/%Y") as date_commendation'
                     );
                 echo json_encode($response);
                 break;
@@ -80,7 +80,7 @@ class Commendation extends CORE_Controller
 
                 $response['row_added'] = $this->Commendation_model->get_list(
                    $emp_commendation_id,
-                    'emp_commendation.*'
+                    'emp_commendation.*, DATE_FORMAT(date_commendation, "%m/%d/%Y") as date_commendation'
                     );
                 echo json_encode($response);
 
@@ -122,11 +122,13 @@ class Commendation extends CORE_Controller
 
                 $response['title'] = 'Success!';
                 $response['stat'] = 'success';
-                $response['msg'] = 'Commendation successfully Updated.';
+                $response['msg'] = 'Commendation successfully updated.';
                 
-                $response['row_updated']=$this->Commendation_model->get_list(
-                    array('emp_commendation.emp_commendation_id'=>$emp_commendation_id,'emp_commendation.is_deleted'=>FALSE)
+                $response['row_updated'] = $this->Commendation_model->get_list(
+                   $emp_commendation_id,
+                    'emp_commendation.*, DATE_FORMAT(date_commendation, "%m/%d/%Y") as date_commendation'
                     );
+
                 echo json_encode($response);
 
                 break;

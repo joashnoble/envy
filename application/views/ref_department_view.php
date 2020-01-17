@@ -109,6 +109,9 @@
         .odd{
             background-color: #eeeeee !important;
         }
+        .red{
+            color: red;
+        }
 
     </style>
     <?php echo $loaderscript; ?>
@@ -202,7 +205,9 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">*Department Name :</label>
+                                    <label class="boldlabel">
+                                        <span class="red"><b>*</b></span> Department Name :
+                                    </label>
                                     <input type="text" class="form-control" id="department" name="department" placeholder="Department name" data-error-msg="Department name is Required!" required>
                                 </div>
                               </div>

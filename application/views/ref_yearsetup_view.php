@@ -1,13 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <?php echo $loader; ?>
 <head>
-
     <meta charset="utf-8">
-
     <title>JCORE HRIS - <?php echo $title; ?></title>
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -15,56 +11,37 @@
     <meta name="description" content="Avenxo Admin Theme">
     <meta name="author" content="">
     <?php echo $_def_css_files; ?>
-
     <link rel="stylesheet" href="assets/plugins/spinner/dist/ladda-themeless.min.css">
-
     <link type="text/css" href="assets/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet">
-
-
-
     <link type="text/css" href="assets/plugins/iCheck/skins/minimal/blue.css" rel="stylesheet">              <!-- iCheck -->
     <link type="text/css" href="assets/plugins/iCheck/skins/minimal/_all.css" rel="stylesheet">                   <!-- Custom Checkboxes / iCheck -->
-
     <link href="assets/plugins/datapicker/datepicker3.css" rel="stylesheet">
-
     <link href="assets/plugins/select2/select2.min.css" rel="stylesheet">
-
-
     <link href="assets/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
     <?php echo $_switcher_settings; ?>
-<?php echo $_def_js_files; ?>
-
-
-<script type="text/javascript" src="assets/plugins/datatables/jquery.dataTables.js"></script>
-<script type="text/javascript" src="assets/plugins/datatables/dataTables.bootstrap.js"></script>
-
-
-<!-- Date range use moment.js same as full calendar plugin -->
-<script src="assets/plugins/fullcalendar/moment.min.js"></script>
-<!-- Data picker -->
-<script src="assets/plugins/datapicker/bootstrap-datepicker.js"></script>
-
-<!-- Select2 -->
-<script src="assets/plugins/select2/select2.full.min.js"></script>
-
-
-<!-- Date range use moment.js same as full calendar plugin -->
-<script src="assets/js/plugins/fullcalendar/moment.min.js"></script>
-<!-- Data picker -->
-<script src="assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-
-<!-- twitter typehead -->
-<script src="assets/plugins/twittertypehead/handlebars.js"></script>
-<script src="assets/plugins/twittertypehead/bloodhound.min.js"></script>
-<script src="assets/plugins/twittertypehead/typeahead.bundle.min.js"></script>
-<script src="assets/plugins/twittertypehead/typeahead.jquery.min.js"></script>
-
-<!-- touchspin -->
-<script type="text/javascript" src="assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script>
-
-<!-- numeric formatter -->
-<script src="assets/plugins/formatter/autoNumeric.js" type="text/javascript"></script>
-<script src="assets/plugins/formatter/accounting.js" type="text/javascript"></script>
+    <?php echo $_def_js_files; ?>
+    <script type="text/javascript" src="assets/plugins/datatables/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="assets/plugins/datatables/dataTables.bootstrap.js"></script>
+    <!-- Date range use moment.js same as full calendar plugin -->
+    <script src="assets/plugins/fullcalendar/moment.min.js"></script>
+    <!-- Data picker -->
+    <script src="assets/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <!-- Select2 -->
+    <script src="assets/plugins/select2/select2.full.min.js"></script>
+    <!-- Date range use moment.js same as full calendar plugin -->
+    <script src="assets/js/plugins/fullcalendar/moment.min.js"></script>
+    <!-- Data picker -->
+    <script src="assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <!-- twitter typehead -->
+    <script src="assets/plugins/twittertypehead/handlebars.js"></script>
+    <script src="assets/plugins/twittertypehead/bloodhound.min.js"></script>
+    <script src="assets/plugins/twittertypehead/typeahead.bundle.min.js"></script>
+    <script src="assets/plugins/twittertypehead/typeahead.jquery.min.js"></script>
+    <!-- touchspin -->
+    <script type="text/javascript" src="assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script>
+    <!-- numeric formatter -->
+    <script src="assets/plugins/formatter/autoNumeric.js" type="text/javascript"></script>
+    <script src="assets/plugins/formatter/accounting.js" type="text/javascript"></script>
 
     <style>
 
@@ -111,9 +88,7 @@
     </style>
     <?php echo $loaderscript ?>
 </head>
-
 <body class="animated-content">
-
 <?php echo $_top_navigation; ?>
 <div id="wrapper">
     <div id="layout-static">
@@ -136,7 +111,9 @@
                                         <button class="btn right_yearsetup_create"  id="btn_new" style="width:185px;background-color:#2ecc71;color:white;" title="Create New Position" >
                                         <i class="fa fa-file"></i> Create Year Setup</button>
                                         <div class="panel-heading" style="background-color:#2c3e50 !important;margin-top:2px;">
-                                             <center><h2 style="color:white;font-weight:300;">Leave Year Setup</h2></center><br>
+                                             <center><h2 style="color:white;font-weight:300;">Leave Year Setup</h2></center>
+                                             <a href="pdf/year_setup.pdf" target="_blank"><i class="fa fa-question-circle help" style="color: white!important; font-size: 15pt!important;float: right;margin-top: 15px!important;" data-toggle="tooltip" data-placement="top" title="Help"></i></a>
+                                             <br>
                                              <left><h5 style="color:white;font-weight:300;line-height:1px;margin-top:2px;">Manage the current (Calendar/Fiscal) year</h5></left>
                                         </div>
                                     <div class="panel-body table-responsive" style="padding-top:8px;">
@@ -144,6 +121,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Year Type</th>
+                                                    <th>Year</th>
                                                     <th>Date Start</th>
                                                     <th>Date End</th>
                                                     <th>Note</th>
@@ -189,6 +167,7 @@
                 </div>
                 </div>
             </div><!---modal-->
+
             <div id="modal_create_yearsetup" class="modal fade" tabindex="-1" role="dialog"><!--modal-->
                 <div class="modal-dialog modal-md">
                     <div class="modal-content">
@@ -196,17 +175,10 @@
                             <button type="button" class="close"   data-dismiss="modal" aria-hidden="true">X</button>
                             <h4 class="modal-title" style="color:#ecf0f1;"><span id="modal_mode"> </span>Year Setup</h4>
                         </div>
-
                         <div class="modal-body">
                             <form id="frm_yeartype">
                             <div class="row">
-
-
-
-
-
                             <div class="col-md-6">
-                                 
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group" style="margin-bottom:0px;">
@@ -216,9 +188,8 @@
                                                     <i class="fa fa-file-code-o"></i>
                                                 </span>
                                                 <select class="form-control" id="year_type" name="year_type" data-error-msg="Process Account is required!">
-                                                  <option value="">Select...</option>
-                                                  <option value="Calendar Year">Calendar Year</option>
-                                                  <option value="Fiscal Year">Fiscal Year</option>
+                                                    <option value="Calendar Year">Calendar Year</option>
+                                                    <option value="Fiscal Year">Fiscal Year</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -227,8 +198,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group" style="margin-bottom:0px;">
-                                            <label class="boldlabel">Date Start :</label>
-                                            <input type="text" id="date_start" name="date_start" class="date-picker form-control" value="" placeholder="Date Start" data-error-msg="Date Start is required!">
+                                            <label class="boldlabel"><i class="red">*</i> Date Start :</label>
+                                            <input type="text" id="date_start" name="date_start" class="date-picker form-control" value="" placeholder="Date Start" data-error-msg="Date Start is required!" required>
                                         </div>
                                     </div>
                                 </div>
@@ -237,7 +208,7 @@
                                   <div class="col-md-12">
                                     <div class="form-group" style="margin-bottom:0px;">
                                         <label class="boldlabel">Date End :</label>
-                                        <input type="text" id="date_end" name="date_end" class="date-picker form-control" value="" placeholder="Date End" data-error-msg="Date End is required!" disabled>
+                                        <input type="text" id="date_end" name="date_end" class="form-control" value="" placeholder="Date End" data-error-msg="Date End is required!" readonly>
                                     </div>
                                   </div>
                                 </div>
@@ -252,14 +223,11 @@
                                 <div class="row">
                                   <div class="col-md-12">
                                     <div class="form-group" style="margin-bottom:0px;">
-                                        <label class="boldlabel">Set Active Year :</label>
-                                        <input type="checkbox" id="active_year" value="" style="vertical-align:top;display:inline-block;white-space:nowrap;width:18px;height:18px;">
+                                        <label class="boldlabel">Active Year Status :</label>
+                                        <input type="checkbox" id="active_year" value="" style="vertical-align:top;display:inline-block;white-space:nowrap;width:18px;height:18px;" disabled>
                                     </div>
                                   </div>
                                 </div><br>
-
-
-
                             </div>
                             <div class="col-md-6">
                                 <div class="row">
@@ -270,7 +238,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group" style="margin-bottom:0px;">
@@ -280,7 +247,7 @@
                                                     <i class="fa fa-file-code-o"></i>
                                                 </span>
                                                 <select class="form-control" id="year" name="year" data-error-msg="Year is required!">
-                                                  <option value="">Select Year...</option>
+                                                  <option value="">Select Year</option>
                                                     <?php $minyear=1990; $maxyear=2500;
                                                         while($minyear!=$maxyear){
                                                             echo '<option value='.$minyear.'>'.$minyear.'</option>';
@@ -292,7 +259,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group" style="margin-bottom:0px;">
@@ -335,11 +301,8 @@
                                   </div>
                                 </div><br>                                 
                             </div>
-
-
                             </form>
                         </div>
-
                         <div class="modal-footer">
                             <button id="btn_create" type="button" class="btn" style="background-color:#2ecc71;color:white;">Save</button>
                             <button id="btn_cancel" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -352,13 +315,15 @@
 
 $(document).ready(function(){
     var dt; var _txnMode; var _selectedID; var _selectRowObj; var _isactive=0; var _isChecked=0; var a;
+    var _year; var _year_type;
 
     var initializeControls=function(){
         dt=$('#tbl_leave_year').DataTable({
             "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             "ajax" : "RefYearSetup/transaction/list",
             "columns": [
-                { targets:[1],data: "year_type" },
+                { targets:[0],data: "year_type" },
+                { targets:[1],data: "year" },
                 { targets:[2],data: "date_start" },
                 { targets:[3],data: "date_end" },
                 { targets:[4],data: "note" },
@@ -396,13 +361,20 @@ $(document).ready(function(){
             }
         });
 
-
-
-
-
-
         $('.numeric').autoNumeric('init');
 
+        _year=$("#year").select2({
+            dropdownParent: $("#modal_create_yearsetup"),
+            placeholder: "Select Year",
+            allowClear: false
+        });
+
+        _year_type=$("#year_type").select2({
+            dropdownParent: $("#modal_create_yearsetup"),
+            placeholder: "Select Year Type",
+            minimumResultsForSearch: Infinity,
+            allowClear: false
+        });
 
     }();
 
@@ -460,8 +432,13 @@ $(document).ready(function(){
             var data=dt.row(_selectRowObj).data();
             _selectedID=data.emp_leave_year_id;
             $('.transaction_type').text('Edit');
-            $('#year_type').val(data.year_type);
-            $('#year_type').css(data.year_type);
+
+
+
+            $('#year').val(data.year).trigger("change");
+            $('#year_type').val(data.year_type).trigger("change");
+
+
              $('#active_year').prop('disabled', true);
             if(data.active_year==1){
                 $('#active_year').prop('checked', true);
@@ -559,20 +536,25 @@ $(document).ready(function(){
         });
 
         $('#btn_new').click(function(){
+
+
             _txnMode="new";
             $('.transaction_type').text('New');
             $('#modal_create_yearsetup').modal('show');
             clearFields($('#frm_yeartype'));
             $('#active_year').attr('checked', false);
+
+            var active_year = new Date().getFullYear();
+            $('#year').val(active_year).trigger("change");
+
         });
 
         $('#btn_create').click(function(){
             if(validateRequiredFields($('#frm_yeartype'))){
                 if(_txnMode==="new"){
-                    //alert("aw");
                     createYeartype().done(function(response){
                         showNotification(response);
-                        dt.ajax.reload();
+                        dt.row.add(response.row_added[0]).draw();
                         clearFields($('#frm_yeartype'))
                     }).always(function(){
                         $('#modal_create_yearsetup').modal('hide');
@@ -587,10 +569,9 @@ $(document).ready(function(){
                     return;
                 }
                 if(_txnMode==="edit"){
-                    //alert("update");
                     updateYeartype().done(function(response){
-                        showNotification(response); //dt.row(_selectRowObj).data(response.row_updated[0]).draw();
-                        dt.ajax.reload();
+                        showNotification(response);
+                        dt.row(_selectRowObj).data(response.row_updated[0]).draw();
                         clearFields($('#frm_yeartype'))
                     }).always(function(){
 
@@ -612,18 +593,13 @@ $(document).ready(function(){
         $('div.form-group').removeClass('has-error');
         $('input[required],textarea[required],select[required]',f).each(function(){
 
-
-                if($(this).val()==""){
-                    showNotification({title:"Error!",stat:"error",msg:$(this).data('error-msg')});
-                    $(this).closest('div.form-group').addClass('has-error');
-                    $(this).focus();
-                    stat=false;
-                    return false;
-                }
-
-
-
-
+            if($(this).val()==""){
+                showNotification({title:"Error!",stat:"error",msg:$(this).data('error-msg')});
+                $(this).closest('div.form-group').addClass('has-error');
+                $(this).focus();
+                stat=false;
+                return false;
+            }
         });
 
         return stat;
@@ -644,14 +620,11 @@ $(document).ready(function(){
 
 
     var updateYeartype=function(){
+
         var _data=$('#frm_yeartype').serializeArray();
         _data.push({name : "active_year" ,value : _isactive});
-
-        console.log(_data);
         _data.push({name : "emp_leave_year_id" ,value : _selectedID});
-        //_data.push({name:"is_inventory",value: $('input[name="is_inventory"]').val()});
 
-        //alert($('input[name="is_inventory"]').val());
         return $.ajax({
             "dataType":"json",
             "type":"POST",
@@ -662,8 +635,6 @@ $(document).ready(function(){
     };
 
     var setActiveYear=function(){
-        //_data.push({name:"is_inventory",value: $('input[name="is_inventory"]').val()});
-        //alert($('input[name="is_inventory"]').val());
         return $.ajax({
             "dataType":"json",
             "type":"POST",

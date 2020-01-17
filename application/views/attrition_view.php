@@ -92,25 +92,13 @@
                                 <div class="panel-heading" style="background-color:#2c3e50 !important;margin-top:2px;">
                                      <center><h2 style="color:white;font-weight:300;">Attrition</h2></center>
                                 </div>
-                                <div class="panel-body table-responsive" style="padding-top:10px;">
+                                <div class="panel-body table-responsive">
                                     <form id="frm_attrition">
                                         <div>
-                                            <div class="row" style="padding: 15px;">
+                                            <div class="row" style="margin: 15px;">
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label  style="float:left;margin-top:5px;font-weight: bold;" for="inputEmail1">From Date Filter :</label>
-                                                        <input type="text" class="date-picker form-control" name="from_date_filter" id="from_date_filter" data-error-msg="From Date Filter is required!" required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label  style="float:left;margin-top:5px;font-weight: bold;" for="inputEmail1">To Date Filter :</label>
-                                                        <input type="text" class="date-picker form-control" name="to_date_filter" id="to_date_filter" data-error-msg="To Date Filter is required!" required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label  style="float:left;margin-top:5px;font-weight: bold;" for="inputEmail1">Employee Position :</label>
+                                                        <label style="font-weight: bold;" for="inputEmail1">Employee Position :</label>
                                                         <select class="form-control" name="position" id="position_filter">
                                                             <option value="all">All</option>
                                                             <?php foreach($position as $row){?>
@@ -121,16 +109,25 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="col-md-6">
-                                                        <button type="button" class="btn col-sm-12 form-control" id="print_attrition" style="background-color:#27ae60; color:white;width: 100px;margin-top: -25px;"><i class="fa fa-print"></i> PRINT</button>
-
-                                                        <button type="button" class="btn btn-primary col-sm-12 form-control" id="export_attrition" style="color:white;margin-left: 20px;margin-top: -25px;width: auto;"> <i class="fa fa-file-excel-o"></i> EXPORT EXCEL</button>
-
-                                                        <button type="button" class="btn btn-info col-sm-12 form-control" id="email_attrition" style="color:white;margin-left: 20px;margin-top: -25px; width: 100px;"><i class="fa fa-envelope"></i> EMAIL</button>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label style="font-weight: bold;" for="inputEmail1">From Date Filter :</label>
+                                                        <input type="text" class="date-picker form-control" name="from_date_filter" id="from_date_filter" data-error-msg="From Date Filter is required!" required>
                                                     </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label style="font-weight: bold;" for="inputEmail1">To Date Filter :</label>
+                                                        <input type="text" class="date-picker form-control" name="to_date_filter" id="to_date_filter" data-error-msg="To Date Filter is required!" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    
+                                                        <button type="button" class="btn col-sm-12 form-control" id="print_attrition" style="background-color:#27ae60; color:white;width: 100px;margin-top: 30px;"><i class="fa fa-print"></i> PRINT</button>
+
+                                                        <button type="button" class="btn btn-primary col-sm-12 form-control" id="export_attrition" style="color:white;margin-left: 10px;margin-top: 30px;width: auto;"> <i class="fa fa-file-excel-o"></i> EXPORT EXCEL</button>
+
+                                                        <button type="button" class="btn btn-info col-sm-12 form-control" id="email_attrition" style="color:white;margin-left: 10px;margin-top: 30px; width: 100px;"><i class="fa fa-envelope"></i> EMAIL</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -161,7 +158,7 @@ $(document).ready(function(){
 
     _position=$("#position_filter").select2({
         placeholder: "[ Select Position ]",
-        allowClear: true
+        allowClear: false
     });
 
     _position.select2('val', '');

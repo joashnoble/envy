@@ -107,6 +107,10 @@
             width: 60%;
         }
 
+        .red{
+            color: red;
+        }
+
     </style>
 <?php echo $loaderscript; ?>
 </head>
@@ -189,7 +193,7 @@
                 <div class="modal-dialog modal-md">
                     <div class="modal-content">
                         <div class="modal-header" style="background-color:#2ecc71;">
-                            <button type="button" class="close"   data-dismiss="modal" aria-hidden="true">X</button>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
                             <h4 class="modal-title" style="color:#ecf0f1;"><span id="modal_mode"> </span>Branch : <transaction class="transaction_type"></transaction></h4>
                         </div>
 
@@ -198,7 +202,9 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group" style="margin-bottom:0px;">
-                                    <label class="boldlabel">*Branch Name :</label>
+                                    <label class="boldlabel">
+                                        <span class="red"><b>*</b></span> Branch Name :
+                                    </label>
                                     <input type="text" class="form-control" id="branch" name="branch" placeholder="Branch Name" data-error-msg="Branch name is Required!" required>
                                 </div>
                               </div>

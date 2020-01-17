@@ -92,12 +92,12 @@
                                 <div class="panel-heading" style="background-color:#2c3e50 !important;margin-top:2px;">
                                      <center><h2 style="color:white;font-weight:300;">Birthday Celebrants</h2></center>
                                 </div>
-                                <div class="panel-body table-responsive" style="padding-top:10px; margin-top: 10px;">
-                                    <div style="margin-left: 20px;">
+                                <div class="panel-body table-responsive">
+                                    <div style="margin: 15px;">
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <label  style="float:left;margin-top:5px;margin-left: 20px;font-weight: bold;" for="inputEmail1">Month Filter :</label>
-                                                <select class="form-control" style="margin-left: 20px;" name="month_filter" id="month_filter" data-error-msg="Month Filter is required" required>
+                                                <label style="font-weight: bold;" for="inputEmail1">Month Filter :</label>
+                                                <select class="form-control" name="month_filter" id="month_filter" data-error-msg="Month Filter is required" required>
                                                     <option value="1">January</option>
                                                     <option value="2">February</option>
                                                     <option value="3">March</option>
@@ -154,7 +154,7 @@ $(document).ready(function(){
     _month=$("#month_filter").select2({
         /*dropdownParent: $("#modal_create_schedule"),*/
         placeholder: "Select Month",
-        allowClear: true
+        allowClear: false
     });
 
     _month.select2('val', '');

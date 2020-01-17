@@ -45,6 +45,20 @@ class Hris_Reports extends CORE_Controller
 
         switch($reports){
             //****************************************************
+
+            case 'generate_all_template':
+                $data['masterlist'] = $this->Employee_model->get_masterlist();
+                $data['admin'] = $this->Employee_model->get_masterlist(1);
+                echo $this->load->view('template/id_all_template_html',$data,TRUE);
+                break;
+
+            case 'generate_id_template':
+                $employee_id = $this->input->get("e_id",true);
+                $data['masterlist'] = $this->Employee_model->get_masterlist(null,$employee_id);
+                $data['admin'] = $this->Employee_model->get_masterlist(1);
+                echo $this->load->view('template/id_template_html',$data,TRUE);
+                break;                
+
             case 'personnel-list': //
                         if($filter_value=="all" AND $filter_value2=="all"){
                         $filter=array('emp_rates_duties.active_rates_duties'=>TRUE,'employee_list.is_deleted'=>FALSE);
@@ -216,6 +230,8 @@ class Hris_Reports extends CORE_Controller
                                 $this->db->where('emp_rates_duties.ref_department_id', $deptrow->ref_department_id);
                                 $this->db->where('emp_rates_duties.active_rates_duties', 1);
                                 $this->db->where('employee_list.is_retired', 0);
+                                $this->db->where('employee_list.is_deleted', 0);
+                                $this->db->where('employee_list.status="Active"');
                                 $this->db->where('ref_branch.ref_branch_id', $branch);
                                 $this->db->select('*,ref_position.position,CONCAT(employee_list.first_name," ",employee_list.middle_name," ",employee_list.last_name) as full_name');
                                 $this->db->from('employee_list');
@@ -267,6 +283,8 @@ class Hris_Reports extends CORE_Controller
                                 $this->db->where('emp_rates_duties.ref_department_id', $deptrow->ref_department_id);
                                 $this->db->where('emp_rates_duties.active_rates_duties', 1);
                                 $this->db->where('employee_list.is_retired', 0);
+                                $this->db->where('employee_list.is_deleted', 0);
+                                $this->db->where('employee_list.status="Active"');
                                 $this->db->select('*,ref_position.position,CONCAT(employee_list.first_name," ",employee_list.middle_name," ",employee_list.last_name) as full_name');
                                 $this->db->from('employee_list');
                                 $this->db->join('emp_rates_duties', 'emp_rates_duties.employee_id = employee_list.employee_id');
@@ -417,6 +435,8 @@ class Hris_Reports extends CORE_Controller
                                 $this->db->where('emp_rates_duties.ref_department_id', $deptrow->ref_department_id);
                                 $this->db->where('emp_rates_duties.active_rates_duties', 1);
                                 $this->db->where('employee_list.is_retired', 0);
+                                $this->db->where('employee_list.is_deleted', 0);
+                                $this->db->where('employee_list.status="Active"');
                                 $this->db->where('ref_branch.ref_branch_id', $branch);
                                 $this->db->select('*,ref_position.position,CONCAT(employee_list.first_name," ",employee_list.middle_name," ",employee_list.last_name) as full_name');
                                 $this->db->from('employee_list');
@@ -468,6 +488,8 @@ class Hris_Reports extends CORE_Controller
                                 $this->db->where('emp_rates_duties.ref_department_id', $deptrow->ref_department_id);
                                 $this->db->where('emp_rates_duties.active_rates_duties', 1);
                                 $this->db->where('employee_list.is_retired', 0);
+                                $this->db->where('employee_list.is_deleted', 0);
+                                $this->db->where('employee_list.status="Active"');
                                 $this->db->select('*,ref_position.position,CONCAT(employee_list.first_name," ",employee_list.middle_name," ",employee_list.last_name) as full_name');
                                 $this->db->from('employee_list');
                                 $this->db->join('emp_rates_duties', 'emp_rates_duties.employee_id = employee_list.employee_id');
@@ -720,6 +742,8 @@ class Hris_Reports extends CORE_Controller
                                 if($branch!="all"){
                                     $this->db->where('emp_rates_duties.ref_department_id', $deptrow->ref_department_id);
                                     $this->db->where('emp_rates_duties.active_rates_duties', 1);
+                                    $this->db->where('employee_list.is_deleted', 0);
+                                    $this->db->where('employee_list.status="Active"');
                                     $this->db->where('ref_branch.ref_branch_id', $branch);
                                     $this->db->select('*,ref_position.position,CONCAT(employee_list.first_name," ",employee_list.middle_name," ",employee_list.last_name) as full_name');
                                     $this->db->from('employee_list');
@@ -781,6 +805,8 @@ class Hris_Reports extends CORE_Controller
                                 else{
                                     $this->db->where('emp_rates_duties.ref_department_id', $deptrow->ref_department_id);
                                     $this->db->where('emp_rates_duties.active_rates_duties', 1);
+                                    $this->db->where('employee_list.is_deleted', 0);
+                                    $this->db->where('employee_list.status="Active"');
                                     $this->db->select('*,ref_position.position,CONCAT(employee_list.first_name," ",employee_list.middle_name," ",employee_list.last_name) as full_name');
                                     $this->db->from('employee_list');
                                     $this->db->join('emp_rates_duties', 'emp_rates_duties.employee_id = employee_list.employee_id');
@@ -955,6 +981,8 @@ class Hris_Reports extends CORE_Controller
                                 if($branch!="all"){
                                     $this->db->where('emp_rates_duties.ref_department_id', $deptrow->ref_department_id);
                                     $this->db->where('emp_rates_duties.active_rates_duties', 1);
+                                    $this->db->where('employee_list.is_deleted', 0);
+                                    $this->db->where('employee_list.status="Active"');
                                     $this->db->where('ref_branch.ref_branch_id', $branch);
                                     $this->db->select('*,ref_position.position,CONCAT(employee_list.first_name," ",employee_list.middle_name," ",employee_list.last_name) as full_name');
                                     $this->db->from('employee_list');
@@ -1016,6 +1044,8 @@ class Hris_Reports extends CORE_Controller
                                 else{
                                     $this->db->where('emp_rates_duties.ref_department_id', $deptrow->ref_department_id);
                                     $this->db->where('emp_rates_duties.active_rates_duties', 1);
+                                    $this->db->where('employee_list.is_deleted', 0);
+                                    $this->db->where('employee_list.status="Active"');
                                     $this->db->select('*,ref_position.position,CONCAT(employee_list.first_name," ",employee_list.middle_name," ",employee_list.last_name) as full_name');
                                     $this->db->from('employee_list');
                                     $this->db->join('emp_rates_duties', 'emp_rates_duties.employee_id = employee_list.employee_id');

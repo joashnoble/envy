@@ -92,10 +92,10 @@
                                 <div class="panel-heading" style="background-color:#2c3e50 !important;margin-top:2px;">
                                      <center><h2 style="color:white;font-weight:300;">Employee Tenure </h2></center>
                                 </div>
-                                <div class="panel-body table-responsive" style="padding-top:8px;">
-                                    <div class="row">
-                                        <div class="col-md-3" style="margin-left: 20px;">
-                                            <label  style="float:left;margin-top:5px;font-weight: bold;" for="inputEmail1">Branch Filter :</label>
+                                <div class="panel-body table-responsive">
+                                    <div class="row" style="margin: 15px;">
+                                        <div class="col-md-3">
+                                            <label style="font-weight: bold;" for="inputEmail1">Branch Filter :</label>
                                             <select class="form-control"  name="branch_filter_list" id="branch_filter_list" data-error-msg="Pay Period Filter is required" required>
                                             <option value="all">All</option>   
                                             <?php
@@ -108,11 +108,11 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <button type="button" class="btn col-sm-12 form-control" id="print_employee_tenure" style="background-color:#27ae60; color:white;width: 100px;margin-top: 30px;"><i class="fa fa-print"></i> PRINT</button>
+                                            <button type="button" class="btn col-sm-12 form-control" id="print_employee_tenure" style="background-color:#27ae60; color:white;width: 100px;margin-top: 25px;"><i class="fa fa-print"></i> PRINT</button>
 
-                                            <button type="button" class="btn btn-primary col-sm-12 form-control" id="export_employee_tenure" style="color:white;margin-left: 20px;margin-top: 30px;width: auto;"> <i class="fa fa-file-excel-o"></i> EXPORT EXCEL</button>
+                                            <button type="button" class="btn btn-primary col-sm-12 form-control" id="export_employee_tenure" style="color:white;margin-left: 20px;margin-top: 25px;width: auto;"> <i class="fa fa-file-excel-o"></i> EXPORT EXCEL</button>
 
-                                            <button type="button" class="btn btn-info col-sm-12 form-control" id="email_employee_tenure" style="color:white;margin-left: 20px;margin-top: 30px; width: 100px;"><i class="fa fa-envelope"></i> EMAIL</button>
+                                            <button type="button" class="btn btn-info col-sm-12 form-control" id="email_employee_tenure" style="color:white;margin-left: 20px;margin-top: 25px; width: 100px;"><i class="fa fa-envelope"></i> EMAIL</button>
                                         </div>
                                     </div>
                                     <hr>
@@ -140,7 +140,7 @@ $(document).ready(function(){
     _branch=$("#branch_filter_list").select2({
         /*dropdownParent: $("#modal_create_schedule"),*/
         placeholder: "Select Branch",
-        allowClear: true
+        allowClear: false
     });
 
     _branch.select2('val', '');

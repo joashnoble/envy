@@ -1,7 +1,7 @@
 <!--Header-->
 <header id="topnav" class="navbar navbar-black navbar-fixed-top" role="banner">
 
-    <div class="logo-area" style="width:35%;">
+    <div class="logo-area" style="width: 700px;">
                 <span id="trigger-sidebar" class="toolbar-trigger toolbar-icon-bg">
                     <a data-toggle="tooltips" data-placement="right" title="Toggle Sidebar">
                         <span class="icon-bg">
@@ -10,11 +10,11 @@
                     </a>
                 </span>
 
-            <h4 style="color:white;font-weight:bold;"></h4>
-
-
-
-
+                <div style="color: lightgreen;font-size: 12pt;padding-top: 15px;">
+                    <img src="assets/img/prime_logo.png" style="width: 20px; height: 20px;">
+                    <?php echo $this->session->company_name;?> 
+                    <span style="color: #FFF;"> - HRIS</span>
+                </div>
 
     </div><!-- logo-area -->
 
@@ -69,6 +69,7 @@
                 <img class="img-circle" src="<?php echo $this->session->user_photo; ?>" alt="" />
             </a>
             <ul class="dropdown-menu userinfo arrow">
+                <li><a href="Profile"><i class="fa fa-user"></i><span>Profile</span></a></li>
                 <li><a href="login/transaction/logout"><i class="ti ti-shift-right"></i><span>Sign Out</span></a></li>
             </ul>
         </li>

@@ -111,6 +111,8 @@ class Login extends CORE_Controller {
                                 'user_email'=>$result->row()->user_email,
                                 'user_photo'=>$result->row()->photo_path,
 								'user_group_id'=>$result->row()->user_group_id,
+                                
+                                'company_name'=>$m_company[0]->company_name,
 
                                 'right_employee_view'=>$result->row()->right_employee_view,
                                 'right_employee_create'=>$result->row()->right_employee_create,

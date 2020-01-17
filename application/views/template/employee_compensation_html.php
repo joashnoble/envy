@@ -12,11 +12,11 @@
 			<thead class="thead-inverse">
 				<tr>
 					<th><center>#</center></th>
-					<th><center>MONTH</th>
-					<th style="text-align: right;">GROSS PAY</th>
-					<th style="text-align: right;">NET PAY</th>
-					<th style="text-align: right;">13TH MONTH PAY</th>
-					<th style="text-align: right;">DEDUCTIONS</th>
+					<th><center>MONTH</center></th>
+					<th><center>GROSS PAY</center></th>
+					<th><center>NET PAY</center></th>
+					<th><center>13TH MONTH PAY</center></th>
+					<th><center>DEDUCTIONS</center></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -34,11 +34,11 @@
 						 ?>
 						 <tr>
 							 <td><center><?php echo $count; ?>.</center></td>
-							 <td align="left"><?php echo $items->Month; ?></td>
-							 <td align="right"><?php echo number_format($items->reg_pay,2); ?></td>
-							 <td align="right"><?php echo number_format($items->net_pay,2); ?></td>
-							 <td align="right"><?php echo number_format($items->t3rthmonth,2); ?></td>
-							 <td align="right"><?php echo number_format($items->total_deductions,2); ?></td>
+							 <td><center><?php echo $items->Month; ?></center></td>
+							 <td><center><?php echo number_format($items->reg_pay,2); ?></center></td>
+							 <td><center><?php echo number_format($items->net_pay,2); ?></center></td>
+							 <td><center><?php echo number_format($items->t3rthmonth,2); ?></center></td>
+							 <td><center><?php echo number_format($items->total_deductions,2); ?></center></td>
 						 </tr>
 						 <?php
 						 $count++;
@@ -50,10 +50,10 @@
 						<tr>
 							<td></td>
 							<td><center><b>Total :</b></center></td>
-							<td align="right"><?php echo number_format($total_reg_pay,2); ?></td>
-							<td align="right"><?php echo number_format($total_net_pay,2); ?></td>
-							<td align="right"><?php echo number_format($total_t3rthmonth,2); ?></td>
-							<td align="right"><?php echo number_format($total_total_deductions,2); ?></td>
+							<td><center><?php echo number_format($total_reg_pay,2); ?></center></td>
+							<td><center><?php echo number_format($total_net_pay,2); ?></center></td>
+							<td><center><?php echo number_format($total_t3rthmonth,2); ?></center></td>
+							<td><center><?php echo number_format($total_total_deductions,2); ?></center></td>
 						</tr>
 						<?php
 				?>
