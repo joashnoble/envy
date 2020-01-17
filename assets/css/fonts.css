@@ -1,0 +1,9 @@
+@font-face {
+font-family: 'Web Serveroff';
+src: url('Web Serveroff.eot');
+src: url('Web Serveroff.eot') format('embedded-opentype'),
+     url('Web Serveroff.woff2') format('woff2'),
+     url('Web Serveroff.woff') format('woff'),
+     url('Web Serveroff.ttf') format('truetype'),
+     url('Web Serveroff.svg#Web Serveroff') format('svg');
+}
