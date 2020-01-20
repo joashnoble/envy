@@ -23,9 +23,9 @@ date_default_timezone_set('Asia/Manila');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://'.$_SERVER['SERVER_NAME'].'/webhris/jcore-hris';
-$config['base_urlemployee'] = 'http://'.$_SERVER['SERVER_NAME'].'/webhris/jcore-employee';
-$config['base_urlmain'] = 'http://'.$_SERVER['SERVER_NAME'].'/webhris/jcore-hris';
+$config['base_url'] = 'http://'.$_SERVER['SERVER_NAME'].'/jcore-hris';
+$config['base_urlemployee'] = 'http://'.$_SERVER['SERVER_NAME'].'/jcore-employee';
+$config['base_urlmain'] = 'http://'.$_SERVER['SERVER_NAME'].'/jcore-hris';
 
 /*
 |--------------------------------------------------------------------------
