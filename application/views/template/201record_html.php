@@ -80,7 +80,7 @@
 						<td colspan="2"><strong>Name:</strong> <?php echo $row->fullname;?></td>
 						<td rowspan="2" width="20%" height="50%" id="img-td">
 							<center>
-								<img src="/<?php echo $this->session->main_directory.'/'.$row->image_name; ?>" id="img-emp">
+								<img src="<?php echo base_url($row->image_name); ?>" id="img-emp">
 							</center>
 						</td>
 					</tr>
