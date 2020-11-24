@@ -24,6 +24,7 @@ date_default_timezone_set('Asia/Manila');
 |
 */
 $config['base_url'] = 'http://'.$_SERVER['SERVER_NAME'].'/jcore-hris';
+$config['base_urlemployee'] = 'http://'.$_SERVER['SERVER_NAME'].'/jcore-employee';
 
 /*
 |--------------------------------------------------------------------------
