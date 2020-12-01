@@ -537,6 +537,7 @@ class Employee extends CORE_Controller
                 $m_employee->exmpt_philhealth = $this->input->post('exmpt_philhealth', TRUE);
                 $m_employee->image_name = $this->input->post('image_name', TRUE);
                 $m_employee->is_retired = $this->input->post('is_retired', TRUE);
+                $m_employee->status = $this->input->post('status', TRUE);
 
                 if ($emp_dateretired == null || ""){
                     $m_employee->date_retired = "";
@@ -766,6 +767,7 @@ class Employee extends CORE_Controller
                 $m_employee->exmpt_philhealth = $this->input->post('exmpt_philhealth', TRUE);
                 $m_employee->image_name = $this->input->post('image_name', TRUE);
                 $m_employee->is_retired = $this->input->post('is_retired', TRUE);
+                $m_employee->status = $this->input->post('status', TRUE);
 
                 if ($emp_dateretired == null || ""){
                     $m_employee->date_retired = "";

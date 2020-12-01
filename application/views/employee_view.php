@@ -966,6 +966,23 @@
                                                                     </div>
                                                               </div>
                                                             </div>
+                                                            <div class="col-md-6">
+                                                            <div class="col-md-4">
+                                                                 <label class="control-label boldlabel" style="text-align:left;">Status :</label>
+                                                            </div>
+                                                              <div class="form-group">
+
+                                                                    <div class="input-group">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-file-code-o"></i>
+                                                                     </span>
+                                                                    <select class="form-control" id="status" name="status">
+                                                                      <option value="Active">Active</option>
+                                                                      <option value="Inactive">Inactive</option>
+                                                                    </select>
+                                                                    </div>
+                                                              </div>
+                                                            </div>
                                                         </div>
 
                                                         <div class="col-md-12" style="padding-bottom: 20px;" id="empstatus"> 
@@ -5051,6 +5068,7 @@ $(document).ready(function(){
             $('#emp_exemptss').val(0);
             $('#emp_exemptphilhealth').val(0);
             $('#emp_exemptpagibig').val(0);
+            $('#status').val('Active');
             $(".date-picker").val('<?php echo date("m/d/Y"); ?>');
             $('#date_retired').val('');
             $('#img_user').attr('src','assets/img/anonymous-icon.png');
@@ -5249,6 +5267,7 @@ $(document).ready(function(){
             $('#ref_course_degree_id').val(1);
             $('#ref_relationship_id1').val(1);
             $('#ref_relationship_id2').val(1);
+            $('#status').val(data.status);
             $('.display_name').text(_selectedname1);
             $('#emp_civilstatus').val(data.civil_status);
             $('#emp_religion').val(data.ref_religion_id);
