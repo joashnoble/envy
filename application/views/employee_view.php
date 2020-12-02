@@ -2495,8 +2495,8 @@
                                           </select>
                                         </div>
                                         <div class="form-group" style="margin-bottom:2px!important;">
-                                          <label class="boldlabel" style="margin-bottom:0px;"><i class="red">*</i> Position:</label>
-                                          <select class="form-control" id="ref_position_id" name="ref_position_id" id="sel1" data-error-msg="Position is Required!" required>
+                                          <label class="boldlabel" style="margin-bottom:0px;"> Position:</label>
+                                          <select class="form-control" id="ref_position_id" name="ref_position_id" id="sel1" data-error-msg="Position is Required!">
                                             <option value="">Select Position</option>
                                             <option value="new">[ Create New Position ]</option>
                                             <?php foreach($ref_position as $row) { ?>

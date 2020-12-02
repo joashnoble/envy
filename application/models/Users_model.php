@@ -104,11 +104,6 @@ class Users_model extends CORE_Model{
         return $query->result();
     }
 
-
-
 }
-
-
-
 
 ?>

@@ -92,7 +92,7 @@ class RatesDuties extends CORE_Controller
                 $date_startendtemp = $this->input->post('date_end', TRUE);
 
 
-				$date_start = date("Y-m-d", strtotime($date_starttemp));
+                $date_start = date("Y-m-d", strtotime($date_starttemp));
                 $date_end = date("Y-m-d", strtotime($date_startendtemp));
 
                 $employee_id = $this->input->post('employee_id', TRUE);
