@@ -126,12 +126,14 @@ class RefYearSetup extends CORE_Controller
 
             case 'update':
                 $m_yearsetup=$this->RefYearSetup_model;
-                $m_yearsetup->updateAllRecords();
+                // $m_yearsetup->updateAllRecords();
 
                 $emp_leave_year_id=$this->input->post('emp_leave_year_id',TRUE);
 
                 $date_starttemp = $this->input->post('date_start', TRUE);
                 $date_endtemp = $this->input->post('date_end', TRUE);
+
+                
                 $date_start13thmonthtemp = $this->input->post('start_13thmonth_date', TRUE);
                 $date_end13thmonthtemp = $this->input->post('end_13thmonth_date', TRUE);
 

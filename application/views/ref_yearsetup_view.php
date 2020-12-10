@@ -237,7 +237,7 @@
                                   <div class="col-md-12">
                                     <div class="form-group" style="margin-bottom:0px;">
                                         <label class="boldlabel">Date End :</label>
-                                        <input type="text" id="date_end" name="date_end" class="date-picker form-control" value="" placeholder="Date End" data-error-msg="Date End is required!" disabled>
+                                        <input type="text" id="date_end" name="date_end" class="form-control" value="" placeholder="Date End" data-error-msg="Date End is required!" readonly>
                                     </div>
                                   </div>
                                 </div>
@@ -252,7 +252,7 @@
                                 <div class="row">
                                   <div class="col-md-12">
                                     <div class="form-group" style="margin-bottom:0px;">
-                                        <label class="boldlabel">Set Active Year :</label>
+                                        <label class="boldlabel">Active Year :</label>
                                         <input type="checkbox" id="active_year" value="" style="vertical-align:top;display:inline-block;white-space:nowrap;width:18px;height:18px;">
                                     </div>
                                   </div>
@@ -359,8 +359,8 @@ $(document).ready(function(){
             "ajax" : "RefYearSetup/transaction/list",
             "columns": [
                 { targets:[1],data: "year_type" },
-                { targets:[2],data: "date_start" },
-                { targets:[3],data: "date_end" },
+                { targets:[2],data: "start_13thmonth_date" },
+                { targets:[3],data: "end_13thmonth_date" },
                 { targets:[4],data: "note" },
                 { targets:[5],data: "active_year",
                     render: function (data, type, full, meta){
@@ -542,21 +542,21 @@ $(document).ready(function(){
             $('.even').closest("tr").css('background-color','white');
         });
 
-        $('#frm_yeartype').on('click','input[id="active_year"]',function(){
-            //$('.single-checkbox').attr('checked', false);
-            if(_isactive==0){
-                this.checked = true;
-                _isactive = 1;
-                //alert(_isactive);
-            }
+        // $('#frm_yeartype').on('click','input[id="active_year"]',function(){
+        //     //$('.single-checkbox').attr('checked', false);
+        //     if(_isactive==0){
+        //         this.checked = true;
+        //         _isactive = 1;
+        //         //alert(_isactive);
+        //     }
 
-            else{
-                this.checked = false;
-                _isactive = 0;
-                //alert(_isactive);
-            }
+        //     else{
+        //         this.checked = false;
+        //         _isactive = 0;
+        //         //alert(_isactive);
+        //     }
 
-        });
+        // });
 
         $('#btn_new').click(function(){
             _txnMode="new";
