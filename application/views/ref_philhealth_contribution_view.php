@@ -290,27 +290,9 @@ $(document).ready(function(){
                         }
                     }
                 },
-                {
-                    className: "text-right",
-                    targets:[2],data: "employee",
-                    render: function(data){
-                        return accounting.formatNumber(data,2);
-                    }
-                },
-                {
-                    className: "text-right",
-                    targets:[3],data: "employer",
-                    render: function(data){
-                        return accounting.formatNumber(data,2);
-                    }
-                },
-                {
-                    className: "text-right",
-                    targets:[4],data: "total",
-                    render: function(data){
-                        return accounting.formatNumber(data,2);
-                    }
-                },
+                { className: "text-right", targets:[2],data: "employee" },
+                { className: "text-right", targets:[3],data: "employer" },
+                { className: "text-right", targets:[4],data: "total" },
                 {
                     targets:[5],data: null,
                     render: function (data, type, full, meta){
