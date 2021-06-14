@@ -64,26 +64,17 @@ class RefSSS_Contribution extends CORE_Controller
             case 'create':
                 $m_sss_contribution = $this->RefSSS_Contribution_model;
 
-                $salaryrangefromtemp = $this->input->post('salary_range_from', TRUE);
-                $salary_range_from = $this->get_numeric_value($salaryrangefromtemp);
-
-                $salaryrangetotemp = $this->input->post('salary_range_to', TRUE);
-                $salary_range_to = $this->get_numeric_value($salaryrangetotemp);
-
-                $monthlysalarycredittemp = $this->input->post('monthly_salary_credit', TRUE);
-                $monthly_salary_credit = $this->get_numeric_value($monthlysalarycredittemp);
-
-                $employeetemp = $this->input->post('employee', TRUE);
-                $employee = $this->get_numeric_value($employeetemp);
-
-                $employertemp = $this->input->post('employer', TRUE);
-                $employer = $this->get_numeric_value($employertemp);
-
-                $employercontributiontemp = $this->input->post('employer_contribution', TRUE);
-                $employer_contribution = $this->get_numeric_value($employercontributiontemp);
+                $salary_range_from = $this->get_numeric_value($this->input->post('salary_range_from', TRUE));
+                $salary_range_to = $this->get_numeric_value($this->input->post('salary_range_to', TRUE));
+                $monthly_salary_credit = $this->get_numeric_value($this->input->post('monthly_salary_credit', TRUE));
+                $employee = $this->get_numeric_value($this->input->post('employee', TRUE));
+                $employer = $this->get_numeric_value($this->input->post('employer', TRUE));
+                $employer_contribution = $this->get_numeric_value($this->input->post('employer_contribution', TRUE));
+                $er_provident_fund = $this->get_numeric_value($this->input->post('er_provident_fund', TRUE));
+                $ee_provident_fund = $this->get_numeric_value($this->input->post('ee_provident_fund', TRUE));
 
                 $sub_total = $employer + $employee;
-                $total = $sub_total + $employer_contribution;
+                $total = $sub_total + $employer_contribution + $er_provident_fund + $ee_provident_fund;
 
                 $m_sss_contribution->salary_range_from = $salary_range_from;
                 $m_sss_contribution->salary_range_to = $salary_range_to;
@@ -92,6 +83,8 @@ class RefSSS_Contribution extends CORE_Controller
                 $m_sss_contribution->employee = $employee;
                 $m_sss_contribution->sub_total = $sub_total;
                 $m_sss_contribution->employer_contribution = $employer_contribution;
+                $m_sss_contribution->er_provident_fund = $er_provident_fund;
+                $m_sss_contribution->ee_provident_fund = $ee_provident_fund;
                 $m_sss_contribution->total = $total;
                 $m_sss_contribution->date_created = date("Y-m-d H:i:s");
                 $m_sss_contribution->created_by = $this->session->user_id;
@@ -132,26 +125,17 @@ class RefSSS_Contribution extends CORE_Controller
 
                 $ref_sss_contribution_id=$this->input->post('ref_sss_contribution_id',TRUE);
 
-                $salaryrangefromtemp = $this->input->post('salary_range_from', TRUE);
-                $salary_range_from = $this->get_numeric_value($salaryrangefromtemp);
-
-                $salaryrangetotemp = $this->input->post('salary_range_to', TRUE);
-                $salary_range_to = $this->get_numeric_value($salaryrangetotemp);
-
-                $monthlysalarycredittemp = $this->input->post('monthly_salary_credit', TRUE);
-                $monthly_salary_credit = $this->get_numeric_value($monthlysalarycredittemp);
-
-                $employeetemp = $this->input->post('employee', TRUE);
-                $employee = $this->get_numeric_value($employeetemp);
-
-                $employertemp = $this->input->post('employer', TRUE);
-                $employer = $this->get_numeric_value($employertemp);
-
-                $employercontributiontemp = $this->input->post('employer_contribution', TRUE);
-                $employer_contribution = $this->get_numeric_value($employercontributiontemp);
+                $salary_range_from = $this->get_numeric_value($this->input->post('salary_range_from', TRUE));
+                $salary_range_to = $this->get_numeric_value($this->input->post('salary_range_to', TRUE));
+                $monthly_salary_credit = $this->get_numeric_value($this->input->post('monthly_salary_credit', TRUE));
+                $employee = $this->get_numeric_value($this->input->post('employee', TRUE));
+                $employer = $this->get_numeric_value($this->input->post('employer', TRUE));
+                $employer_contribution = $this->get_numeric_value($this->input->post('employer_contribution', TRUE));
+                $er_provident_fund = $this->get_numeric_value($this->input->post('er_provident_fund', TRUE));
+                $ee_provident_fund = $this->get_numeric_value($this->input->post('ee_provident_fund', TRUE));
 
                 $sub_total = $employer + $employee;
-                $total = $sub_total + $employer_contribution;
+                $total = $sub_total + $employer_contribution + $er_provident_fund + $ee_provident_fund;
 
                 $m_sss_contribution->salary_range_from = $salary_range_from;
                 $m_sss_contribution->salary_range_to = $salary_range_to;
@@ -160,6 +144,8 @@ class RefSSS_Contribution extends CORE_Controller
                 $m_sss_contribution->employee = $employee;
                 $m_sss_contribution->sub_total = $sub_total;
                 $m_sss_contribution->employer_contribution = $employer_contribution;
+                $m_sss_contribution->er_provident_fund = $er_provident_fund;
+                $m_sss_contribution->ee_provident_fund = $ee_provident_fund;
                 $m_sss_contribution->total = $total;
                 $m_sss_contribution->date_modified = date("Y-m-d H:i:s");
                 $m_sss_contribution->modified_by = $this->session->user_id;
@@ -193,15 +179,4 @@ class RefSSS_Contribution extends CORE_Controller
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 }
